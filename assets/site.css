@@ -1106,3 +1106,15 @@ body.chat-on .totop{display:none}
 .qcard .qmail{text-align:center;font-weight:700;color:var(--ink2);font-size:14px;word-break:break-all}.qcard .qmail:hover{color:var(--or)}
 
 .ccards{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+
+/* "at a glance" box: keep every line inside the card */
+.two>*{min-width:0}
+.facts .two{grid-template-columns:minmax(0,1fr) 420px}
+.glance{min-width:0;overflow:hidden}
+.glance dl>div{grid-template-columns:104px minmax(0,1fr)}
+.glance dd{min-width:0;overflow-wrap:anywhere;word-break:normal}
+.glance dd a{overflow-wrap:anywhere}
+@media(max-width:1100px){.facts .two{grid-template-columns:minmax(0,1fr) 360px}}
+@media(max-width:900px){.facts .two{grid-template-columns:1fr}.facts .glance{position:static}}
+@media(max-width:600px){.glance dl>div{grid-template-columns:1fr}}
+

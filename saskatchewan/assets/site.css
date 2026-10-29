@@ -1470,14 +1470,6 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 /* thermostat: full city name, fitted */
 .dial-cap{max-width:200px;overflow:hidden;text-overflow:ellipsis;top:-26px;padding:4px 10px;font-size:11px;letter-spacing:.06em}
 .dial .face small{font-size:8.5px;letter-spacing:.14em}
-/* hero polish */
-.jx-dots{display:flex;gap:4px;align-items:center;flex:1;max-width:360px}
-.jx-dots .jx-dot{flex:1;height:4px;min-width:6px;border-radius:4px;padding:0;background:rgba(127,127,127,.28);border:0}
-.jx-dots .jx-dot.on{width:auto}
-.jx-title{letter-spacing:.005em}
-.jx-tabs{display:inline-flex;flex-wrap:wrap;gap:4px;padding:5px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(127,127,127,.18)}
-.jx-tab{border-radius:10px!important}
-.pcheck{border-radius:12px;overflow:hidden}
 
 
 .dnav{justify-content:center;min-width:0}
@@ -1487,7 +1479,7 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 @media(min-width:1101px) and (max-width:1240px){.wm small{display:none}.wm b{font-size:27px}.l3d{--s:48px}.hq{font-size:14px;padding:0 13px}.dd-b i{display:none}}
 
 @media(min-width:1101px){.dd-b{padding:10px 10px;gap:7px}.hdr .bar{gap:0 18px}.dnav{gap:0}}
-@media(max-width:980px){.jx-controls{padding:0 14px;box-sizing:border-box}.jx-arrow{flex:none}}@media(max-width:560px){.jx-dots{max-width:180px}}
+@media(max-width:980px){.jx-controls{padding:0 14px;box-sizing:border-box}.jx-arrow{flex:none}}
 
 /* logo: still, no 3D motion */
 .l3d .slab,.logo:hover .slab{animation:none!important;transform:none!important}
@@ -1566,3 +1558,4 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 @media(max-width:560px){.stc{width:190px!important;padding:14px 15px!important}.stc b{font-size:26px!important}}
 
 .hleft{display:none!important}
+@media(max-width:560px){.jx-dots{gap:4px!important;flex-wrap:nowrap;overflow:hidden;max-width:58vw}.jx-dot{width:6px!important;height:6px!important;flex:none}.jx-dot.on{width:20px!important}.jx-controls{gap:10px!important}}

@@ -1523,3 +1523,11 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 }
 @media(max-width:400px){.wm small{display:none}.wm b{font-size:26px}.l3d{--s:42px}.hdr .logo{gap:8px}}
 
+
+@media(max-width:400px){.wm small{display:block!important;font-size:9px;letter-spacing:.13em;white-space:nowrap;margin-top:4px}.wm b{font-size:26px}}
+@media(max-width:350px){.wm small{font-size:8px;letter-spacing:.09em}.l3d{--s:38px}}
+
+
+@media(max-width:374px){.wm small{font-size:8px!important;letter-spacing:.08em!important}.wm b{font-size:24px}.l3d{--s:38px}.hdr .logo{gap:7px}.hicons .msearch,.hicons .hacct{width:38px!important;height:40px!important}.hdr .bar{grid-template-columns:44px minmax(0,1fr) auto}}
+@media(max-width:330px){.wm small{font-size:7.2px!important;letter-spacing:.05em!important}.wm b{font-size:22px}.l3d{--s:34px}}
+

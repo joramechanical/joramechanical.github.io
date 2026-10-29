@@ -1508,8 +1508,8 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 
 
 /* JORA + MECHANICAL SYSTEMS stacked and centred; on phones the whole logo sits in the exact middle */
-.wm{text-align:center}
-@media(max-width:1100px){
+.wm{text-align:left}
+@media(max-width:1100px){.wm{text-align:center}
   .hdr .bar{grid-template-columns:84px minmax(0,1fr) 84px!important;gap:0 4px!important}
   .hdr .logo{justify-self:center;justify-content:center}
   .hicons{justify-self:end;gap:0}
@@ -1530,21 +1530,6 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 
 @media(max-width:400px) and (min-width:375px){.wm small{font-size:8.2px!important;letter-spacing:.09em!important}}
 
-/* desktop: logo in the middle — search on the left, account + quote on the right, product menu centred underneath */
-.hleft{display:none}
-@media(min-width:1101px){
-  .hdr .bar{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;grid-template-areas:"left logo icons" "nav nav nav"!important;gap:0 24px!important;padding-top:14px!important;padding-bottom:0!important}
-  .hleft{grid-area:left;display:flex;align-items:center}
-  .hsp{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex!important;align-items:center;gap:10px;height:46px;width:100%;max-width:300px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);color:var(--mut);font:500 14.5px var(--bd);transition:border-color .15s,background .15s}
-  .hsp svg{width:20px;height:20px;color:var(--ink2);flex:none}.hsp:hover,.hsp[aria-expanded=true]{border-color:var(--or);background:#fff}
-  .hdr .logo{grid-area:logo;justify-self:center}
-  .hicons{justify-self:end}.hicons .msearch{display:none!important}
-  .dnav{grid-area:nav;justify-content:center;margin-top:10px;padding:2px 0 6px;border-top:1px solid var(--line)}
-  .dd-b{font-size:15.5px!important;padding:12px 14px!important}
-  .wm b{font-size:32px!important}.wm small{font-size:11px!important;letter-spacing:.24em!important}.l3d{--s:56px!important}
-}
-
-
 /* "By the numbers" slider: smaller, brand colours */
 .numband{padding:clamp(40px,5vw,64px) 0!important;background:linear-gradient(180deg,var(--bg),#fff)!important}
 .numband .sh{margin-bottom:20px!important}.numband .sh h2{font-size:clamp(22px,2.6vw,30px)!important}
@@ -1560,3 +1545,4 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 .stc small{font-size:13px!important}
 @media(max-width:560px){.stc{width:190px!important;padding:14px 15px!important}.stc b{font-size:26px!important}}
 
+.hleft{display:none!important}

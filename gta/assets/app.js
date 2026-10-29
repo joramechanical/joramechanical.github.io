@@ -860,5 +860,7 @@ liveGet("public/"+REGION).then(function(P){window.__liveFetched=true;if(!P){if(h
   addEventListener("resize",function(){if(innerWidth>900&&!m.hidden)set(false)})}
   document.addEventListener("click",function(e){if(e.target.closest("[data-chat]")){var f=$("#chatFab");if(f)f.click()}})})();
 (function(){var i=$("#sIn");if(!i)return;var full=i.placeholder;function ph(){i.placeholder=innerWidth<=900?"Search services, products…":full}ph();addEventListener("resize",ph)})();
+/* mobile search button */
+(function(){var t=$(".msearch"),bar=$(".bar");if(!t||!bar)return;t.addEventListener("click",function(){var o=!bar.classList.contains("s-on");bar.classList.toggle("s-on",o);t.setAttribute("aria-expanded",o);if(o){var m=$("#mnav"),b=$(".mburger");if(m&&!m.hidden&&b)b.click();setTimeout(function(){var i=$("#sIn");i&&i.focus()},50)}})})();
 
 })();

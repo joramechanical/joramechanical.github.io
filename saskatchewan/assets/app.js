@@ -938,8 +938,6 @@ function liveContent(P){P=P||{};liveSEO(P);var L=livePosts(P);
 liveContent(window.__live);
 (function(){var t=setInterval(function(){if(window.__liveFetched){clearInterval(t);liveContent(window.__live)}},400);setTimeout(function(){clearInterval(t)},15000)})();
 
-/* hero: on desktop the live thermostat sits on the product stage; on phones it stays with the text */
-(function(){var t=$("#tstat"),st=$("#jx-stage"),cp=$(".jx-copy");if(!t||!st||!cp)return;
-  function place(){if(innerWidth>980){if(t.parentNode!==st)st.appendChild(t)}else if(t.parentNode!==cp)cp.insertBefore(t,cp.firstChild)}place();addEventListener("resize",place)})();
+
 
 })();

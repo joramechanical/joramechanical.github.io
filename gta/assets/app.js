@@ -832,6 +832,7 @@ function liveDom(P){P=P||{};var hid=P.hidden||[],root=document.documentElement;
     var all=pf.querySelector('[data-pf="All"] small');if(all)all.textContent=$$(".pc",g).filter(function(c){return !c.hidden}).length+" models"});
   /* numbers slider */
   var st=P.stats||{};$$("#statTrack [data-n]").forEach(function(b,i){var lab=b.parentNode.querySelector(".stc-l");if(!lab)return;var t=lab.textContent,n=/customers/i.test(t)?+st.customers:/experience/i.test(t)?+st.years:0;if(n){b.dataset.n=n;b.textContent=(n>=1000?n.toLocaleString("en-CA"):n)+(b.dataset.s||"")}});
+  if(+st.customers)$$(".tb-c").forEach(function(e){e.textContent=(+st.customers).toLocaleString("en-CA")+"+"});if(+st.years)$$(".tb-y").forEach(function(e){e.textContent=+st.years});
   /* weather effect */
   if(!/[?&#]weather=/.test(location.search+location.hash)){var w=P.weather&&P.weather!=="auto"?P.weather:null;if(w!==WXFORCE){WXFORCE=w;wxApply()}}
   /* added product page */
@@ -846,7 +847,7 @@ function liveItem(){var id=(/[?&]id=([^&]+)/.exec(location.search)||[])[1],p=id&
    '<div class="phero-ctas"><button class="btn" type="button" data-quote-product="'+esc(p.id)+'">Get a free quote</button><a class="btn wk" href="tel:+19056672823">Call 905-667-2823</a></div>'+
    '<p class="src">Installed price depends on your home — your written quote includes equipment, labour and permits.</p></div></div>'}
 /* account link in the header */
-(function(){try{var a=JSON.parse(localStorage.getItem("jora_acct")||"null");if(a&&a.name)$$(".acct-l").forEach(function(l){l.querySelector("span").textContent="Hi, "+a.name.split(" ")[0]})}catch(e){}})();
+(function(){try{var a=JSON.parse(localStorage.getItem("jora_acct")||"null");if(a&&a.name)$$(".acct-l").forEach(function(l){var sp=l.querySelector("span");if(sp)sp.textContent="Hi, "+a.name.split(" ")[0]})}catch(e){}})();
 /* draw cached settings now, then fetch fresh ones */
 liveDom(window.__live);
 liveGet("public/"+REGION).then(function(P){window.__liveFetched=true;if(!P){if(has("#pItem"))liveItem();return}

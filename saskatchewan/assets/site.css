@@ -1141,8 +1141,6 @@ body.chat-on .totop{display:none}
 
 
 /* show the map's own postal-code checker and the Google Maps area panel */
-.mapfull #pfx-map .pfx-actions{display:grid!important;max-width:760px;margin:0 auto 18px}
-.mapfull #pfx-map .pfx-area{display:grid!important;margin-top:18px}
 .pres .pc-gmap{display:inline-block;margin-left:10px;font-weight:700;color:inherit;text-decoration:underline;white-space:nowrap}
 
 .mapfull #pfx-map .pfx-areaname,.mapfull #pfx-map .pfx-area h3{color:#fff}

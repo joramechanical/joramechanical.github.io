@@ -1297,3 +1297,6 @@ footer.foot{padding-top:clamp(56px,6vw,80px)}
 #site{overflow-x:clip}@media(max-width:900px){.mbook p{max-width:21ch;font-size:16.5px}}@media(max-width:400px){.wm small{font-size:10px;letter-spacing:.14em;white-space:nowrap}.logo{gap:8px}}
 @media(max-width:400px){.mbook p{font-size:14.5px;max-width:23ch}.mb-btn{padding:12px 14px;font-size:15px}}
 @media(min-width:901px){.mburger,.msearch,.mbook,.mnav,.wm{display:none!important}}
+.acts .call b{white-space:nowrap}.logo small{white-space:nowrap}
+@media(min-width:901px) and (max-width:1200px){.acts .call{display:none}.logo b{font-size:17px}.bar{gap:12px 16px}}
+@media(min-width:901px) and (max-width:1060px){.logo small{display:none}.acts .btn.rb span{display:none}.acts .btn.rb{padding:0 14px}.acts .btn{padding:0 16px}}

@@ -864,4 +864,11 @@ liveGet("public/"+REGION).then(function(P){window.__liveFetched=true;if(!P){if(h
 /* mobile search button */
 (function(){var t=$(".msearch"),bar=$(".bar");if(!t||!bar)return;t.addEventListener("click",function(){var o=!bar.classList.contains("s-on");bar.classList.toggle("s-on",o);t.setAttribute("aria-expanded",o);if(o){var m=$("#mnav"),b=$(".mburger");if(m&&!m.hidden&&b)b.click();setTimeout(function(){var i=$("#sIn");i&&i.focus()},50)}})})();
 
+/* live weather chip in the top line + desktop floating Book / Call / Chat bar */
+(function(){var chip=$(".wxchip");var ICW={sun:"☀️",hot:"🔥",cloud:"☁️",fog:"🌫️",rain:"🌧️",storm:"⛈️",snow:"❄️",cold:"🥶"};
+  function draw(){if(!chip||typeof WX==="undefined"||WX.temp==null)return;var k=document.body.classList.contains("wx-night")&&WX.kind==="sun"?"🌙":(ICW[WX.kind]||"🌡️");
+    chip.innerHTML='<i class="wx-live" aria-hidden="true"></i><span class="wxi" aria-hidden="true">'+k+'</span><b>'+Math.round(WX.temp)+'°C</b><span>'+esc(WX.city||"")+'</span><small>Live</small>';chip.hidden=false;chip.title="Live weather — the website changes with it"}
+  draw();var n=0,t=setInterval(function(){draw();if(++n>20){clearInterval(t);setInterval(draw,60000)}},2000);
+  var fd=$(".fdock");if(fd){var on=false;function chk(){var s=scrollY>140;if(s!==on){on=s;document.body.classList.toggle("fd-on",s)}}addEventListener("scroll",chk,{passive:true});chk()}})();
+
 })();

@@ -238,7 +238,7 @@ function buildIndustry(g){ground(g,200);
   /* yellow gas piping along the wall */
   var gp=new T.Mesh(new T.BoxGeometry(.12,.12,26),mat("gas"));gp.position.set(16.1,7.5,0);g.add(gp);box(g,.6,1,.5,"unitD",16.3,.9,-7);var gpv=new T.Mesh(new T.CylinderGeometry(.06,.06,6.6,8),mat("gas"));gpv.position.set(16.1,4.2,-7);g.add(gpv);
   /* Saskatchewan touch: grain bins */
-  [[-27,-6],[-27,2],[-34,-2]].forEach(function(p){cyl(g,3.2,3.2,7,"corr",p[0],0,p[1],32);var cn=new T.Mesh(new T.ConeGeometry(3.4,2.4,32),mat("metalRoof"));cn.position.set(p[0],8.2,p[1]);cn.castShadow=true;g.add(cn);var cs=new T.Mesh(new T.ConeGeometry(3.1,1.4,32),mat("snowcap"));cs.position.set(p[0],8.7,p[1]);g.add(cs)});
+  if(!window.SOL_NO_BINS)[[-27,-6],[-27,2],[-34,-2]].forEach(function(p){cyl(g,3.2,3.2,7,"corr",p[0],0,p[1],32);var cn=new T.Mesh(new T.ConeGeometry(3.4,2.4,32),mat("metalRoof"));cn.position.set(p[0],8.2,p[1]);cn.castShadow=true;g.add(cn);var cs=new T.Mesh(new T.ConeGeometry(3.1,1.4,32),mat("snowcap"));cs.position.set(p[0],8.7,p[1]);g.add(cs)});
   /* semi truck */
   var tr=new T.Group();box(tr,2.6,3.2,11,"trim",0,.9,0);box(tr,2.6,2.6,2.6,"blue",0,.6,7.2);box(tr,2.4,1,.1,"glass",0,2.1,8.52);
   [[-1.2,-3.5],[1.2,-3.5],[-1.2,-2.2],[1.2,-2.2],[-1.2,6.8],[1.2,6.8]].forEach(function(w){var wh=new T.Mesh(new T.CylinderGeometry(.55,.55,.4,16),mat("black"));wh.rotation.z=Math.PI/2;wh.position.set(w[0],.55,w[1]);tr.add(wh)});
@@ -274,7 +274,7 @@ function bind(el){el.addEventListener("pointerdown",function(e){if(e.target.clos
   function up(){if(drag){drag=null;el.classList.remove("drag");idle=0}}el.addEventListener("pointerup",up);el.addEventListener("pointercancel",up);el.addEventListener("pointerleave",up);
   el.addEventListener("keydown",function(e){if(e.key==="ArrowLeft"){yaw-=.2;place()}if(e.key==="ArrowRight"){yaw+=.2;place()}})}
 var LBL={home:"Home heating & cooling",commercial:"Retail plaza · rooftop units & make-up air",industrial:"Warehouse & grain yard · radiant & make-up air"};
-function mount(){var art=stage.querySelector(".sol-art"),tab=document.querySelector(".sol-tab[aria-selected=\"true\"]"),k=tab?tab.dataset.sol:"home";if(!art)return;
+function mount(){var art=stage.querySelector(".sol-art"),tab=document.querySelector(".sol-tab[aria-selected=\"true\"]"),k=tab?tab.dataset.sol:(document.body.dataset.sol||"home");if(!art)return;
   var tilt=art.querySelector(".sol-tilt");if(!tilt||tilt.querySelector(".sol3d"))return;
   try{ensureRenderer()}catch(e){return}
   art.classList.add("has3d");holder=document.createElement("div");holder.className="sol3d";holder.tabIndex=0;holder.setAttribute("role","img");holder.setAttribute("aria-label","3D model: "+(LBL[k]||k)+". Drag to turn it.");

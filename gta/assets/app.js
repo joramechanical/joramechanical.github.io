@@ -83,9 +83,20 @@ function setHdr(){var h=$("#hdr").getBoundingClientRect().height+($(".strip").ge
 setHdr();addEventListener("resize",setHdr);
 
 /* ======================= SERVICES / LICENCES / STEPS ======================= */
-if(has("#qs"))$("#qs").innerHTML=SERVICES.map(function(s){return '<button class="qb'+(s.red?' red':'')+'" type="button" data-svc="'+s.id+'"><span class="ic">'+ic(s.ic)+'</span>'+esc(s.name)+'</button>'}).join("");
-var seal=function(red){return '<svg class="seal" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="27" fill="'+(red?'#D7262B':'#F96302')+'"/><circle cx="30" cy="30" r="21" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="3 3"/><path d="M20 31l7 7 14-15" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
-var lic=JORA.licences.map(function(l,i){return '<div class="lc">'+seal(i%3===1)+'<div><b>'+esc(l[0])+'</b><small>'+esc(l[1])+'</small></div></div>'}).join("");
+if(has("#qs"))$("#qs").innerHTML=SERVICES.map(function(s){var h=L("svc",s.id);return h?'<a class="qb'+(s.red?' red':'')+'" href="'+h+'"><span class="ic">'+ic(s.ic)+'</span>'+esc(s.name)+'</a>':'<button class="qb'+(s.red?' red':'')+'" type="button" data-svc="'+s.id+'"><span class="ic">'+ic(s.ic)+'</span>'+esc(s.name)+'</button>'}).join("");
+/* licence slider: each badge gets its own colour */
+var LICC=["#F96302","#2F80ED","#16A085","#D7262B","#8E44AD","#E0A100","#0E9FC9","#2E9D57"];
+/* stats slider */
+(function(){if(!has("#statTrack"))return;var nb={};PRODUCTS.forEach(function(p){nb[p.brand]=1});
+  var S=[["smile",3000,"+","Happy customers","Homes and businesses we've helped"],["tools",28,"","Years of experience","Hands-on heating & cooling know-how"],["clock","24/7","","Emergency service","Real people answer, day or night"],
+    ["shield",Object.keys(nb).length,"+","Trusted brands","Installed by factory-trained technicians"],["doc",100,"%","Written quotes","Upfront pricing — no surprises"],["home",(typeof CITIES!=="undefined"?CITIES.length:30),"+","Cities & towns served","Close by, wherever you are"]];
+  var one=S.map(function(s,i){var c=LICC[(i*3+1)%LICC.length];return '<div class="stc" style="--c:'+c+'"><span class="stc-ic">'+ic(s[0])+'</span><b'+(typeof s[1]==="number"?' data-n="'+s[1]+'" data-s="'+s[2]+'">'+(s[1]>=1000?s[1].toLocaleString("en-CA"):s[1])+s[2]:'>'+s[1])+'</b><span class="stc-l">'+esc(s[3])+'</span><small>'+esc(s[4])+'</small></div>'}).join("");
+  $("#statTrack").innerHTML=one+one.replace(/class="stc"/g,'class="stc" aria-hidden="true"');
+  if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  var done=false;new IntersectionObserver(function(es,o){if(!es[0].isIntersecting||done)return;done=true;o.disconnect();
+    $$("#statTrack [data-n]").forEach(function(b){var n=+b.dataset.n,s=b.dataset.s,t0=performance.now();(function f(t){var k=Math.min(1,(t-t0)/1600),v=Math.round(n*(1-Math.pow(1-k,3)));b.textContent=(v>=1000?v.toLocaleString("en-CA"):v)+s;if(k<1)requestAnimationFrame(f)})(t0)})},{threshold:.3}).observe($("#statTrack"))})();
+var seal=function(red){return '<svg class="seal" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="27" fill="'+red+'"/><circle cx="30" cy="30" r="21" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="3 3"/><path d="M20 31l7 7 14-15" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
+var lic=JORA.licences.map(function(l,i){var c=LICC[i%LICC.length];return '<div class="lc" style="--c:'+c+'">'+seal(c)+'<div><b>'+esc(l[0])+'</b><small>'+esc(l[1])+'</small></div></div>'}).join("");
 if(has("#licTrack"))$("#licTrack").innerHTML=lic+lic.replace(/class="lc"/g,'class="lc" aria-hidden="true"');
 if(has("#fLic"))$("#fLic").textContent=JORA.licences.slice(0,4).map(function(l){return l[0]}).join(" · ");
 if(has("#steps"))$("#steps").innerHTML=STEPS.map(function(s,i){return '<li style="--i:'+i+'"><div class="orb"><span class="orb-in">'+ic(s[0])+'</span><em>'+String(i+1).padStart(2,"0")+'</em></div><div class="jt"><b>'+esc(s[1])+'</b><p>'+esc(s[2])+'</p></div></li>'}).join("");
@@ -341,7 +352,7 @@ async function wxGeo(){
   try{var h=await wxJSON("https://ipwho.is/?fields=success,latitude,longitude,country_code,city,region",3500);if(h&&h.success&&(h.country_code==="CA"||h.country_code==="US"))return {lat:+h.latitude,lon:+h.longitude,city:h.city||"",region:h.region||""}}catch(e){}
   return {lat:43.589,lon:-79.644,city:"Mississauga",region:"Ontario",fallback:true}}
 async function wxLoad(){var c0=null;try{c0=JSON.parse(sessionStorage.getItem("jora_wx")||"null")}catch(e){}
-  if(c0&&Date.now()-c0.ts<30*60*1000){Object.assign(WX,c0);wxApply();return}
+  if(c0&&c0.live&&Date.now()-c0.ts<30*60*1000){Object.assign(WX,c0);wxApply();return}
   var loc=await wxGeo();WX.city=loc.city;WX.region=loc.region;
   try{var j=await wxJSON("https://api.open-meteo.com/v1/forecast?latitude="+loc.lat+"&longitude="+loc.lon+"&current=temperature_2m,weather_code,is_day&timezone=auto",5000);var c=j.current;var r=wxClassify(c.weather_code,c.temperature_2m,c.is_day);WX.kind=r.kind;WX.night=r.night;WX.temp=c.temperature_2m;WX.code=c.weather_code;WX.live=true;
     try{sessionStorage.setItem("jora_wx",JSON.stringify({kind:WX.kind,night:WX.night,temp:WX.temp,code:WX.code,city:WX.city,region:WX.region,live:true,ts:Date.now()}))}catch(e){}}
@@ -363,9 +374,9 @@ $("#dial .up").onclick=function(){WX.set=Math.min(28,WX.set+1);try{localStorage.
 /* full-page particles */
 var fx={cv:$("#wxfx"),parts:[],drops:[],splash:[],mode:"",run:false,pile:0};fx.ctx=fx.cv.getContext("2d");
 function fxSize(){var d=Math.min(2,devicePixelRatio||1);fx.w=innerWidth;fx.h=innerHeight;fx.cv.width=fx.w*d;fx.cv.height=fx.h*d;fx.ctx.setTransform(d,0,0,d,0,0)}
-function fxStart(kind,night){var m=kind==="frost"?"frost":kind==="storm"?"storm":kind==="rain"?"rain":kind==="snow"?"snow":kind==="hot"?"heat":kind==="fog"?"fog":night?"stars":(kind==="sun"?"sun":"none");
+function fxStart(kind,night){var m=kind==="frost"?"frost":kind==="storm"?"storm":kind==="rain"?"rain":kind==="snow"?"snow":kind==="hot"?"heat":kind==="fog"?"fog":kind==="cloud"?"cloud":night?"stars":"sun";
   if(m===fx.mode)return;fx.mode=m;fxSize();var area=fx.w*fx.h/(1440*900);
-  var n={frost:70,storm:340,rain:230,snow:190,heat:40,stars:120,sun:26,fog:0,none:0}[m]*Math.max(.45,Math.min(1.4,area));if(reduce)n=n/4;n=Math.round(n);
+  var n={frost:70,storm:340,rain:230,snow:190,heat:40,stars:120,sun:40,fog:7,cloud:9,none:0}[m]*Math.max(.45,Math.min(1.4,area));if(reduce)n=n/4;n=Math.round(n);
   fx.parts=[];for(var i=0;i<n;i++)fx.parts.push({x:Math.random()*fx.w,y:Math.random()*fx.h,s:Math.random(),p:Math.random()*6.28});
   fx.drops=[];if(m==="rain"||m==="storm")for(var j=0;j<(reduce?4:14);j++)fx.drops.push(newDrop(true));
   fx.splash=[];fx.pile=0;
@@ -389,12 +400,19 @@ function fxDraw(){var c=fx.ctx,w=fx.w,h=fx.h,m=fx.mode;
     /* snow piling up along the bottom of the screen */
     if(fx.pile>1){c.fillStyle="rgba(255,255,255,.96)";c.beginPath();c.moveTo(0,h);for(var x=0;x<=w;x+=24){c.lineTo(x,h-fx.pile+Math.sin(x/53)*fx.pile*.25+Math.sin(x/17)*2)}c.lineTo(w,h);c.closePath();c.shadowColor="rgba(120,160,210,.35)";c.shadowBlur=8;c.fill();c.shadowBlur=0}}
   else if(m==="heat"||m==="sun"){fx.parts.forEach(function(p){p.y-=.25+p.s*.5;p.p+=.02;p.x+=Math.sin(p.p)*.35;if(p.y<-10){p.y=h+10;p.x=Math.random()*w}
-      c.fillStyle=m==="heat"?"rgba(255,"+(140+Math.round(p.s*70))+",40,"+(.10+p.s*.22)+")":"rgba(255,215,120,"+(.08+p.s*.18)+")";c.beginPath();c.arc(p.x,p.y,1.5+p.s*(m==="heat"?4:3),0,6.28);c.fill()})}
+      c.fillStyle=m==="heat"?"rgba(255,"+(140+Math.round(p.s*70))+",40,"+(.10+p.s*.22)+")":"rgba(255,200,90,"+(.14+p.s*.24)+")";c.beginPath();c.arc(p.x,p.y,1.8+p.s*(m==="heat"?4:3.5),0,6.28);c.fill()})}
+  else if(m==="cloud"||m==="fog"){var ntc=document.body.classList.contains("wx-night");fx.parts.forEach(function(p,i){
+      if(m==="cloud"){p.x+=.12+p.s*.25;if(p.x>w+260)p.x=-260;var cy=30+(i%4)*55+p.s*30,r=70+p.s*90;
+        for(var k=0;k<5;k++){var cx=p.x+(k-2)*r*.55,yy=cy+Math.sin(k*1.7+p.p)*r*.18,rr=r*(.55+.25*Math.sin(k+p.p));var g=c.createRadialGradient(cx,yy,0,cx,yy,rr);
+          g.addColorStop(0,ntc?"rgba(150,160,180,.22)":"rgba(255,255,255,.42)");g.addColorStop(1,"rgba(255,255,255,0)");c.fillStyle=g;c.beginPath();c.arc(cx,yy,rr,0,6.28);c.fill()}}
+      else{p.x+=.15+p.s*.2;if(p.x>w)p.x-=w*1.4;var by=h*(.15+i/fx.parts.length*.85),g2=c.createLinearGradient(0,by-80,0,by+80);g2.addColorStop(0,"rgba(235,240,245,0)");g2.addColorStop(.5,ntc?"rgba(170,180,195,.18)":"rgba(240,244,248,.32)");g2.addColorStop(1,"rgba(235,240,245,0)");
+        c.fillStyle=g2;c.beginPath();c.ellipse(p.x,by,w*.7,80,0,0,6.28);c.fill();c.beginPath();c.ellipse(p.x-w*1.4,by,w*.7,80,0,0,6.28);c.fill()}})}
   else if(m==="stars"){fx.parts.forEach(function(p){p.p+=.015+p.s*.03;var a=.2+Math.abs(Math.sin(p.p))*.75;c.fillStyle="rgba(255,255,255,"+a.toFixed(2)+")";c.fillRect(p.x,p.y*.75,1+p.s*1.6,1+p.s*1.6)})}
-  if(m==="none"||m==="fog"){fx.run=false;return}
+  if(m==="none"){fx.run=false;return}
   requestAnimationFrame(fxDraw)}
 addEventListener("resize",function(){var m=fx.mode;fx.mode="";fxSize();wxApply()});
-(function(){try{var c0=JSON.parse(sessionStorage.getItem("jora_wx")||"null");if(c0)Object.assign(WX,c0)}catch(e){}})();wxApply();wxLoad();
+(function(){try{var c0=JSON.parse(sessionStorage.getItem("jora_wx")||"null");if(c0)Object.assign(WX,c0)}catch(e){}})();wxApply();wxLoad().catch(function(){var s=wxSeason();WX.kind=s.kind;WX.night=s.night;wxApply()});
+setInterval(function(){try{sessionStorage.removeItem("jora_wx")}catch(e){}wxLoad().catch(function(){})},30*60*1000);
 
 /* ======================= CAPABILITIES (db / user / assets / downloads) ======================= */
 var CAP={db:null,user:null,assets:null,dl:null,canWrite:false,admin:false};
@@ -584,6 +602,7 @@ function solArt(k){var W=560,H=340,s='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http
     '<rect x="230" y="245" width="140" height="10" rx="5" fill="#D7262B" class="glow"/><rect x="230" y="265" width="140" height="10" rx="5" fill="#D7262B" class="glow g2"/>'+flow(250,170,110,"#F96302",3)}
   return s+'</svg>'}
 var SOLK=Object.keys(SOLUTIONS),solCur="home";
+if(!has("#solTabs")&&has("#solStage")){var sk0=document.body.dataset.sol||"home";if(SOLUTIONS[sk0])$("#solStage").innerHTML='<div class="sol-art solo" style="--c:'+SOLUTIONS[sk0].col+'"><div class="sol-tilt">'+solArt(sk0)+'</div></div>'}
 if(has("#solTabs")){$("#solTabs").innerHTML=SOLK.map(function(k){var o=SOLUTIONS[k];return '<button type="button" role="tab" class="sol-tab" data-sol="'+k+'" aria-selected="'+(k===solCur)+'" style="--c:'+o.col+'"><span class="st-ic">'+ic(o.ic)+'</span><span><b>'+esc(o.t)+'</b><small>'+esc(o.lead)+'</small></span></button>'}).join("");
 function renderSol(){var o=SOLUTIONS[solCur];$$(".sol-tab").forEach(function(t){t.setAttribute("aria-selected",t.dataset.sol===solCur)});
   $("#solStage").innerHTML='<div class="sol-art" style="--c:'+o.col+'"><div class="sol-tilt">'+solArt(solCur)+'</div></div><div class="sol-list"><h3>'+esc(o.t)+'</h3><p>'+esc(o.lead)+'</p><div class="sol-grid">'+o.items.map(function(it){return '<button type="button" class="sol-it" data-svc="'+it[1]+'">'+ic(it[2]||(SERVICES.find(function(s){return s.id===it[1]})||{}).ic||o.ic)+'<span>'+esc(it[0])+'</span></button>'}).join("")+'</div><div class="sol-cta"><button class="btn" type="button" data-svc="'+(solCur==="home"?"furnace":solCur)+'">'+(solCur==="home"?"Get a home quote":"Request a site visit")+'</button><a class="btn o" href="tel:+19056672823">Call 905-667-2823</a></div></div>';

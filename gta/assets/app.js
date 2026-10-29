@@ -21,7 +21,7 @@ function illTank(brand){var s='<svg viewBox="0 0 200 260" xmlns="http://www.w3.o
   s+='<rect x="62" y="8" width="18" height="16" fill="#555"/><rect x="118" y="6" width="22" height="18" fill="#555"/><rect x="36" y="22" width="128" height="214" rx="12" fill="url(#tg)" stroke="#9aa0a6"/>'+plate(brand,56,70,88)+'<rect x="78" y="170" width="44" height="34" rx="4" fill="#222"/><text x="100" y="192" text-anchor="middle" font-family="monospace" font-size="13" fill="#58e07a">120°</text><rect x="70" y="236" width="10" height="12" fill="#888"/><rect x="120" y="236" width="10" height="12" fill="#888"/></svg>';return s}
 function illFor(p){return p.cat==="ac"||p.cat==="hp"?illAC(p.brand):p.cat==="water"?illTank(p.brand):illFurn(p.brand)}
 function brandMark(b,size){return LOGO[b]?'<img class="bm bm-'+size+(b==="Kepler"?" dark":"")+'" src="'+LOGO[b]+'" alt="'+esc(b)+'">':'<span class="bmt">'+esc(b)+'</span>'}
-function visual(p,cls){return p.imgUrl?'<img'+(cls?' class="'+cls+'"':'')+' src="'+esc(p.imgUrl)+'" alt="'+esc(p.name)+'" loading="lazy">':p.img&&IMG[p.img]?'<img'+(cls?' class="'+cls+'"':'')+' src="'+IMG[p.img]+'" alt="'+esc(p.name)+'" loading="lazy">':illFor(p)}
+function visual(p,cls){if(p.imgDoc){livePimg(p.imgDoc);return '<img'+(cls?' class="'+cls+'"':'')+' data-pimg="'+esc(p.imgDoc)+'" src="'+(window.__pimg&&__pimg[p.imgDoc]||"data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==")+'" alt="'+esc(p.name)+'" loading="lazy">'}return p.imgUrl?'<img'+(cls?' class="'+cls+'"':'')+' src="'+esc(p.imgUrl)+'" alt="'+esc(p.name)+'" loading="lazy">':p.img&&IMG[p.img]?'<img'+(cls?' class="'+cls+'"':'')+' src="'+IMG[p.img]+'" alt="'+esc(p.name)+'" loading="lazy">':illFor(p)}
 
 /* friendly team illustrations: women & men in JORA shirts and white trousers (shown until real photos are uploaded in Admin) */
 var PID=0;
@@ -77,6 +77,7 @@ var CUSTOM=[];        // products added in Admin (db)
 var SITE={teamPhotos:[]};
 function allProducts(){return PRODUCTS.concat(CUSTOM)}
 function byId(id){return allProducts().find(function(p){return p.id===id})}
+liveEarly();
 
 /* header height for full-screen hero */
 function setHdr(){var h=$("#hdr").getBoundingClientRect().height+($(".strip").getBoundingClientRect().height||0);document.documentElement.style.setProperty("--hdr",Math.round($("#hdr").getBoundingClientRect().height)+"px");document.documentElement.style.setProperty("--top",Math.round(h)+"px")}
@@ -88,7 +89,7 @@ if(has("#qs"))$("#qs").innerHTML=SERVICES.map(function(s){var h=L("svc",s.id);re
 var LICC=["#F96302","#2F80ED","#16A085","#D7262B","#8E44AD","#E0A100","#0E9FC9","#2E9D57"];
 /* stats slider */
 (function(){if(!has("#statTrack"))return;var nb={};PRODUCTS.forEach(function(p){nb[p.brand]=1});
-  var S=[["smile",3000,"+","Happy customers","Homes and businesses we've helped"],["tools",28,"","Years of experience","Hands-on heating & cooling know-how"],["clock","24/7","","Emergency service","Real people answer, day or night"],
+  var LS=(window.__live&&__live.stats)||{};var S=[["smile",+LS.customers||3000,"+","Happy customers","Homes and businesses we've helped"],["tools",+LS.years||28,"","Years of experience","Hands-on heating & cooling know-how"],["clock","24/7","","Emergency service","Real people answer, day or night"],
     ["shield",Object.keys(nb).length,"+","Trusted brands","Installed by factory-trained technicians"],["doc",100,"%","Written quotes","Upfront pricing — no surprises"],["home",(typeof CITIES!=="undefined"?CITIES.length:30),"+","Cities & towns served","Close by, wherever you are"]];
   var one=S.map(function(s,i){var c=LICC[(i*3+1)%LICC.length];return '<div class="stc" style="--c:'+c+'"><span class="stc-ic">'+ic(s[0])+'</span><b'+(typeof s[1]==="number"?' data-n="'+s[1]+'" data-s="'+s[2]+'">'+(s[1]>=1000?s[1].toLocaleString("en-CA"):s[1])+s[2]:'>'+s[1])+'</b><span class="stc-l">'+esc(s[3])+'</span><small>'+esc(s[4])+'</small></div>'}).join("");
   $("#statTrack").innerHTML=one+one.replace(/class="stc"/g,'class="stc" aria-hidden="true"');
@@ -180,19 +181,20 @@ renderShop();
 
 /* ======================= HERO 3D SLIDER ======================= */
 (function(){if(!has("#jx-hero"))return;
-  var SL=PRODUCTS.filter(function(p){return p.img&&IMG[p.img]});
+  var SL=heroList();
   var hero=$("#jx-hero"),track=$("#jx-track"),stage=$("#jx-stage"),dotsEl=$("#jx-dots"),info=$("#jx-info"),ghost=$(".jx-ghost",hero),tabs=$$(".jx-tab",hero);
   hero.style.setProperty("--jx-dur",JORA.slideSeconds+"s");
   var N=SL.length,cur=0,timer=null;
   SL.forEach(function(p,i){var s=document.createElement("div");s.className="jx-slide"+(p.wide?" wide":"");s.setAttribute("role","group");s.setAttribute("aria-label",(i+1)+" of "+N+": "+p.brand);
-    s.innerHTML='<div class="jx-tilt"><img src="'+IMG[p.img]+'" alt="'+esc(p.name)+'"><div class="jx-badge'+(p.badgeRed?' red':'')+'"><b>'+esc(p.badge[0])+'</b>'+esc(p.badge[1])+'</div><div class="jx-reflect"><img src="'+IMG[p.img]+'" alt=""></div></div>';
+    var bd=p.badge||[p.flag||"New",CATS[p.cat]?CATS[p.cat].short:""],src=pSrc(p),pa=p.imgDoc?' data-pimg="'+esc(p.imgDoc)+'"':'';
+    s.innerHTML='<div class="jx-tilt"><img src="'+src+'"'+pa+' alt="'+esc(p.name)+'"><div class="jx-badge'+(p.badgeRed?' red':'')+'"><b>'+esc(bd[0])+'</b>'+esc(bd[1])+'</div><div class="jx-reflect"><img src="'+src+'"'+pa+' alt=""></div></div>';
     s.addEventListener("click",function(){if(i!==cur)go(i);else showProduct(p.id)});track.appendChild(s);
     var d=document.createElement("button");d.className="jx-dot";d.setAttribute("aria-label","Show "+p.brand);d.onclick=function(){go(i)};dotsEl.appendChild(d)});
   var slides=[].slice.call(track.children),dots=[].slice.call(dotsEl.children);
   slides.forEach(function(s){var a=s.querySelector(".jx-tilt>img"),b=s.querySelector(".jx-reflect img");function fit(){b.style.width=a.clientWidth+"px"}a.complete?fit():a.onload=fit;addEventListener("resize",fit)});
   function layout(){var w=stage.clientWidth,gap=Math.min(w*.30,250);slides.forEach(function(s,i){var o=i-cur;if(o>N/2)o-=N;if(o<-N/2)o+=N;var a=Math.abs(o);
     s.style.transform="translateX("+(o*gap)+"px) translateZ("+(-a*230)+"px) rotateY("+(o*-32)+"deg) scale("+(a?.86:1.06)+")";s.style.opacity=a>2?0:(a===2?.35:a===1?.75:1);s.style.filter=a?"brightness("+(a===1?.92:.85)+") blur("+(a===1?0:1.5)+"px)":"none";s.style.zIndex=10-a;s.style.pointerEvents=a>2?"none":"auto";s.classList.toggle("on",a===0)})}
-  function setInfo(p){info.classList.add("out");setTimeout(function(){$("#jx-brand").innerHTML=brandMark(p.brand,"hero");$("#jx-title").innerHTML='<span>'+esc(p.model)+'</span> '+esc(CATS[p.cat].short);$("#jx-desc").textContent=p.tag;$("#jx-feats").innerHTML=(p.feats3||[]).map(function(f){return "<li>"+esc(f)+"</li>"}).join("");info.classList.remove("out")},260);
+  function setInfo(p){info.classList.add("out");setTimeout(function(){$("#jx-brand").innerHTML=brandMark(p.brand,"hero");$("#jx-title").innerHTML='<span>'+esc(p.model)+'</span> '+esc(CATS[p.cat].short);$("#jx-desc").textContent=p.tag||"";$("#jx-feats").innerHTML=(p.feats3||[]).map(function(f){return "<li>"+esc(f)+"</li>"}).join("");info.classList.remove("out")},260);
     ghost.style.opacity=0;setTimeout(function(){ghost.textContent=p.brand.toUpperCase();ghost.style.opacity=1},300);tabs.forEach(function(t){t.setAttribute("aria-selected",t.dataset.cat===p.cat)});
     $("#jx-quote").dataset.quoteProduct=p.id;$("#jx-more").dataset.product=p.id}
   function go(i){cur=(i+N)%N;layout();setInfo(SL[cur]);dots.forEach(function(d,k){d.classList.remove("on");if(k===cur){void d.offsetWidth;d.classList.add("on")}});$("#jx-count").innerHTML="<b>"+String(cur+1).padStart(2,"0")+"</b> / "+N;restart()}
@@ -297,6 +299,7 @@ function custId(email){return "c_"+String(email||"").toLowerCase().replace(/[^a-
 async function submitRequest(){var rec={ref:refNo(),service:W.svc,serviceName:svcName(W.svc),answers:JSON.parse(JSON.stringify(W.a)),contact:Object.assign({},W.c,{postal:(W.c.postal||"").toUpperCase()}),status:"new",source:"website",createdAt:new Date().toISOString()};
   var saved=false;
   if(CAP.db&&CAP.canWrite){try{await CAP.db.collection("requests").doc(rec.ref).set(rec);await upsertCustomer(rec.contact,rec.serviceName);saved=true}catch(err){saved=false}}
+  if(!saved)saved=await liveSaveRequest(rec,"Quote request "+rec.ref+" — "+rec.serviceName,summaryText(rec));
   if(!saved&&JORA.formEndpoint){try{var r=await fetch(JORA.formEndpoint,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(Object.assign({_subject:"Quote request "+rec.ref,message:summaryText(rec)},rec))});saved=r.ok}catch(err){}}
   var mail="mailto:"+(SITE.notifyEmail||JORA.notifyEmail)+"?subject="+encodeURIComponent("Quote request "+rec.ref+" — "+rec.serviceName)+"&body="+encodeURIComponent(summaryText(rec));
   W.done='<div class="done"><div class="tick">✓</div><h3>Thanks, '+esc(rec.contact.firstName)+'!</h3><p>'+(saved?"Your request is in. We'll be in touch shortly.":"One last step: tap the button to send your request by email.")+'</p><div class="ref">Reference '+esc(rec.ref)+'</div>'+(saved?'':'<a class="btn" href="'+esc(mail)+'">Send my request by email</a>')+'<p style="color:#666">Need it faster? Call <a href="tel:+19056672823"><b>905-667-2823</b></a></p></div>';
@@ -360,6 +363,7 @@ async function wxLoad(){var c0=null;try{c0=JSON.parse(sessionStorage.getItem("jo
   window.JORA_WX=WX;wxApply()}
 var WXFORCE=(function(){var m=/[?&#]weather=(\w+)/.exec(location.search+location.hash);return m?m[1]:null})();
 function wxApply(force){var f=force||WXFORCE,kind=WX.kind,night=WX.night;
+  if(f==="off"){var b0=document.body;b0.className=b0.className.replace(/\bwx-\S+/g,"").trim();fxStart("off",false);return}
   if(f){night=f==="night";kind=f==="night"?"sun":f}
   var b=document.body;b.className=b.className.replace(/\bwx-\S+/g,"").trim();b.classList.add("wx-"+kind);if(night)b.classList.add("wx-night");var cold=f?f==="cold":(WX.temp!=null&&WX.temp<=-3&&kind!=="snow"&&kind!=="hot");if(f==="cold"){b.classList.remove("wx-cold");b.classList.add("wx-sun")}if(cold)b.classList.add("wx-cold");b.dataset.wxCity=WX.city||"";
   dialMode();fxStart(cold&&kind!=="rain"&&kind!=="storm"?"frost":kind,night);
@@ -374,7 +378,7 @@ $("#dial .up").onclick=function(){WX.set=Math.min(28,WX.set+1);try{localStorage.
 /* full-page particles */
 var fx={cv:$("#wxfx"),parts:[],drops:[],splash:[],mode:"",run:false,pile:0};fx.ctx=fx.cv.getContext("2d");
 function fxSize(){var d=Math.min(2,devicePixelRatio||1);fx.w=innerWidth;fx.h=innerHeight;fx.cv.width=fx.w*d;fx.cv.height=fx.h*d;fx.ctx.setTransform(d,0,0,d,0,0)}
-function fxStart(kind,night){var m=kind==="frost"?"frost":kind==="storm"?"storm":kind==="rain"?"rain":kind==="snow"?"snow":kind==="hot"?"heat":kind==="fog"?"fog":kind==="cloud"?"cloud":night?"stars":"sun";
+function fxStart(kind,night){var m=kind==="off"?"none":kind==="frost"?"frost":kind==="storm"?"storm":kind==="rain"?"rain":kind==="snow"?"snow":kind==="hot"?"heat":kind==="fog"?"fog":kind==="cloud"?"cloud":night?"stars":"sun";
   if(m===fx.mode)return;fx.mode=m;fxSize();var area=fx.w*fx.h/(1440*900);
   var n={frost:70,storm:340,rain:230,snow:190,heat:40,stars:120,sun:40,fog:7,cloud:9,none:0}[m]*Math.max(.45,Math.min(1.4,area));if(reduce)n=n/4;n=Math.round(n);
   fx.parts=[];for(var i=0;i<n;i++)fx.parts.push({x:Math.random()*fx.w,y:Math.random()*fx.h,s:Math.random(),p:Math.random()*6.28});
@@ -716,6 +720,7 @@ $("#admMain").addEventListener("click",function(e){var b=e.target.closest("[data
     d.querySelector("form").addEventListener("submit",async function(e){e.preventDefault();var f=e.target,n=f.n.value.trim(),ph=f.p.value.trim();if(!n||ph.replace(/\D/g,"").length<10){f.querySelector(n?"[name=p]":"[name=n]").focus();f.classList.add("bad");return}
       f.querySelector("button").disabled=true;var rec={ref:refNo(),service:"chat",serviceName:"Chat message",answers:{details:f.m.value.trim(),chat:hist.slice(-10).map(function(m){return (m.role==="user"?"Customer: ":"Assistant: ")+m.content}).join("\n")},contact:{firstName:n.split(" ")[0],lastName:n.split(" ").slice(1).join(" "),phone:ph,postal:f.pc.value.toUpperCase(),email:"",province:"ON",city:""},status:"new",source:"chat",createdAt:new Date().toISOString()};
       var saved=false;if(CAP.db&&CAP.canWrite){try{await CAP.db.collection("requests").doc(rec.ref).set(rec);saved=true}catch(err){}}
+      if(!saved)saved=await liveSaveRequest(rec,"Chat message "+rec.ref+" — "+n,"Name: "+n+"\nPhone: "+ph+"\nPostal code: "+rec.contact.postal+"\n\n"+rec.answers.details);
       if(!saved&&JORA.formEndpoint){try{var r=await fetch(JORA.formEndpoint,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({_subject:"Chat message "+rec.ref,name:n,phone:ph,postal:rec.contact.postal,message:rec.answers.details,chat:rec.answers.chat})});saved=r.ok}catch(err){}}
       f.remove();if(saved)bot("Thanks, "+esc(n.split(" ")[0])+"! Your message is with our team (ref "+esc(rec.ref)+"). We'll call you back soon.");
       else{var mail="mailto:"+(SITE.notifyEmail||JORA.notifyEmail)+"?subject="+encodeURIComponent("Website chat — "+n)+"&body="+encodeURIComponent("Name: "+n+"\nPhone: "+ph+"\nPostal code: "+rec.contact.postal+"\n\n"+rec.answers.details+"\n\n"+rec.answers.chat);bot("Thanks, "+esc(n.split(" ")[0])+"! Tap below to send your message — or call us now.",['<a class="ca" href="'+esc(mail)+'">Send message</a>',callBtn()])}})}
@@ -756,5 +761,96 @@ if(document.body.dataset.autoquote)setTimeout(function(){openWizard(null)},400);
 })();
 /* back to top */
 (function(){var t=$(".totop");if(!t)return;function f(){t.classList.toggle("on",scrollY>700)}addEventListener("scroll",f,{passive:true});f();t.onclick=function(){scrollTo({top:0,behavior:reduce?"auto":"smooth"});$(".logo").focus()}})();
+
+/* ======================= LIVE CONTENT (set in the office panel) =======================
+   Reads public/<region> (colours, weather, announcement, numbers, hero slider, products) from
+   Firestore over plain REST — no SDK, so the site stays light. Until Firebase is connected it
+   reads the demo copy the office panel keeps in this browser. Last copy is cached so the next
+   page shows it instantly. */
+function liveCfg(){return (typeof BACKEND!=="undefined"&&BACKEND)||{}}
+function liveFb(){var c=liveCfg().firebase;return c&&c.projectId&&c.apiKey?c:null}
+function liveKey(){return "jora_pub_"+REGION}
+function liveDemoDB(){try{return JSON.parse(localStorage.getItem("jora_demo_db")||"{}")}catch(e){return {}}}
+function liveCached(){try{return JSON.parse(localStorage.getItem(liveKey())||"null")}catch(e){return null}}
+function liveBlank(){return "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="}
+function liveEarly(){window.__live={};window.__pimg=window.__pimg||{};var P=liveCached();window.__liveRaw=P;if(P)liveData(P)}
+/* apply product changes to the data before the page draws anything */
+function liveData(P){window.__live=P||{};var hid=P.hidden||[],fl=P.flags||{};
+  if(!window.__orig)window.__orig=PRODUCTS.map(function(p){return Object.assign({},p)});
+  PRODUCTS.length=0;__orig.forEach(function(o){if(hid.indexOf(o.id)>-1)return;var p=Object.assign({},o);if(Object.prototype.hasOwnProperty.call(fl,o.id)){p.flag=fl[o.id]||"";p.flagRed=false}PRODUCTS.push(p)});
+  CUSTOM.length=0;(P.extra||[]).forEach(function(x){if(x.off||!x.id||!CATS[x.cat])return;var p=Object.assign({},x);
+    p.specs=(x.specs||[]).map(function(s){return Array.isArray(s)?s:[s.k,s.v]});p.feats=x.feats||[];p.feats3=x.feats3&&x.feats3.length?x.feats3:(x.feats||[]).slice(0,3);p.model=p.model||p.name;p.custom=true;CUSTOM.push(p)});
+  if(P.hero&&+P.hero.seconds)JORA.slideSeconds=Math.max(2,Math.min(12,+P.hero.seconds))}
+function pSrc(p){if(p.img&&IMG[p.img])return IMG[p.img];if(p.imgUrl)return p.imgUrl;if(p.imgDoc){livePimg(p.imgDoc);return (window.__pimg&&__pimg[p.imgDoc])||liveBlank()}return liveBlank()}
+function heroList(){var all=PRODUCTS.concat(CUSTOM),h=window.__live&&__live.hero,ok=function(p){return p&&((p.img&&IMG[p.img])||p.imgUrl||p.imgDoc)};
+  if(h&&h.ids&&h.ids.length){var L=h.ids.map(function(id){return all.find(function(p){return p.id===id})}).filter(ok);if(L.length)return L}
+  return PRODUCTS.filter(function(p){return p.img&&IMG[p.img]})}
+/* ---------- Firestore REST helpers ---------- */
+function fsVal(v){if(!v)return null;if("stringValue" in v)return v.stringValue;if("integerValue" in v)return +v.integerValue;if("doubleValue" in v)return v.doubleValue;if("booleanValue" in v)return v.booleanValue;
+  if("timestampValue" in v)return v.timestampValue;if("arrayValue" in v)return (v.arrayValue.values||[]).map(fsVal);if("mapValue" in v)return fsObj(v.mapValue.fields||{});return null}
+function fsObj(f){var o={};for(var k in f)o[k]=fsVal(f[k]);return o}
+function toFs(v){if(v==null)return {nullValue:null};if(Array.isArray(v))return {arrayValue:{values:v.filter(function(x){return x!==undefined}).map(toFs)}};
+  if(typeof v==="boolean")return {booleanValue:v};if(typeof v==="number")return Number.isInteger(v)?{integerValue:String(v)}:{doubleValue:v};
+  if(typeof v==="object"){var f={};for(var k in v)if(v[k]!==undefined)f[k]=toFs(v[k]);return {mapValue:{fields:f}}}return {stringValue:String(v)}}
+function fsURL(path,q){var c=liveFb();return "https://firestore.googleapis.com/v1/projects/"+c.projectId+"/databases/(default)/documents/"+path+"?"+(q?q+"&":"")+"key="+encodeURIComponent(c.apiKey)}
+function liveGet(path){var c=liveFb(),parts=path.split("/");
+  if(!c){var d=liveDemoDB();return Promise.resolve(((d[parts[0]]||{})[parts[1]])||null)}
+  return fetch(fsURL(path)).then(function(r){return r.ok?r.json().then(function(j){return fsObj(j.fields||{})}):null}).catch(function(){return null})}
+var livePend={};
+function livePimg(id){if(!id||(window.__pimg&&__pimg[id])||livePend[id])return;livePend[id]=1;
+  liveGet("pimg/"+id).then(function(d){if(!d||!d.data)return;__pimg[id]=d.data;$$('img[data-pimg="'+id+'"]').forEach(function(im){im.src=d.data})})}
+/* ---------- requests from the website go to the office ---------- */
+async function liveSaveRequest(rec,subject,text){rec.region=REGION;var ok=false,c=liveFb();
+  if(c){try{var r=await fetch(fsURL("requests","documentId="+encodeURIComponent(rec.ref)),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({fields:toFs(rec).mapValue.fields})});ok=r.ok}catch(e){}}
+  else{try{var d=liveDemoDB();d.requests=d.requests||{};d.requests[rec.ref]=JSON.parse(JSON.stringify(rec));localStorage.setItem("jora_demo_db",JSON.stringify(d))}catch(e){}}
+  var k=liveCfg().web3formsKey;if(k){try{var ct=rec.contact||{};var r2=await fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},
+    body:JSON.stringify({access_key:k,subject:subject+" · "+(REGION==="sk"?"Saskatchewan":"GTA"),from_name:"Jora Mechanical website",name:((ct.firstName||"")+" "+(ct.lastName||"")).trim()||"Website visitor",email:ct.email||"",phone:ct.phone||"",message:text})});ok=ok||r2.ok}catch(e){}}
+  return ok}
+/* ---------- page changes (safe to run again when fresh settings arrive) ---------- */
+function liveItemURL(id){return ROOT+"products/item/"+LINKS.idx+"?id="+encodeURIComponent(id)}
+function liveCard(p){return '<article class="pc" data-live="1" data-product="'+esc(p.id)+'" data-brand="'+esc(p.brand)+'"><div class="pim">'+(p.flag?'<span class="flag">'+esc(p.flag)+'</span>':'')+visual(p)+'</div><div class="pb"><div class="pbr">'+brandMark(p.brand,"card")+'</div>'+
+  '<h3><a href="'+liveItemURL(p.id)+'">'+esc(p.name)+'</a></h3><div class="kv">'+(p.feats3||[]).map(function(f){return "<span>"+esc(f)+"</span>"}).join("")+'</div><div class="pr">Installed price: free quote<small>Equipment, labour &amp; permits in writing</small></div>'+
+  '<div class="row"><a class="btn o sm" href="'+liveItemURL(p.id)+'">Details</a><button class="btn sm" type="button" data-quote-product="'+esc(p.id)+'">Get quote</button></div></div></article>'}
+function liveHex(c){return /^#[0-9a-f]{6}$/i.test(c||"")?c:null}
+function liveDom(P){P=P||{};var hid=P.hidden||[],root=document.documentElement;
+  /* colours */
+  var cm=liveHex(P.colors&&P.colors.main),ca=liveHex(P.colors&&P.colors.accent);
+  if(cm){root.style.setProperty("--or",cm);root.style.setProperty("--or-l",cm+"1f")}else{root.style.removeProperty("--or");root.style.removeProperty("--or-l")}
+  if(ca)root.style.setProperty("--red",ca);else root.style.removeProperty("--red");
+  /* announcement bar */
+  var old=$("#annc");if(old)old.remove();var an=P.announce||{},key="jora_annc_"+(an.text||"");
+  if(an.on&&an.text&&!sessionStorage.getItem(key)){var bar=document.createElement("div");bar.id="annc";bar.className="annc";
+    bar.innerHTML='<div class="wrap"><span>'+esc(an.text)+'</span>'+(an.link&&/^(https?:\/\/|\/|tel:|mailto:)/.test(an.link)?' <a href="'+esc(an.link)+'">'+esc(an.linkText||"Learn more")+' ›</a>':'')+'<button type="button" aria-label="Close">×</button></div>';
+    bar.querySelector("button").onclick=function(){try{sessionStorage.setItem(key,"1")}catch(e){}bar.remove()};var site=$("#site");site.insertBefore(bar,site.firstChild)}
+  /* hidden products: hide their cards and menu links */
+  $$('.pc[data-product]:not([data-live])').forEach(function(c){c.hidden=hid.indexOf(c.dataset.product)>-1});
+  $$('.mega-p').forEach(function(a){var m=/products\/([^/]+)\//.exec(a.getAttribute("href")||"");if(m)a.hidden=hid.indexOf(m[1])>-1});
+  /* added products on category pages */
+  $$(".pgrid[data-cat]").forEach(function(g){$$('[data-live]',g).forEach(function(x){x.remove()});var cat=g.dataset.cat,L=CUSTOM.filter(function(p){return p.cat===cat});
+    g.insertAdjacentHTML("beforeend",L.map(liveCard).join(""));var pf=g.parentNode.querySelector(".pfilter");if(!pf)return;
+    L.forEach(function(p){if(!$$('[data-pf]',pf).some(function(b){return b.dataset.pf===p.brand})){pf.insertAdjacentHTML("beforeend",'<button type="button" data-pf="'+esc(p.brand)+'" aria-pressed="false" data-live="1">'+brandMark(p.brand,"chip")+'<small>'+L.filter(function(q){return q.brand===p.brand}).length+' model(s)</small></button>')}});
+    var all=pf.querySelector('[data-pf="All"] small');if(all)all.textContent=$$(".pc",g).filter(function(c){return !c.hidden}).length+" models"});
+  /* numbers slider */
+  var st=P.stats||{};$$("#statTrack [data-n]").forEach(function(b,i){var lab=b.parentNode.querySelector(".stc-l");if(!lab)return;var t=lab.textContent,n=/customers/i.test(t)?+st.customers:/experience/i.test(t)?+st.years:0;if(n){b.dataset.n=n;b.textContent=(n>=1000?n.toLocaleString("en-CA"):n)+(b.dataset.s||"")}});
+  /* weather effect */
+  if(!/[?&#]weather=/.test(location.search+location.hash)){var w=P.weather&&P.weather!=="auto"?P.weather:null;if(w!==WXFORCE){WXFORCE=w;wxApply()}}
+  /* added product page */
+  if(has("#pItem"))liveItem()}
+function liveItem(){var id=(/[?&]id=([^&]+)/.exec(location.search)||[])[1],p=id&&CUSTOM.find(function(x){return x.id===decodeURIComponent(id)}),box=$("#pItem");
+  if(!p){box.innerHTML=window.__liveFetched?'<div class="emp" style="padding:40px 0"><h1 class="h2">Product not found</h1><p>This product may have been removed. <a href="'+ROOT+LINKS.idx+'">Back to the home page</a> or call <a href="tel:+19056672823">905-667-2823</a>.</p></div>':'<p style="padding:40px 0;color:#666">Loading…</p>';return}
+  document.title=p.name+" | Jora Mechanical Systems";var cu=L("cat",p.cat);
+  box.innerHTML='<nav class="crumbs" aria-label="Breadcrumb"><a href="'+ROOT+LINKS.idx+'">Home</a> › '+(cu?'<a href="'+cu+'">'+esc(CATS[p.cat].name)+'</a> › ':'')+'<span>'+esc(p.name)+'</span></nav>'+
+   '<div class="pitem"><div class="pi-im">'+(p.flag?'<span class="flag">'+esc(p.flag)+'</span>':'')+visual(p)+'</div><div class="pi-t"><div class="pbr">'+brandMark(p.brand,"card")+'</div><h1>'+esc(p.name)+'</h1>'+(p.tag?'<p class="lead">'+esc(p.tag)+'</p>':'')+
+   (p.specs.length?'<table class="spec"><tbody>'+p.specs.map(function(s){return '<tr><th>'+esc(s[0])+'</th><td>'+esc(s[1])+'</td></tr>'}).join("")+'</tbody></table>':'')+
+   (p.feats.length?'<ul class="fe">'+p.feats.map(function(f){return '<li>'+esc(f)+'</li>'}).join("")+'</ul>':'')+(p.more?'<p>'+esc(p.more)+'</p>':'')+
+   '<div class="phero-ctas"><button class="btn" type="button" data-quote-product="'+esc(p.id)+'">Get a free quote</button><a class="btn wk" href="tel:+19056672823">Call 905-667-2823</a></div>'+
+   '<p class="src">Installed price depends on your home — your written quote includes equipment, labour and permits.</p></div></div>'}
+/* account link in the header */
+(function(){try{var a=JSON.parse(localStorage.getItem("jora_acct")||"null");if(a&&a.name)$$(".acct-l").forEach(function(l){l.querySelector("span").textContent="Hi, "+a.name.split(" ")[0]})}catch(e){}})();
+/* draw cached settings now, then fetch fresh ones */
+liveDom(window.__live);
+liveGet("public/"+REGION).then(function(P){window.__liveFetched=true;if(!P){if(has("#pItem"))liveItem();return}
+  var s=JSON.stringify(P);if(s===JSON.stringify(window.__liveRaw||null)){if(has("#pItem"))liveItem();return}
+  try{localStorage.setItem(liveKey(),s)}catch(e){}window.__liveRaw=P;liveData(P);renderShop();liveDom(P)});
 
 })();

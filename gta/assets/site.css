@@ -1202,3 +1202,19 @@ footer.foot{padding-top:clamp(56px,6vw,80px)}
 
 @media(max-width:600px){.solwhat{grid-template-columns:1fr 1fr;gap:12px}.sw{padding:18px 14px;border-radius:16px}.sw b{font-size:15.5px}.sw small{font-size:13.5px}.sw-ic{width:40px;height:40px}.solspaces{grid-template-columns:1fr 1fr;gap:10px}.solspaces li{font-size:14px;padding:12px}.solhero .sh-in{padding-top:64px;padding-bottom:40px}.stc{width:240px;padding:22px 20px}}
 
+
+/* ===== sign-in link, announcement bar, added-product page ===== */
+.acct-l{display:inline-flex;align-items:center;gap:6px;color:#fff;font-weight:700;text-decoration:none;margin-right:14px}.acct-l svg{width:16px;height:16px}.acct-l:hover span{text-decoration:underline}
+.acts .acct-b{display:none;padding:0;width:46px;justify-content:center}.acts .acct-b svg{width:22px;height:22px}
+@media(max-width:900px){.acts .acct-b{display:inline-flex}}
+.annc{background:var(--ink2);color:#fff;font-size:14.5px}.annc .wrap{display:flex;align-items:center;justify-content:center;gap:10px;padding-top:10px;padding-bottom:10px;text-align:center;position:relative}
+.annc a{color:#FFB27A;font-weight:700}.annc button{all:unset;cursor:pointer;position:absolute;right:16px;font-size:22px;line-height:1;opacity:.7}.annc button:hover{opacity:1}
+.pitem{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(24px,4vw,56px);align-items:start;margin-top:20px}
+@media(max-width:860px){.pitem{grid-template-columns:1fr}}
+.pi-im{position:relative;background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px;display:grid;place-items:center;min-height:320px}.pi-im img{max-width:100%;max-height:440px;object-fit:contain}
+.pi-t h1{font:800 clamp(28px,3.6vw,42px)/1.1 var(--hd);text-transform:uppercase;margin:12px 0}.pi-t .lead{font-size:18px;color:#444;line-height:1.6}
+.pi-t .spec{width:100%;border-collapse:collapse;margin:18px 0}.pi-t .spec th,.pi-t .spec td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}.pi-t .spec th{width:42%;color:#555;font-weight:600}
+.pi-t .fe{padding-left:20px;line-height:1.8}.pi-t .src{color:#777;font-size:13.5px;margin-top:16px}
+
+.pi-im .flag{position:absolute;left:0;top:16px;background:var(--or);color:#fff;font:700 12px/1 var(--bd);text-transform:uppercase;letter-spacing:.05em;padding:7px 10px;z-index:2}
+@media(max-width:900px){.strip .acct-l{display:none}}

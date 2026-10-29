@@ -1,35 +1,68 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /quote/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /quote/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /quote/
 
 User-agent: GPTBot
 Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /quote/
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /quote/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /quote/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /quote/
 
 User-agent: Applebot
 Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /quote/
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /quote/
 
 User-agent: DuckDuckBot
 Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /quote/
 
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /quote/
 
 Sitemap: https://joramechanical.github.io/sitemap.xml
 Sitemap: https://joramechanical.github.io/gta/sitemap.xml

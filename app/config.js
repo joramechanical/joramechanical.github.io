@@ -1,1 +1,1 @@
-window.JORA_CONFIG={"firebase": null, "web3formsKey": "", "emailjs": null, "ownerEmail": "info@joramechanicalsystems.com"};window.JORA_IDX="";
+window.JORA_CONFIG={"firebase": {"apiKey": "AIzaSyDJMturZbGvEuwgg0fGtQB78FpOIYyA6DQ", "authDomain": "jora-mechanical.firebaseapp.com", "projectId": "jora-mechanical", "storageBucket": "jora-mechanical.firebasestorage.app", "messagingSenderId": "123175934787", "appId": "1:123175934787:web:376f76f5e69957fda96df6"}, "web3formsKey": "", "emailjs": null, "ownerEmail": "info@joramechanicalsystems.com"};window.JORA_IDX="";

@@ -300,13 +300,13 @@ var STANDARDS=[
    Add your own: {k:["keywords"], a:"answer", svc:"service id to book (optional)"}       */
 var CHAT = {
   name:"Jora Assistant",
-  hello:"Hi! I'm the Jora assistant for Saskatoon and Saskatchewan — here 24/7. Ask me anything, or pick an option below.",
+  hello:"Hi! I'm the Jora assistant for all of Saskatchewan — here 24/7. Ask me anything, or pick an option below.",
   chips:[["Book a free visit","book"],["Emergency repair","emergency"],["Rebates","rebate"],["Do you serve my area?","area"],["Prices","price"],["Talk to a person","human"]],
   faq:[
     {k:["emergency","no heat","no hot water","leak","gas smell","smell gas","not working","broken","urgent"],a:"If you smell gas, leave the home and call SaskEnergy's 24-hour emergency line at 1-888-700-0427 or 911 from outside first. For no heat, no cooling, no hot water or leaks, call our 24/7 line at 905-667-2823 — a technician will help right away.",svc:"repair"},
     {k:["price","cost","how much","quote","estimate","expensive","cheap"],a:"Every home is different, so we give a free written quote with equipment, labour and permits included — no surprises. It takes about 2 minutes to request.",svc:null},
     {k:["rebate","grant","incentive","saskenergy","saskpower","greener"],a:"SaskEnergy's Residential Equipment Replacement Rebate pays $650 for a 97%+ furnace, $1,000 for a tankless or condensing water heater, up to $2,000 for a boiler and $100 for an HRV. It must be installed by a TSASK-licensed contractor like us, and you apply within 90 days. We do the paperwork with you.",go:"rebates"},
-    {k:["area","serve","city","where","location","come to","saskatoon","warman","martensville","regina","prince albert","moose jaw","sask"],a:"We're based around Saskatoon and serve Warman, Martensville, Osler, Dalmeny, Langham, Delisle, Clavet and the rest of the Saskatoon region — plus Regina, Prince Albert, Moose Jaw and more across Saskatchewan. Type your postal code here and I'll check it.",go:"area"},
+    {k:["area","serve","city","where","location","come to","saskatoon","warman","martensville","regina","prince albert","moose jaw","sask"],a:"We serve all of Saskatchewan — Saskatoon, Regina, Prince Albert, Moose Jaw, North Battleford, Swift Current, Yorkton and every town in between. Type your postal code here and I'll check it.",go:"area"},
     {k:["furnace","heating","heater"],a:"We install and repair Lennox, Carrier, Trane, Goodman and Kepler furnaces — high-efficiency, sized for a Saskatchewan winter. 96%+ models can earn a SaskEnergy rebate.",svc:"furnace",go:"row-furnace"},
     {k:["air condition","ac","cooling","central air"],a:"We install Lennox, Carrier, Trane and Kepler air conditioners, and repair most brands.",svc:"ac",go:"row-ac"},
     {k:["heat pump","heatpump","mini split","mini-split","ductless"],a:"Heat pumps heat and cool in one system. We install cold-climate models from Lennox, TOSOT, Midea and Gree — and many qualify for rebates.",svc:"hp",go:"row-hp"},

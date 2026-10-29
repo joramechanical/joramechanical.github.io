@@ -338,8 +338,7 @@ var PREPOSTAL="";
 function checkPostal(raw){var v=String(raw||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
   if(!/^[A-Z]\d[A-Z](\d[A-Z]\d)?$/.test(v))return {state:"bad",msg:"Enter a postal code like S7K 1J5."};
   var pc=v.length>3?v.slice(0,3)+" "+v.slice(3):v,a=v.slice(0,2),L=v[0];
-  if(a==="S7"||["S0K","S0L"].indexOf(v.slice(0,3))>-1)return {state:"ok",pc:pc,msg:"Yes! "+pc+" is in our Saskatoon service area."};
-  if(L==="S")return {state:"maybe",pc:pc,msg:pc+" is in Saskatchewan — we travel across the province. Book or call and we'll confirm a date."};
+  if(L==="S")return {state:"ok",pc:pc,msg:"Yes! We serve "+pc+" — anywhere in Saskatchewan."};
   return {state:"no",pc:pc,msg:pc+" is outside our usual area — call us, we may still help."}}
 function pcAction(r){return r.state==="bad"?"":'<button type="button" data-book-pc="'+esc(r.pc)+'">'+(r.state==="no"?"Call 905-667-2823":"Book a free quote")+'</button><a class="pc-gmap" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(r.pc+", Saskatchewan, Canada")+'" target="_blank" rel="noopener">View on Google Maps ↗</a>'}
 if(has("#pcForm"))$("#pcForm").addEventListener("submit",function(e){e.preventDefault();var r=checkPostal($("#pcIn").value),o=$("#pcRes");o.className="pres "+(r.state==="bad"?"no":r.state);o.innerHTML=(r.state==="ok"?"✓ ":r.state==="no"?"✕ ":"")+esc(r.msg)+pcAction(r)});

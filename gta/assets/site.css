@@ -1529,3 +1529,4 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 
 .hleft{display:none!important}
 @media(max-width:560px){.jx-dots{gap:4px!important;flex-wrap:nowrap;overflow:hidden;max-width:58vw}.jx-dot{width:6px!important;height:6px!important;flex:none}.jx-dot.on{width:20px!important}.jx-controls{gap:10px!important}}
+.jx-ghost{display:none!important}

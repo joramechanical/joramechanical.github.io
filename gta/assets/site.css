@@ -1506,3 +1506,26 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 .wm small{display:block!important;white-space:nowrap}
 @media(min-width:1101px) and (max-width:1320px){.wm small{font-size:9.5px;letter-spacing:.16em}.wm b{font-size:26px}}
 
+
+/* JORA + MECHANICAL SYSTEMS stacked and centred; on phones the whole logo sits in the exact middle */
+.wm{text-align:center}
+@media(max-width:1100px){
+  .hdr .bar{grid-template-columns:84px minmax(0,1fr) 84px!important;gap:0 4px!important}
+  .hdr .logo{justify-self:center;justify-content:center}
+  .hicons{justify-self:end;gap:0}
+  .hicons .msearch,.hicons .hacct{width:42px!important;height:44px!important}
+}
+@media(max-width:340px){
+  .hdr .bar{grid-template-columns:44px minmax(0,1fr) 44px!important}
+  .hicons .hacct{display:none!important}
+}
+
+
+@media(max-width:440px){.wm b{font-size:25px!important}.wm small{font-size:8.6px!important;letter-spacing:.11em!important}.l3d{--s:40px}.hdr .logo{gap:7px}}
+@media(max-width:374px){.wm b{font-size:23px!important}.wm small{font-size:7.6px!important;letter-spacing:.07em!important}.l3d{--s:36px}.hdr .logo{gap:6px}.hdr .bar{grid-template-columns:76px minmax(0,1fr) 76px!important}.hicons .msearch,.hicons .hacct{width:38px!important}}
+
+
+@media(max-width:400px){.hdr .bar{grid-template-columns:76px minmax(0,1fr) 76px!important}.hicons .msearch,.hicons .hacct{width:38px!important}.mburger{margin-left:-8px}}
+@media(max-width:340px){.hdr .bar{grid-template-columns:44px minmax(0,1fr) 44px!important}}
+
+@media(max-width:400px) and (min-width:375px){.wm small{font-size:8.2px!important;letter-spacing:.09em!important}}

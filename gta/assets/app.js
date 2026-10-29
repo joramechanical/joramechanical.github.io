@@ -862,7 +862,7 @@ liveGet("public/"+REGION).then(function(P){window.__liveFetched=true;if(!P){if(h
   document.addEventListener("click",function(e){if(e.target.closest("[data-chat]")){var f=$("#chatFab");if(f)f.click()}})})();
 (function(){var i=$("#sIn");if(!i)return;var full=i.placeholder;function ph(){i.placeholder=innerWidth<=900?"Search services, products…":full}ph();addEventListener("resize",ph)})();
 /* mobile search button */
-(function(){var t=$(".msearch"),bar=$("#hdr");if(!t||!bar)return;t.addEventListener("click",function(){var o=!bar.classList.contains("s-on");bar.classList.toggle("s-on",o);t.setAttribute("aria-expanded",o);if(o){var m=$("#mnav"),b=$(".mburger");if(m&&!m.hidden&&b)b.click();setTimeout(function(){var i=$("#sIn");i&&i.focus()},50)}})})();
+(function(){var ts=$$(".msearch"),bar=$("#hdr");if(!ts.length||!bar)return;ts.forEach(function(t){t.addEventListener("click",function(){var o=!bar.classList.contains("s-on");bar.classList.toggle("s-on",o);ts.forEach(function(x){x.setAttribute("aria-expanded",o)});if(o){var m=$("#mnav"),b=$(".mburger");if(m&&!m.hidden&&b)b.click();setTimeout(function(){var i=$("#sIn");i&&i.focus()},50)}})})})();
 
 /* live weather chip in the top line + desktop floating Book / Call / Chat bar */
 (function(){var chip=$(".wxchip");var ICW={sun:"☀️",hot:"🔥",cloud:"☁️",fog:"🌫️",rain:"🌧️",storm:"⛈️",snow:"❄️",cold:"🥶"};

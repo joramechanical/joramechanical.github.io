@@ -120,7 +120,7 @@ function car(g,x,z,col){var c=new T.Group(),m=mstd(col,{r:.35,metalness:.1});box
   [[-.95,1.3],[.95,1.3],[-.95,-1.3],[.95,-1.3]].forEach(function(w){var wh=new T.Mesh(new T.CylinderGeometry(.36,.36,.28,18),mat("black"));wh.rotation.z=Math.PI/2;wh.position.set(w[0],.36,w[1]);wh.castShadow=true;c.add(wh)});
   box(c,.3,.12,.05,mstd(0xfff3c0,{emissive:0xfff3c0,emissiveIntensity:.6}),-.6,.7,2.11);box(c,.3,.12,.05,mstd(0xfff3c0,{emissive:0xfff3c0,emissiveIntensity:.6}),.6,.7,2.11);c.position.set(x,0,z);g.add(c)}
 function buildHome(g){MODE.parts={};LABELS=[];ground(g,140);
-  var cut=mstd(0xf4efe8,{r:.9}),cutEdge=mstd(0xF96302,{r:.5}),floorW=mstd(0xc9a273,{r:.7}),duct=mstd(0xaab3bb,{r:.3,metalness:.9});
+  var cut=mstd(0xf4efe8,{r:.9}),floorW=mstd(0xc9a273,{r:.7}),duct=mstd(0xaab3bb,{r:.3,metalness:.9});
   /* driveway + sidewalk */
   var dw=new T.Mesh(new T.PlaneGeometry(6.4,14),mat("asphalt"));dw.rotation.x=-Math.PI/2;dw.position.set(7.2,.02,9);dw.receiveShadow=true;g.add(dw);
   var sw=new T.Mesh(new T.PlaneGeometry(1.4,9),mat("conc"));sw.rotation.x=-Math.PI/2;sw.position.set(-1,.02,8.3);g.add(sw);
@@ -131,7 +131,10 @@ function buildHome(g){MODE.parts={};LABELS=[];ground(g,140);
   box(g,4,2.8,4.6,"siding",-5,.6,-1.7);              /* ground floor left-back part */
   /* furnace room: floor, inner walls, ceiling, orange section edges */
   box(g,3.9,.06,3.4,floorW,-5,.6,2.3);box(g,3.9,2.8,.06,cut,-5,.6,.62);box(g,.06,2.8,3.4,cut,-3.03,.6,2.3);box(g,3.9,.06,3.4,cut,-5,3.34,2.3);
-  box(g,4.02,.1,.1,cutEdge,-5,3.36,4.0);box(g,.1,.1,3.42,cutEdge,-6.98,3.36,2.3);box(g,.1,2.8,.1,cutEdge,-6.98,.6,4.0);box(g,.1,2.8,.1,cutEdge,-3.02,.6,4.0);box(g,.1,.1,3.42,cutEdge,-6.98,.6,2.3);box(g,4.02,.1,.1,cutEdge,-5,.6,4.0);
+  box(g,.2,2.8,3.4,"siding",-6.9,.6,2.3);
+  var tw=new T.MeshStandardMaterial({map:tex("siding"),color:0xdfeaf2,transparent:true,opacity:.18,roughness:.15,metalness:.1,depthWrite:false,side:T.DoubleSide});
+  var twm=new T.Mesh(new T.BoxGeometry(3.9,2.8,.06),tw);twm.position.set(-5,2,4.0);g.add(twm);
+  box(g,4,.08,.1,"trim",-5,.56,4.02);box(g,4,.08,.1,"trim",-5,3.36,4.02);box(g,.08,2.8,.1,"trim",-3.04,.6,4.02);
   /* the furnace */
   var F=new T.Group();box(F,1,1.7,.9,mstd(0x3a3f45,{r:.45,metalness:.5}),0,0,0);box(F,1,.08,.92,mstd(0x2a2e33),0,.85,0);
   var fw=box(F,.46,.32,.03,mat("glow"),0,.45,.46);box(F,.7,.22,.03,mstd(0x9aa1a8,{r:.4,metalness:.6}),0,1.25,.46);box(F,.16,.08,.03,mstd(0x58e07a,{emissive:0x58e07a,emissiveIntensity:.8}),.28,1.5,.46);

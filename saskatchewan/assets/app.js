@@ -904,10 +904,11 @@ liveGet("public/"+REGION).then(function(P){window.__liveFetched=true;if(!P){if(h
 function dialMode(){var d=$("#dial");if(!d)return;var live=WX.temp!=null,showSet=Date.now()<(window.__setUntil||0);
   var cool=live?WX.temp>=24:document.body.classList.contains("wx-hot");d.classList.toggle("cool",cool);
   if(showSet||!live){$("#tMode").textContent=(cool?"Cool":"Heat")+" to";$("#tSet").textContent=WX.set+"°";d.style.setProperty("--p",Math.round((WX.set-16)/12*100))}
-  else{$("#tMode").textContent=String(WX.city||"Outside").slice(0,13);$("#tSet").textContent=Math.round(WX.temp)+"°";d.style.setProperty("--p",Math.max(4,Math.min(100,Math.round((WX.temp+30)/65*100))))}
+  else{$("#tMode").textContent="Outside";$("#tSet").textContent=Math.round(WX.temp)+"°";d.style.setProperty("--p",Math.max(4,Math.min(100,Math.round((WX.temp+30)/65*100))))}
   d.title=live?"Live temperature in "+(WX.city||"your area")+": "+Math.round(WX.temp)+"°C":"";
   var cap=$("#dialCap");if(!cap){cap=document.createElement("span");cap.id="dialCap";cap.className="dial-cap";d.appendChild(cap)}
-  cap.innerHTML=live?'<i aria-hidden="true"></i>'+(showSet?"Your setting":"Live outside"):""}
+  var nm=String(WX.city||"Your area").replace(/\s*\(.*?\)\s*/g,"").trim();cap.style.fontSize=nm.length>18?"9.5px":nm.length>13?"10.5px":"";
+  cap.innerHTML=live?'<i aria-hidden="true"></i>'+(showSet?"Your setting":esc(nm)):""}
 (function(){$$("#dial .dn,#dial .up").forEach(function(b){b.addEventListener("click",function(){window.__setUntil=Date.now()+2200;dialMode();setTimeout(dialMode,2300)})});dialMode()})();
 /* ---------- office-panel content: SEO per page, blog posts, Our Work projects ---------- */
 function livePath(){try{var base=new URL(ROOT,location.href).pathname,p=location.pathname;if(p.indexOf(base)===0)p=p.slice(base.length);return p.replace(/index\.html$/,"")}catch(e){return ""}}
@@ -936,5 +937,9 @@ function liveContent(P){P=P||{};liveSEO(P);var L=livePosts(P);
       WORKDB=PR.map(function(x){return {title:x.title,city:x.city||"",date:x.date||"",cat:x.cat||"furnace",brand:x.brand||"",text:x.text||"",photos:(x.photos||[]).map(function(i){return __pimg[i]}).filter(Boolean)}});renderWork()})}}
 liveContent(window.__live);
 (function(){var t=setInterval(function(){if(window.__liveFetched){clearInterval(t);liveContent(window.__live)}},400);setTimeout(function(){clearInterval(t)},15000)})();
+
+/* hero: on desktop the live thermostat sits on the product stage; on phones it stays with the text */
+(function(){var t=$("#tstat"),st=$("#jx-stage"),cp=$(".jx-copy");if(!t||!st||!cp)return;
+  function place(){if(innerWidth>980){if(t.parentNode!==st)st.appendChild(t)}else if(t.parentNode!==cp)cp.insertBefore(t,cp.firstChild)}place();addEventListener("resize",place)})();
 
 })();

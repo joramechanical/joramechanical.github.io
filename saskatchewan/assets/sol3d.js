@@ -116,72 +116,63 @@ function plume(g,o,dir,n,spread,len,size,group){var sp=[];for(var k=0;k<n;k++){v
   updaters.push(function(dt){var cool=!MODE.heat;sp.forEach(function(s){var u=s.userData;u.t+=dt*.45;if(u.t>1){u.t-=1;u.a=Math.random()*6.28;u.r=Math.random()}var t=u.t,dy=dir[1]*len*t-(cool&&group==="room"?t*t*1.2:0);
     s.position.set(o[0]+dir[0]*len*t+Math.cos(u.a)*spread*t*u.r,o[1]+dy,o[2]+dir[2]*len*t+Math.sin(u.a)*spread*t*u.r);var sc=size*(1+t*1.6);s.scale.set(sc,sc,sc);s.material.opacity=(1-t)*.95*Math.min(1,t*8)})})}
 function label(text,pos,key){LABELS.push({text:text,p:new T.Vector3(pos[0],pos[1],pos[2]),key:key})}
-function car(g,x,z,col){var c=new T.Group(),m=mstd(col,{r:.25,metalness:.6});box(c,1.9,.7,4.2,m,0,.35,0);box(c,1.7,.6,2.2,mstd(0x22303c,{r:.1,metalness:.6}),0,1.05,-.2);
+function car(g,x,z,col){var c=new T.Group(),m=mstd(col,{r:.35,metalness:.1});box(c,1.9,.7,4.2,m,0,.35,0);box(c,1.7,.6,2.2,mstd(0x22303c,{r:.1,metalness:.6}),0,1.05,-.2);
   [[-.95,1.3],[.95,1.3],[-.95,-1.3],[.95,-1.3]].forEach(function(w){var wh=new T.Mesh(new T.CylinderGeometry(.36,.36,.28,18),mat("black"));wh.rotation.z=Math.PI/2;wh.position.set(w[0],.36,w[1]);wh.castShadow=true;c.add(wh)});
   box(c,.3,.12,.05,mstd(0xfff3c0,{emissive:0xfff3c0,emissiveIntensity:.6}),-.6,.7,2.11);box(c,.3,.12,.05,mstd(0xfff3c0,{emissive:0xfff3c0,emissiveIntensity:.6}),.6,.7,2.11);c.position.set(x,0,z);g.add(c)}
-function buildHome(g){MODE.parts={duct:[],room:[],gh:[]};LABELS=[];
-  var grass=mstd(0x4f8a2e,{r:1}),soil=mstd(0x6b4a32,{r:1}),soil2=mstd(0x55392a,{r:1}),conc=mstd(0x5c5852,{r:.95}),wood=mstd(0xc9a273,{r:.7}),duct=mstd(0xaab3bb,{r:.3,metalness:.9}),ret=mstd(0x6c737a,{r:.45,metalness:.7});
-  /* section-cut diorama: the front face cuts through the house and basement */
-  var tops=[];function topBox(w,d,x,z){var t=new T.Mesh(new T.BoxGeometry(w,.3,d),mat("snow"));t.position.set(x,-.15,z);t.receiveShadow=true;g.add(t);tops.push(t)}
-  topBox(7,14.2,-10.5,-2.9);topBox(12,14.2,10,-2.9);topBox(11,5.8,-1.5,-7.1);MODE.parts.tops=tops;MODE.parts.snowMat=mat("snow");MODE.parts.grass=grass;
-  box(g,30,.35,14.2,soil2,1,-3.95,-2.9);box(g,7,3.6,14.2,soil,-10.5,-3.6,-2.9);box(g,12,3.6,14.2,soil,10,-3.6,-2.9);box(g,11,3.6,5.8,soil,-1.5,-3.6,-7.1);
-  for(var i=0;i<6;i++){box(g,7.02,.05,.02,mstd(0x4a3122),-10.5,-3.3+i*.55,4.21);box(g,12.02,.05,.02,mstd(0x4a3122),10,-3.3+i*.55,4.21)}
-  /* basement shell */
-  box(g,11,.2,8.4,conc,-1.5,-3.3,0);box(g,11,3.2,.25,conc,-1.5,-3.3,-4.1);box(g,.25,3.2,8.4,conc,-6.9,-3.3,0);box(g,.25,3.2,8.4,conc,3.9,-3.3,0);
-  /* main floors */
-  box(g,11,.25,8,wood,-1.5,-.25,0);box(g,11,.25,8,wood,-1.5,2.95,0);box(g,11,.2,8,mstd(0xe9e4dc),-1.5,6,0);
-  /* walls: back + sides (front cut away) */
-  var w1=mstd(0xf3ece2,{r:.9}),w2=mstd(0xe6eef4,{r:.9}),w3=mstd(0xf6e8dc,{r:.9});
-  box(g,11,6,.25,w1,-1.5,0,-3.88);box(g,.25,6,8,w2,-6.88,0,0);box(g,.25,6,8,w3,3.88,0,0);
-  box(g,.18,2.95,4.2,mstd(0xece4d8),-1.5,0,-1.9);box(g,.18,3,4.2,mstd(0xece4d8),-1.5,3.2,-1.9);
-  /* outside cladding edges so it still reads as a house */
-  box(g,11.3,6.2,.12,"siding",-1.5,-.1,-4.08);box(g,.12,6.2,8.2,"siding",-7.08,-.1,0);
-  gable(g,11.6,8,3.2,"shingle",-1.5,6.2,0,.45);gableWall(g,11,3.1,"siding",-1.5,6.2,-4.1,Math.PI);
-  windowW(g,1.3,1.4,-4.3,1.2,-3.74,0,false);windowW(g,1.3,1.4,1.2,4.3,-3.74,0,false);windowW(g,1.3,1.4,-7.02,4.3,1.5,Math.PI/2,false);
-  /* furniture */
-  box(g,2.4,.5,.9,mstd(0x3d5a80,{r:.9}),-4.5,0,-.6);box(g,2.4,.6,.25,mstd(0x3d5a80,{r:.9}),-4.5,.3,-1.0);box(g,1.2,.4,.7,mstd(0x8a6a4a),-4.5,0,.9);
-  box(g,1.6,.9,.6,mstd(0xf2f2f2),1.5,0,-3.3);box(g,1.2,.75,1.2,mstd(0x9c7a55),1.2,0,0);
-  box(g,2,.45,2.4,mstd(0xf4f1ea),-4.4,3.2,-1.8);box(g,2,.25,.6,mstd(0xd96c3a),-4.4,3.65,-2.7);box(g,1.6,.7,.5,mstd(0x9c7a55),1.6,3.2,-3.4);
-  var rl=new T.PointLight(0xffe2b8,.55,12,2);rl.position.set(-2,2.4,1);g.add(rl);var rl2=new T.PointLight(0xffe2b8,.5,12,2);rl2.position.set(-2,5.5,1);g.add(rl2);
-  /* thermostat */
-  box(g,.4,.55,.08,mstd(0xffffff,{r:.4}),-1.4,1.3,0.15,Math.PI/2);var th=box(g,.24,.24,.04,mstd(0xff7a1f,{emissive:0xff6a1a,emissiveIntensity:1}),-1.36,1.42,0.15,Math.PI/2);MODE.parts.thermo=th;label("Thermostat",[-1.3,2.4,1.2],"thermo");
-  /* FURNACE + coil + plenum */
-  box(g,1.1,1.7,1,mstd(0x3a3f45,{r:.45,metalness:.5}),-5,-3.1,-2.6);var fl=box(g,.5,.35,.04,mat("glow"),-5,-2.5,-2.08);MODE.parts.flame=fl;
-  box(g,1.1,.6,1,mstd(0x5b6168,{r:.4,metalness:.6}),-5,-1.4,-2.6);box(g,.9,.7,.8,duct,-5,-.8,-2.6);
-  label("Furnace",[-5,-1.1,-2],"furnace");
-  /* supply trunk + risers + registers */
-  box(g,.9,.6,.8,duct,-5,-1.4,-2.6);box(g,7.2,.45,.6,duct,-1.5,-1.45,-2.2);
-  [-4.5,1.6].forEach(function(x){box(g,.45,.45,1.5,duct,x,-1.45,-2.95);box(g,.45,7.1,.3,duct,x,-1.45,-3.62);box(g,.8,.04,.4,mat("grille"),x,.02,-3.25);box(g,.8,.04,.4,mat("grille"),x,3.22,-3.25)});
-  /* return duct */
-  box(g,.55,3.1,.5,ret,-2.4,-3.1,-3.55);box(g,2.9,.5,.5,ret,-3.9,-2.2,-3.55);box(g,.9,.04,.6,mat("grille"),-2.4,.02,-3.1);
-  /* tankless water heater on the basement wall */
-  box(g,.7,1,.35,mstd(0xf4f4f2,{r:.35}),1.6,-2.1,-3.8);box(g,.3,.18,.02,mstd(0x58e07a,{emissive:0x58e07a,emissiveIntensity:.7}),1.6,-1.75,-3.62);
-  /* furnace vent pipes out the side wall + steam */
-  [[-2.85],[-2.35]].forEach(function(p,i){var v=new T.Mesh(new T.CylinderGeometry(.09,.09,2.3,12),mat("pvc"));v.rotation.z=Math.PI/2;v.position.set(-6.2,.25+i*.0,p[0]);g.add(v)});
-  var stG=new T.Group();g.add(stG);steam(stG,-7.5,.35,-2.85,.32,.35);MODE.parts.steam=stG;
-  /* AC condenser outside + line set to the coil */
-  box(g,1.7,.12,1.7,conc,-9.2,0,1.6);var ac=fanUnit(g,-9.2,.12,1.6,1.15,1.1);ac.userData.acHome=true;
-  var cu=mstd(0xb87333,{r:.3,metalness:.9});var l1=new T.Mesh(new T.CylinderGeometry(.05,.05,2.6,8),cu);l1.rotation.z=Math.PI/2;l1.position.set(-7.9,.6,1.2);g.add(l1);
-  label("AC unit",[-9.2,1.75,1.6],"ac");
-  /* duct air flow */
-  var A=[-5,-1.3,-2.6],B=[-5,-1.2,-2.2];
-  [[A,B,[-4.5,-1.2,-2.2],[-4.5,-1.2,-3.55],[-4.5,.15,-3.55],[-4.5,.3,-3.2]],[A,B,[-4.5,-1.2,-2.2],[-4.5,-1.2,-3.55],[-4.5,3.3,-3.55],[-4.5,3.45,-3.2]],
-   [A,B,[1.6,-1.2,-2.2],[1.6,-1.2,-3.55],[1.6,.15,-3.55],[1.6,.3,-3.2]],[A,B,[1.6,-1.2,-2.2],[1.6,-1.2,-3.55],[1.6,3.3,-3.55],[1.6,3.45,-3.2]]].forEach(function(p){ductFlow(g,p,12,1.8,.42,"duct")});
-  [[-4.5,.3,-3.2],[1.6,.3,-3.2],[-4.5,3.5,-3.2],[1.6,3.5,-3.2]].forEach(function(o){plume(g,o,[0,.85,1],20,.8,2.6,.62,"room")});
-  label("Warm air from vents",[1.6,2.2,-2.4],"vents");
-  /* GARAGE with heater */
-  box(g,6.8,.2,8.6,conc,7.3,-.2,0);box(g,6.8,3.4,.25,"siding2",7.3,0,-4.18);box(g,.25,3.4,8.6,"siding2",10.6,0,0);
-  box(g,6.8,.15,8.6,mstd(0xe9e4dc),7.3,3.4,0);gable(g,7,8.6,1.9,"shingle",7.3,3.55,0,.3);gableWall(g,6.8,1.9,"siding2",7.3,3.55,-4.2,Math.PI);
-  box(g,5.4,.08,2.6,mat("gdoor"),7.3,3.0,2.6);car(g,7,.2,0xb5121b);
-  var gh=new T.Group();box(gh,1.1,.55,.8,mstd(0xf2f2ef,{r:.4}),0,0,0);box(gh,.7,.32,.02,mat("grille"),-.12,.12,.41);box(gh,.7,.04,.03,mstd(0xc8102e),-.12,.2,.43);
-  box(gh,.06,.6,.06,mat("dark"),-.4,.55,0);box(gh,.06,.6,.06,mat("dark"),.4,.55,0);gh.position.set(8.8,2.2,-3.4);g.add(gh);
-  var gv=new T.Mesh(new T.CylinderGeometry(.08,.08,1.6,12),mat("unitD"));gv.rotation.z=Math.PI/2;gv.position.set(9.9,2.55,-3.4);g.add(gv);steam(stG,10.9,2.6,-3.4,.4,.3);
-  plume(g,[8.7,2.4,-2.95],[0,-.7,1],24,.8,4.2,.4,"gh");label("Garage heater",[8.8,3.1,-3.3],"gh");
+function buildHome(g){MODE.parts={};LABELS=[];ground(g,140);
+  var cut=mstd(0xf4efe8,{r:.9}),cutEdge=mstd(0xF96302,{r:.5}),floorW=mstd(0xc9a273,{r:.7}),duct=mstd(0xaab3bb,{r:.3,metalness:.9});
+  /* driveway + sidewalk */
+  var dw=new T.Mesh(new T.PlaneGeometry(6.4,14),mat("asphalt"));dw.rotation.x=-Math.PI/2;dw.position.set(7.2,.02,9);dw.receiveShadow=true;g.add(dw);
+  var sw=new T.Mesh(new T.PlaneGeometry(1.4,9),mat("conc"));sw.rotation.x=-Math.PI/2;sw.position.set(-1,.02,8.3);g.add(sw);
+  /* house body (2 storeys) with the front-left corner cut open to show the furnace room */
+  box(g,11,.6,8,"conc",-1.5,0,0);
+  box(g,11,3.4,8,"siding",-1.5,3.4,0);              /* upper floor */
+  box(g,7,2.8,8,"siding",.5,.6,0);                   /* ground floor right part */
+  box(g,4,2.8,4.6,"siding",-5,.6,-1.7);              /* ground floor left-back part */
+  /* furnace room: floor, inner walls, ceiling, orange section edges */
+  box(g,3.9,.06,3.4,floorW,-5,.6,2.3);box(g,3.9,2.8,.06,cut,-5,.6,.62);box(g,.06,2.8,3.4,cut,-3.03,.6,2.3);box(g,3.9,.06,3.4,cut,-5,3.34,2.3);
+  box(g,4.02,.1,.1,cutEdge,-5,3.36,4.0);box(g,.1,.1,3.42,cutEdge,-6.98,3.36,2.3);box(g,.1,2.8,.1,cutEdge,-6.98,.6,4.0);box(g,.1,2.8,.1,cutEdge,-3.02,.6,4.0);box(g,.1,.1,3.42,cutEdge,-6.98,.6,2.3);box(g,4.02,.1,.1,cutEdge,-5,.6,4.0);
+  /* the furnace */
+  var F=new T.Group();box(F,1,1.7,.9,mstd(0x3a3f45,{r:.45,metalness:.5}),0,0,0);box(F,1,.08,.92,mstd(0x2a2e33),0,.85,0);
+  var fw=box(F,.46,.32,.03,mat("glow"),0,.45,.46);box(F,.7,.22,.03,mstd(0x9aa1a8,{r:.4,metalness:.6}),0,1.25,.46);box(F,.16,.08,.03,mstd(0x58e07a,{emissive:0x58e07a,emissiveIntensity:.8}),.28,1.5,.46);
+  box(F,.9,.7,.8,mstd(0x5b6168,{r:.4,metalness:.6}),0,1.7,0);box(F,.6,.36,.5,duct,0,2.4,-.1);
+  F.scale.set(1.15,1.15,1.15);F.position.set(-5.2,.66,1.9);g.add(F);
+  var fl=new T.PointLight(0xff7a2a,1.1,4.5,2);fl.position.set(-5.2,1.2,2.6);g.add(fl);updaters.push(function(){var k=1+Math.sin(performance.now()/180)*.08+Math.sin(performance.now()/97)*.05;fl.intensity=1.05*k;fw.material.emissiveIntensity=1.5*k});
+  /* PVC exhaust/intake from furnace through the back wall + steam outside */
+  [[-5.55],[-4.85]].forEach(function(p){var v=new T.Mesh(new T.CylinderGeometry(.07,.07,1.1,12),mat("pvc"));v.position.set(p[0],2.75,1.35);g.add(v)});
+  var room=new T.PointLight(0xffe6c8,.5,6,2);room.position.set(-4.4,2.8,3.2);g.add(room);
+  gable(g,11.6,8,3.3,"shingle",-1.5,6.8,0,.45);
+  gableWall(g,11,3.2,"siding",-1.5,6.8,4.0);gableWall(g,11,3.2,"siding",-1.5,6.8,-4.0,Math.PI);
+  /* front: door with porch */
+  box(g,1.2,2.3,.14,"door",-1,.6,4.06);box(g,1.6,.12,.2,"trim",-1,2.95,4.12);box(g,3.2,.3,2,"conc",-1,0,5);
+  cyl(g,.1,.1,2.6,"trim",-2.3,.3,5.8,10);cyl(g,.1,.1,2.6,"trim",.3,.3,5.8,10);box(g,3.4,.18,2.4,"trim",-1,2.9,5.1);
+  [1.4,3.2].forEach(function(x){windowW(g,1.3,1.5,x,1.7,4.05,0,false)});[-5,-1,3].forEach(function(x){windowW(g,1.4,1.4,x,4.5,4.05,0,true)});
+  windowW(g,1.4,1.4,-7.06,4.5,-1,-Math.PI/2,true);windowW(g,1.4,1.5,-7.06,1.7,-2.2,-Math.PI/2);
+  /* furnace vents on the side wall + steam */
+  [[-7.12,1.3,-3.2],[-7.12,1.3,-3.6]].forEach(function(p,i){var pp=new T.Mesh(new T.CylinderGeometry(.08,.08,.7,14),mat("pvc"));pp.rotation.z=Math.PI/2;pp.position.set(p[0]-.3,p[1],p[2]);pp.castShadow=true;g.add(pp);if(i===0)steam(g,p[0]-.7,p[1],p[2],.32,.35)});
+  /* attached garage with the door open, garage heater glowing inside */
+  box(g,6.6,3.6,.3,"siding2",7.2,.2,-3.85);box(g,.3,3.6,8.4,"siding2",10.35,.2,.2);box(g,6.6,.3,8.4,"siding2",7.2,3.5,.2);
+  box(g,.6,3.6,.3,"siding2",4.2,.2,4.25);box(g,.6,3.6,.3,"siding2",10.2,.2,4.25);box(g,6.6,.7,.3,"siding2",7.2,3.1,4.25);
+  gable(g,6.6,8.4,2,"shingle",7.2,3.8,.2,.35);gableWall(g,6.6,2,"siding2",7.2,3.8,4.41);
+  box(g,6,.06,8,mstd(0x9a9893,{r:.9}),7.2,.2,0);box(g,5.2,.08,2.6,mat("gdoor"),7.2,3.3,2.7);box(g,5.5,.14,.18,"trim",7.2,3,4.46);
+  box(g,6,3.2,.05,mstd(0xe8e2d8,{r:.9}),7.2,.25,-3.68);box(g,.05,3.2,7.8,mstd(0xe8e2d8,{r:.9}),10.18,.25,.2);
+  car(g,6.1,.4,0xc4161f);var gi=new T.PointLight(0xfff1dc,2.2,14,1);gi.position.set(7,2.5,3.6);g.add(gi);
+  var GH=new T.Group();box(GH,1.2,.6,.9,mstd(0xe9e9e4,{r:.5}),0,0,0);box(GH,1.22,.05,.92,mstd(0x9aa1a8),0,.6,0);box(GH,.78,.36,.02,mat("grille"),-.14,.12,.46);box(GH,.78,.05,.03,mstd(0xc8102e),-.14,.22,.48);
+  box(GH,.22,.5,.02,mstd(0xc8102e,{r:.5}),.42,.05,.46);box(GH,.06,.7,.06,mat("dark"),-.45,.6,0);box(GH,.06,.7,.06,mat("dark"),.45,.6,0);
+  GH.scale.set(1.6,1.6,1.6);GH.rotation.y=-Math.PI/2;GH.position.set(9.3,1.45,2.2);g.add(GH);
+  var gl=new T.PointLight(0xff8a3a,1.2,7,2);gl.position.set(8.2,1.4,2.4);g.add(gl);updaters.push(function(){gl.intensity=1.1+Math.sin(performance.now()/260)*.1});
+  var gv=new T.Mesh(new T.CylinderGeometry(.09,.09,1.5,14),mat("unitD"));gv.rotation.z=Math.PI/2;gv.position.set(10.3,2.0,2.2);g.add(gv);steam(g,11.1,2.05,2.2,.4,.3);
+  var warm=[];for(var k=0;k<22;k++){var s=new T.Sprite(new T.SpriteMaterial({map:gtex(),color:0xff6a10,transparent:true,depthWrite:false,opacity:0}));s.userData.t=k/22;s.userData.a=Math.random()*6.28;g.add(s);warm.push(s)}
+  updaters.push(function(dt){warm.forEach(function(s){var u=s.userData;u.t+=dt*.4;if(u.t>1){u.t-=1;u.a=Math.random()*6.28}var t=u.t;s.position.set(8.5-t*2.4,1.6-t*.8+Math.sin(u.a)*.3*t,2.2+Math.cos(u.a)*.6*t);var sc=.35+t*.9;s.scale.set(sc,sc,sc);s.material.opacity=(1-t)*.5*Math.min(1,t*6)})});
+  /* gas meter */
+  box(g,.5,.7,.3,"unitD",-7.25,.9,-2.8);var gp=new T.Mesh(new T.CylinderGeometry(.04,.04,1.2,10),mat("gas"));gp.position.set(-7.18,.6,-2.8);g.add(gp);
+  /* AC condenser on pad */
+  box(g,1.6,.12,1.6,"conc",-8.8,0,-.6);fanUnit(g,-8.8,.12,-.6,1.05,1.05);
   /* yard */
-  var yard=new T.Group();g.add(yard);MODE.parts.yard=yard;spruce(yard,-12,-7,1.1);spruce(yard,14,-7,1.2);spruce(yard,-12.5,1.5,.8);
-  var caps=[];g.traverse(function(o){if(o.material===mat("snowcap"))caps.push(o)});MODE.parts.caps=caps;
-  var sf=new T.Group();g.add(sf);snowfall(sf,30,450);MODE.parts.snow=sf;
-  setMode(MODE.heat);target.set(.5,.9,0);dist=28}
+  spruce(g,-12,6,1.2);spruce(g,-13.5,-3,1.45);spruce(g,14.5,-5,1.3);spruce(g,-10,-9,1.1);spruce(g,13,8,.9);
+  snowbank(g,3.5,10,1.4,4,.7);snowbank(g,11,10.5,1.2,3,.6);snowbank(g,-6,8,3,1,.45);
+  box(g,.12,1.2,10,"trim",-15,0,0);
+  snowfall(g,50,700);target.set(1,2.4,0);dist=30}
 function setMode(heat){MODE.heat=heat;var P=MODE.parts;if(!P.duct)return;var col=heat?0xff5200:0x0f7bff;
   P.duct.concat(P.room).forEach(function(s){s.material.color.setHex(col)});P.gh.forEach(function(s){s.visible=heat;s.material.color.setHex(0xff5200)});
   if(P.tops)P.tops.forEach(function(t){t.material=heat?P.snowMat:P.grass});if(P.caps)P.caps.forEach(function(o){o.visible=heat});if(P.snow)P.snow.visible=heat;if(P.steam)P.steam.visible=heat;
@@ -247,7 +238,7 @@ function ensureRenderer(){if(renderer)return;renderer=new T.WebGLRenderer({antia
 function place(){var cp=Math.cos(pitch);camera.position.set(target.x+dist*cp*Math.sin(yaw),target.y+dist*Math.sin(pitch),target.z+dist*cp*Math.cos(yaw));camera.lookAt(target)}
 function resize(){if(!holder||!renderer)return;var w=holder.clientWidth||560,h=holder.clientHeight||340;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
 function loop(now){requestAnimationFrame(loop);if(!holder||!scene||!visible||document.hidden){last=now;return}var dt=Math.min(.05,(now-last)/1000);last=now;
-  if(cur==="home"){if(auto&&!drag){idle+=dt;if(idle>1.2){MODE.t+=dt;yaw=.3+Math.sin(MODE.t*.25)*.38;place()}}if(MODE.auto){MODE.clock=(MODE.clock||0)+dt;if(MODE.clock>8){MODE.clock=0;setMode(!MODE.heat)}}}
+  if(cur==="home"){if(auto&&!drag){idle+=dt;if(idle>1.2){MODE.t+=dt;yaw=-.25+Math.sin(MODE.t*.22)*.42;place()}}}
   else if(auto&&!drag){idle+=dt;if(idle>1.2)yaw+=dt*.12;place()}updaters.forEach(function(f){f(dt)});renderer.render(scene,camera);drawLabels()}
 function drawLabels(){var box_=holder&&holder.querySelector(".s3l");if(!box_)return;if(cur!=="home"){box_.innerHTML="";return}
   var w=holder.clientWidth,h=holder.clientHeight;if(box_.children.length!==LABELS.length){box_.innerHTML=LABELS.map(function(){return "<span></span>"}).join("")}
@@ -263,11 +254,11 @@ function mount(){var art=stage.querySelector(".sol-art"),tab=document.querySelec
   var tilt=art.querySelector(".sol-tilt");if(!tilt||tilt.querySelector(".sol3d"))return;
   try{ensureRenderer()}catch(e){return}
   art.classList.add("has3d");holder=document.createElement("div");holder.className="sol3d";holder.tabIndex=0;holder.setAttribute("role","img");holder.setAttribute("aria-label","3D model: "+(LBL[k]||k)+". Drag to turn it.");
-  holder.innerHTML='<div class="s3l" aria-hidden="true"></div>'+(k==="home"?'<div class="s3m" role="group" aria-label="Show heating or cooling"><button type="button" data-m="heat" aria-pressed="true">🔥 Heating</button><button type="button" data-m="cool" aria-pressed="false">❄️ Cooling</button></div>':'<span class="sol3d-tag">'+(LBL[k]||"")+'</span>')+'<span class="sol3d-hint">Drag to turn · 3D</span>';
+  holder.innerHTML='<div class="s3l" aria-hidden="true"></div>'+(k==="home"?'':'<span class="sol3d-tag">'+(LBL[k]||"")+'</span>')+'<span class="sol3d-hint">Drag to turn · 3D</span>';
   holder.addEventListener("click",function(e){var b=e.target.closest(".s3m button");if(!b)return;MODE.auto=false;setMode(b.dataset.m==="heat")});
 
   tilt.innerHTML="";tilt.appendChild(holder);holder.insertBefore(renderer.domElement,holder.firstChild);bind(holder);
-  if(k==="home"){yaw=.3;pitch=.13;MODE.t=0;MODE.clock=0}else if(k==="commercial"){yaw=.45;pitch=.32}else{yaw=.62;pitch=.36}
+  if(k==="home"){yaw=-.25;pitch=.26;MODE.t=0;MODE.clock=0}else if(k==="commercial"){yaw=.45;pitch=.32}else{yaw=.62;pitch=.36}
   build(k);resize()}
 new MutationObserver(mount).observe(stage,{childList:true});
 addEventListener("resize",resize);

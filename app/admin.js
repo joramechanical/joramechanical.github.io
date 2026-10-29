@@ -106,7 +106,7 @@ var rT=0;function refresh(){clearTimeout(rT);rT=setTimeout(function(){if(!S.edit
 
 /* ======================= SHELL ======================= */
 var NAV=[["Daily","today","Today",null],["Daily","req","Requests","view"],["Daily","quote","Quotations","view"],["Daily","jobs","Jobs","jobs"],["Daily","cust","Customers","view"],
-  ["Website","prod","Products","site"],["Website","hero","Hero slider","site"],["Website","site","Colours, weather & more","site"],["Office","team","Team","team"],["Office","setup","Setup & help",null]];
+  ["Website","prod","Products","site"],["Website","seo","SEO & page titles","site"],["Website","blog","Blog & advice","site"],["Website","work","Our Work photos","site"],["Website","hero","Hero slider","site"],["Website","site","Colours, weather & more","site"],["Office","team","Team","team"],["Office","setup","Setup & help",null]];
 function shell(){document.body.innerHTML=(J.demo?demoBar():"")+'<div class="mtop"><button id="mOpen" aria-label="Menu">'+ic("menu")+'</button><b>Jora office</b><span></span></div><div class="scrim" id="scrim"></div>'+
   '<div class="adm"><aside class="side" id="side"><a class="brand" href="'+SITE.gta+'" target="_blank" rel="noopener"><img src="'+LOGO+'" alt=""><span><b>Jora Mechanical</b><small>OFFICE PANEL</small></span></a><nav id="nav"></nav>'+
   '<div class="me"><b>'+esc(S.user.displayName||S.user.email)+'</b><span>'+esc(J.ROLES[S.role]||S.role)+' · '+esc(S.user.email)+'</span><br><button class="btn g sm" id="so" type="button">Sign out</button></div></aside><main class="main" id="main"></main></div><div class="toast" id="toast"></div>';
@@ -118,11 +118,11 @@ function shell(){document.body.innerHTML=(J.demo?demoBar():"")+'<div class="mtop
 function closeSide(){$("#side").classList.remove("open");$("#scrim").classList.remove("on")}
 function navCounts(){var n=S.req.filter(function(r){return (r.status||"new")==="new"&&inRegion(r)}).length,grp="",h="";
   NAV.forEach(function(x){if(x[3]&&!can(x[3]))return;if(x[0]!==grp){grp=x[0];h+='<div class="grp">'+grp+'</div>'}
-    h+='<button class="nv'+(S.tab===x[1]?" on":"")+'" data-tab="'+x[1]+'">'+ic({today:"today",req:"req",quote:"quote",jobs:"job",cust:"cust",prod:"prod",hero:"hero",site:"site",team:"team",setup:"setup"}[x[1]])+'<span>'+x[2]+'</span>'+(x[1]==="req"&&n?'<span class="cnt">'+n+'</span>':'')+'</button>'});
+    h+='<button class="nv'+(S.tab===x[1]?" on":"")+'" data-tab="'+x[1]+'">'+ic({today:"today",req:"req",quote:"quote",jobs:"job",cust:"cust",prod:"prod",hero:"hero",site:"site",team:"team",setup:"setup",seo:"site",blog:"quote",work:"prod"}[x[1]])+'<span>'+x[2]+'</span>'+(x[1]==="req"&&n?'<span class="cnt">'+n+'</span>':'')+'</button>'});
   $("#nav").innerHTML=h}
 function top(t,sub,acts,noRegion){return '<div class="top"><div><h1>'+t+'</h1>'+(sub?'<p>'+sub+'</p>':'')+'</div><div class="acts">'+(acts||"")+(noRegion?"":rsw())+'</div></div>'}
 function rsw(){return '<div class="rsw">'+[["all","Both"],["gta","GTA"],["sk","Saskatchewan"]].map(function(r){return '<button type="button" data-region="'+r[0]+'" class="'+(S.region===r[0]?"on":"")+'">'+r[1]+'</button>'}).join("")+'</div>'}
-function render(){if(!$("#main"))return;navCounts();var f={today:vToday,req:vReq,quote:vQuote,jobs:vJobs,cust:vCust,prod:vProd,hero:vHero,site:vSite,team:vTeam,setup:vSetup}[S.tab]||vToday;$("#main").innerHTML=f();after()}
+function render(){if(!$("#main"))return;navCounts();var f={today:vToday,req:vReq,quote:vQuote,jobs:vJobs,cust:vCust,prod:vProd,hero:vHero,site:vSite,team:vTeam,setup:vSetup,seo:vSeo,blog:vBlog,work:vWork}[S.tab]||vToday;$("#main").innerHTML=f();after()}
 function after(){$$("img[data-pimg]").forEach(function(i){loadPimg(i.dataset.pimg)});if(S.tab==="quote"&&S.edit)qPreview()}
 
 /* ======================= TODAY / DAY SUMMARY ======================= */
@@ -335,6 +335,86 @@ function vSite(){var r=siteRegion(),P=Object.assign(defaultPub(),pubOf(r)),co=P.
   '<p style="margin:14px 0 0"><a class="lnk" href="'+SITE[r]+'?weather=snow" target="_blank" rel="noopener">Preview snow</a> · <a class="lnk" href="'+SITE[r]+'?weather=rain" target="_blank" rel="noopener">rain</a> · <a class="lnk" href="'+SITE[r]+'?weather=hot" target="_blank" rel="noopener">heat</a> · <a class="lnk" href="'+SITE[r]+'?weather=cloud" target="_blank" rel="noopener">clouds</a></p></div>'+
   '<div class="card"><div class="acts"><button class="btn">Save — publish to the '+RNAME[r]+' website</button><button class="btn g" type="button" data-act="sitereset">Reset colours</button></div><p class="mut tiny" style="margin:10px 0 0">Visitors see the change on their next page view.</p></div></div></div></form>'}
 
+
+/* ======================= SEO & PAGE TITLES ======================= */
+S.pages={};
+function loadPages(r){if(S.pages[r])return Promise.resolve(S.pages[r]);return fetch(ROOT+(r==="sk"?"saskatchewan":"gta")+"/assets/pages.json").then(function(x){return x.json()}).then(function(L){S.pages[r]=L;return L})}
+function siteURL(r,path){return new URL(ROOT+(r==="sk"?"saskatchewan/":"gta/")+path+IDX,location.href).href}
+function vSeo(){var r=siteRegion(),L=S.pages[r];if(!L){loadPages(r).then(render).catch(function(){toast("Couldn't load the page list")});return top("SEO & page titles","Loading…")}
+  var P=Object.assign(defaultPub(),pubOf(r)),seo=P.seo||{},q=S.f.q.toLowerCase();
+  if(S.edit&&S.edit.kind==="seo"){var pg=S.edit.data,o=seo[pg.path]||{},t=o.title||pg.title,d=o.desc||pg.desc;
+    return '<button class="btn g sm back" data-act="cancel">‹ All pages</button>'+top("Edit page — Google listing",'<code>/'+esc(pg.path)+'</code>',"",true)+
+    '<div class="two"><form class="card" data-form="seo"><label class="f"><span>Page title <small>(best 50–60 characters) · <b id="tc">'+t.length+'</b></small></span><input class="inp" name="title" maxlength="70" value="'+esc(t)+'"></label>'+
+    '<label class="f"><span>Description <small>(best 140–160 characters) · <b id="dc">'+d.length+'</b></small></span><textarea class="inp" name="desc" maxlength="170">'+esc(d)+'</textarea></label>'+
+    '<div class="acts"><button class="btn">Save</button>'+(seo[pg.path]?'<button class="btn g" type="button" data-act="seoreset">Back to original</button>':'')+'<a class="btn g" href="'+siteURL(r,pg.path)+'" target="_blank" rel="noopener">Open page '+ic("ext")+'</a></div></form>'+
+    '<div class="card"><h3>Google preview</h3><div style="font-family:Arial,sans-serif;max-width:600px"><div style="color:#202124;font-size:14px">joramechanical.github.io › '+(r==="sk"?"saskatchewan":"gta")+'</div><div id="gt" style="color:#1a0dab;font-size:20px;line-height:1.3;margin:4px 0">'+esc(t)+'</div><div id="gd" style="color:#4d5156;font-size:14px;line-height:1.58">'+esc(d)+'</div></div>'+
+    '<p class="mut tiny" style="margin-top:16px">Tips: put the main service and the city first (e.g. “Furnace Installation Brampton”), keep it natural, and end with a reason to click (free quote, 24/7).</p></div></div>'}
+  var rows=L.filter(function(x){return !q||(x.path+x.title+x.desc).toLowerCase().indexOf(q)>-1});
+  return top("SEO & page titles","How each page of the "+RNAME[r]+" website shows up on Google.")+regionPick()+
+  '<div class="bar"><input class="inp" type="search" placeholder="Search pages…" data-search value="'+esc(S.f.q)+'"><span class="mut">'+rows.length+' pages · '+Object.keys(seo).length+' edited</span></div>'+
+  '<div class="card"><div class="tblw"><table class="tbl rsp"><thead><tr><th>Page</th><th>Title on Google</th><th></th></tr></thead><tbody>'+rows.map(function(x){var o=seo[x.path];return '<tr class="clk" data-seo="'+esc(x.path)+'"><td data-l="Page"><code>/'+esc(x.path)+'</code></td><td data-l="Title">'+esc((o&&o.title)||x.title)+'<br><small>'+esc(((o&&o.desc)||x.desc).slice(0,110))+'…</small></td><td>'+(o?'<span class="pill sent">edited</span>':'')+'</td></tr>'}).join("")+'</tbody></table></div></div>'}
+
+/* ======================= BLOG ======================= */
+var TAGS=["Furnaces","Air conditioning","Heat pumps","Water heaters","Rebates","Maintenance","Indoor air","Tips","News"];
+function vBlog(){var r=siteRegion(),P=Object.assign(defaultPub(),pubOf(r)),L=(P.posts||[]).slice().sort(function(a,b){return String(b.date).localeCompare(String(a.date))});
+  if(S.edit&&S.edit.kind==="post"){var x=S.edit.data,img=x._img||(x.imgDoc?S.pimg[x.imgDoc]||"":"");
+    return '<button class="btn g sm back" data-act="cancel">‹ All articles</button>'+top(x._new?"New article":"Edit article",RNAME[r]+" website","",true)+
+    '<form class="card" data-form="post"><div class="two"><div><label class="f"><span>Title</span><input class="inp" name="title" value="'+esc(x.title)+'" required placeholder="e.g. 5 signs your furnace needs replacing"></label>'+
+    '<div class="grid2"><label class="f"><span>Date</span><input class="inp" name="date" type="date" value="'+esc(x.date)+'"></label><label class="f"><span>Topic</span><input class="inp" name="tag" list="tagList" value="'+esc(x.tag)+'"><datalist id="tagList">'+TAGS.map(function(t){return '<option value="'+t+'">'}).join("")+'</datalist></label></div>'+
+    '<label class="f"><span>Short summary <small>(shows on the card and on Google)</small></span><textarea class="inp" name="excerpt" maxlength="220" style="min-height:70px">'+esc(x.excerpt)+'</textarea></label>'+
+    '<label class="f"><span>Article <small>— leave an empty line between paragraphs; start a line with # for a heading</small></span><textarea class="inp" name="body" style="min-height:320px">'+esc(x.body)+'</textarea></label></div>'+
+    '<div><div class="f"><span style="display:block;font-weight:600;margin-bottom:6px">Cover photo</span><div class="photo"><div class="pv" id="pv" style="background-size:cover;background-image:url(\''+esc(img)+'\')"></div><div><input type="file" accept="image/*" id="xfile" data-kind="post"><p class="mut tiny">Landscape photos look best. Resized automatically.</p></div></div></div>'+
+    '<label class="f" style="margin-top:16px"><span><input type="checkbox" name="off"'+(x.off?" checked":"")+'> Hide this article for now</span></label></div></div>'+
+    '<div class="acts"><button class="btn">Publish</button>'+(x._new?'':'<button class="btn red" type="button" data-act="delpost">Delete</button>')+'<button class="btn g" type="button" data-act="cancel">Cancel</button></div></form>'}
+  return top("Blog & advice","Write articles for customers. They appear on the Advice page and the home page.",'<button class="btn" data-act="newpost">'+ic("plus")+'New article</button><a class="btn g" href="'+siteURL(r,"blog/")+'" target="_blank" rel="noopener">View Advice page '+ic("ext")+'</a>')+regionPick()+
+  '<div class="card">'+(L.length?'<div class="tblw"><table class="tbl rsp"><thead><tr><th>Article</th><th>Topic</th><th>Date</th><th></th></tr></thead><tbody>'+L.map(function(x){return '<tr class="clk" data-post="'+esc(x.id)+'"><td data-l="Article"><b>'+esc(x.title)+'</b><br><small>'+esc((x.excerpt||"").slice(0,90))+'</small></td><td data-l="Topic">'+esc(x.tag||"")+'</td><td data-l="Date">'+esc(x.date||"")+'</td><td>'+(x.off?'<span class="pill">hidden</span>':'<span class="pill won">live</span>')+'</td></tr>'}).join("")+'</tbody></table></div>':'<div class="emp">No articles yet. Press <b>New article</b> — add a title, a photo and your text, then Publish.</div>')+'</div>'}
+
+/* ======================= OUR WORK PHOTOS ======================= */
+var WCATS=[["furnace","Furnace"],["ac","Air conditioner"],["hp","Heat pump"],["water","Water heater"],["gh","Garage heater"],["duct","Ductwork"],["commercial","Commercial"],["industrial","Industrial"]];
+function vWork(){var r=siteRegion(),P=Object.assign(defaultPub(),pubOf(r)),L=(P.projects||[]).slice().sort(function(a,b){return String(b.date).localeCompare(String(a.date))});
+  if(S.edit&&S.edit.kind==="proj"){var x=S.edit.data,ph=(x.photos||[]).map(function(i){return S.pimg[i]||""}).concat(x._imgs||[]);
+    return '<button class="btn g sm back" data-act="cancel">‹ All projects</button>'+top(x._new?"New project":"Edit project",RNAME[r]+" website — Our Work page","",true)+
+    '<form class="card" data-form="proj"><div class="two"><div><label class="f"><span>Title</span><input class="inp" name="title" value="'+esc(x.title)+'" required placeholder="e.g. Lennox furnace + AC replacement"></label>'+
+    '<div class="grid2"><label class="f"><span>City</span><input class="inp" name="city" value="'+esc(x.city)+'"></label><label class="f"><span>Date</span><input class="inp" name="date" type="date" value="'+esc(x.date)+'"></label>'+
+    '<label class="f"><span>Type</span><select class="inp" name="cat">'+WCATS.map(function(c){return '<option value="'+c[0]+'"'+(x.cat===c[0]?" selected":"")+'>'+c[1]+'</option>'}).join("")+'</select></label><label class="f"><span>Brand <small>(optional)</small></span><input class="inp" name="brand" value="'+esc(x.brand)+'"></label></div>'+
+    '<label class="f"><span>What we did</span><textarea class="inp" name="text">'+esc(x.text)+'</textarea></label><label class="f"><span><input type="checkbox" name="off"'+(x.off?" checked":"")+'> Hide for now</span></label></div>'+
+    '<div><span style="display:block;font-weight:600;margin-bottom:8px">Photos <small class="mut">(up to 8)</small></span><div class="wph">'+ph.map(function(src,i){return '<span class="wpi" style="background-image:url(\''+esc(src)+'\')"><button type="button" data-act="delphoto" data-i="'+i+'" aria-label="Remove photo">×</button></span>'}).join("")+'</div>'+
+    '<input type="file" accept="image/*" multiple id="xfile" data-kind="proj" style="margin-top:10px"><p class="mut tiny">Before/after and finished-install photos work best. Resized automatically.</p></div></div>'+
+    '<div class="acts"><button class="btn">Publish</button>'+(x._new?'':'<button class="btn red" type="button" data-act="delproj">Delete</button>')+'<button class="btn g" type="button" data-act="cancel">Cancel</button></div></form>'}
+  return top("Our Work photos","Show real jobs with photos on the Our Work page and the home page.",'<button class="btn" data-act="newproj">'+ic("plus")+'New project</button><a class="btn g" href="'+siteURL(r,"our-work/")+'" target="_blank" rel="noopener">View Our Work '+ic("ext")+'</a>')+regionPick()+
+  '<div class="card">'+(L.length?'<div class="plist">'+L.map(function(x){var f=(x.photos||[])[0];if(f)loadPimg(f);return '<div class="pi clk'+(x.off?" off":"")+'" data-proj="'+esc(x.id)+'" style="cursor:pointer">'+(f?'<img data-pimg="'+esc(f)+'" src="'+esc(S.pimg[f]||"")+'" alt="" style="object-fit:cover">':'<span class="ph"></span>')+'<div class="grow"><b>'+esc(x.title)+'</b><small>'+esc([x.city,x.date].filter(Boolean).join(" · "))+' · '+(x.photos||[]).length+' photo(s)</small></div></div>'}).join("")+'</div>':'<div class="emp">No projects yet. Press <b>New project</b>, add photos of a finished job, and publish.</div>')+'</div>'}
+
+function xClick(e){var b=e.target.closest("[data-seo],[data-post],[data-proj],[data-act]");if(!b)return false;var r=siteRegion(),P=Object.assign(defaultPub(),pubOf(r));
+  if(b.dataset.seo!==undefined&&!b.dataset.act){var pg=(S.pages[r]||[]).find(function(x){return x.path===b.dataset.seo});if(pg){S.edit={kind:"seo",data:pg};render()}return true}
+  if(b.dataset.post&&!b.dataset.act){var x=(P.posts||[]).find(function(q){return q.id===b.dataset.post});if(x){S.edit={kind:"post",data:JSON.parse(JSON.stringify(x))};render()}return true}
+  if(b.dataset.proj&&!b.dataset.act){var y=(P.projects||[]).find(function(q){return q.id===b.dataset.proj});if(y){(y.photos||[]).forEach(loadPimg);S.edit={kind:"proj",data:JSON.parse(JSON.stringify(y))};render()}return true}
+  var a=b.dataset.act;
+  if(a==="seoreset"){P.seo=Object.assign({},P.seo||{});delete P.seo[S.edit.data.path];savePub(r,P).then(function(){S.edit=null;render()});return true}
+  if(a==="newpost"){S.edit={kind:"post",data:{_new:true,id:"p-"+J.rid(10).toLowerCase(),title:"",date:ymd(),tag:"Tips",excerpt:"",body:"",imgDoc:"",off:false}};render();return true}
+  if(a==="delpost"){if(confirmDo("Delete this article?")){P.posts=(P.posts||[]).filter(function(q){return q.id!==S.edit.data.id});savePub(r,P).then(function(){if(S.edit.data.imgDoc)db.collection("pimg").doc(S.edit.data.imgDoc).delete().catch(function(){});S.edit=null;render()})}return true}
+  if(a==="newproj"){S.edit={kind:"proj",data:{_new:true,id:"w-"+J.rid(10).toLowerCase(),title:"",city:"",date:ymd(),cat:"furnace",brand:"",text:"",photos:[],off:false}};render();return true}
+  if(a==="delproj"){if(confirmDo("Delete this project?")){var d=S.edit.data;P.projects=(P.projects||[]).filter(function(q){return q.id!==d.id});savePub(r,P).then(function(){(d.photos||[]).forEach(function(i){db.collection("pimg").doc(i).delete().catch(function(){})});S.edit=null;render()})}return true}
+  if(a==="delphoto"){syncProj();var x2=S.edit.data,i=+b.dataset.i,n=(x2.photos||[]).length;if(i<n){x2._gone=(x2._gone||[]).concat(x2.photos.splice(i,1))}else{x2._imgs.splice(i-n,1)}render();return true}
+  return false}
+function syncProj(){var f=$("form[data-form=proj]");if(!f||!S.edit||S.edit.kind!=="proj")return;var x=S.edit.data;["title","city","date","cat","brand"].forEach(function(n){x[n]=val(f,n)});x.text=f.elements.text.value;x.off=val(f,"off")}
+function xChange(e){var t=e.target;if(t.id!=="xfile"||!t.files.length)return false;var x=S.edit.data;syncProj();
+  if(t.dataset.kind==="post"){J.shrinkImage(t.files[0],1400,.8).then(function(d){x._img=d;$("#pv").style.backgroundImage="url('"+d+"')"}).catch(function(){toast("Couldn't read that photo")})}
+  else{var files=[].slice.call(t.files,0,Math.max(0,8-(x.photos||[]).length-(x._imgs||[]).length));Promise.all(files.map(function(f){return J.shrinkImage(f,1400,.8)})).then(function(L){x._imgs=(x._imgs||[]).concat(L);render()}).catch(function(){toast("Couldn't read a photo")})}
+  return true}
+function xSubmit(e){var f=e.target,k=f.dataset.form;if(["seo","post","proj"].indexOf(k)<0)return false;var r=siteRegion(),P=Object.assign(defaultPub(),pubOf(r)),btn=f.querySelector("button:not([type=button])");if(btn)btn.disabled=true;var done=function(){if(btn)btn.disabled=false};
+  if(k==="seo"){var pg=S.edit.data;P.seo=Object.assign({},P.seo||{});var t=val(f,"title"),d=f.elements.desc.value.trim();
+    if(t===pg.title&&d===pg.desc)delete P.seo[pg.path];else P.seo[pg.path]={title:t,desc:d};savePub(r,P).then(function(){S.edit=null;render()}).finally(done);return true}
+  if(k==="post"){var x=S.edit.data,np={id:x.id,title:val(f,"title"),date:val(f,"date"),tag:val(f,"tag"),excerpt:f.elements.excerpt.value.trim(),body:f.elements.body.value,imgDoc:x.imgDoc||"",off:val(f,"off")};
+    var step=Promise.resolve();if(x._img){var iid=x.imgDoc||("img-"+J.rid(12).toLowerCase());np.imgDoc=iid;step=db.collection("pimg").doc(iid).set({data:x._img,postId:x.id,region:r,updatedAt:J.now()}).then(function(){S.pimg[iid]=x._img})}
+    step.then(function(){P.posts=(P.posts||[]).slice();var i=P.posts.findIndex(function(q){return q.id===np.id});if(i>-1)P.posts[i]=np;else P.posts.push(np);return savePub(r,P)}).then(function(){S.edit=null;render()}).catch(fail).finally(done);return true}
+  if(k==="proj"){var y=S.edit.data,ids=(y.photos||[]).slice();
+    var ups=(y._imgs||[]).map(function(d){var iid="img-"+J.rid(12).toLowerCase();ids.push(iid);return db.collection("pimg").doc(iid).set({data:d,projectId:y.id,region:r,updatedAt:J.now()}).then(function(){S.pimg[iid]=d})});
+    Promise.all(ups).then(function(){var np={id:y.id,title:val(f,"title"),city:val(f,"city"),date:val(f,"date"),cat:val(f,"cat"),brand:val(f,"brand"),text:f.elements.text.value.trim(),photos:ids,off:val(f,"off")};
+      P.projects=(P.projects||[]).slice();var i=P.projects.findIndex(function(q){return q.id===np.id});if(i>-1)P.projects[i]=np;else P.projects.push(np);return savePub(r,P)})
+    .then(function(){(y._gone||[]).forEach(function(i){db.collection("pimg").doc(i).delete().catch(function(){})});S.edit=null;render()}).catch(fail).finally(done);return true}
+  return false}
+document.addEventListener("input",function(e){var t=e.target;if(!t.closest||!t.closest("form[data-form=seo]"))return;if(t.name==="title"){$("#tc").textContent=t.value.length;$("#gt").textContent=t.value}if(t.name==="desc"){$("#dc").textContent=t.value.length;$("#gd").textContent=t.value}});
+
 /* ======================= TEAM ======================= */
 function vTeam(){var L=S.team.slice().sort(function(a,b){return (a.name||a._id).localeCompare(b.name||b._id)});
   return top("Team","Give employees and partners their own login. Each person signs in with their own email and password.","",true)+
@@ -354,7 +434,7 @@ function vSetup(){var c=J.cfg,ok='<span class="pill won">Connected</span>',no='<
 
 /* ======================= EVENTS ======================= */
 function findReq(id){return S.req.find(function(r){return r._id===id})}
-function onClick(e){var t=e.target,b;
+function onClick(e){if(xClick(e))return;var t=e.target,b;
   if((b=t.closest("[data-region]"))){S.region=b.dataset.region;try{localStorage.setItem("jora_adm_region",S.region)}catch(x){}render();return}
   if((b=t.closest("[data-siter]"))){if(S.edit&&!confirmDo("Leave without saving?"))return;S.edit=null;S.siteR=b.dataset.siter;render();return}
   if((b=t.closest("[data-fr]"))){S.f.req=b.dataset.fr;render();return}
@@ -420,7 +500,7 @@ function onClick(e){var t=e.target,b;
   if(a==="tpause"){var tm=S.team.find(function(x){return x._id===id});db.collection("team").doc(id).update({disabled:!tm.disabled}).then(function(){toast(tm.disabled?"Access resumed":"Access paused")}).catch(fail);return}
   if(a==="tdel"){if(confirmDo("Remove "+id+" from the team? They lose access right away."))db.collection("team").doc(id).delete().then(function(){toast("Removed")}).catch(fail);return}
 }
-function onChange(e){var t=e.target;
+function onChange(e){if(xChange(e))return;var t=e.target;
   if(t.id==="dayIn"){S.day=t.value||ymd();render();return}
   if(t.dataset.vis||t.dataset.hero||t.dataset.flag){var r=siteRegion(),P=Object.assign(defaultPub(),pubOf(r));P.hidden=(P.hidden||[]).slice();P.flags=Object.assign({},P.flags||{});P.hero=Object.assign({ids:[],seconds:3.5},P.hero);
     if(t.dataset.vis){var i=P.hidden.indexOf(t.dataset.vis);if(t.checked&&i>-1)P.hidden.splice(i,1);if(!t.checked&&i<0)P.hidden.push(t.dataset.vis)}
@@ -439,7 +519,7 @@ var sT=0;
 function onInput(e){var t=e.target;if(t.dataset.search!==undefined){clearTimeout(sT);sT=setTimeout(function(){S.f.q=t.value;var pos=t.selectionStart;render();var n=$("[data-search]");if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(x){}}},250);return}
   if(t.id==="hSec"){S.hEdit.seconds=+t.value;S.edit=Object.assign({kind:"hero"},S.hEdit);$("#secV").textContent=t.value;return}
   if(t.closest("#qf")){syncQuote();clearTimeout(sT);sT=setTimeout(qPreview,200)}}
-function onSubmit(e){e.preventDefault();var f=e.target,k=f.dataset.form,btn=f.querySelector("button:not([type=button])");if(btn)btn.disabled=true;var done=function(){if(btn)btn.disabled=false};
+function onSubmit(e){e.preventDefault();if(xSubmit(e))return;var f=e.target,k=f.dataset.form,btn=f.querySelector("button:not([type=button])");if(btn)btn.disabled=true;var done=function(){if(btn)btn.disabled=false};
   if(k==="rnote"){db.collection("requests").doc(f.dataset.id).update({notes:f.elements.notes.value,updatedAt:J.now()}).then(function(){toast("Notes saved")}).catch(fail).finally(done);return}
   if(k==="cust"){var c={name:val(f,"name"),phone:val(f,"phone"),email:val(f,"email").toLowerCase(),address:val(f,"address"),city:val(f,"city"),postal:val(f,"postal").toUpperCase(),region:val(f,"region")};if(!c.email&&!c.phone){toast("Add a phone number or email");done();return}
     upsertCustomer(c,{notes:f.elements.notes.value}).then(function(){S.edit=null;S.view=custKey(c);render();toast("Customer saved")}).catch(fail).finally(done);return}

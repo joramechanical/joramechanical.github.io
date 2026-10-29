@@ -80,7 +80,7 @@ function byId(id){return allProducts().find(function(p){return p.id===id})}
 liveEarly();
 
 /* header height for full-screen hero */
-function setHdr(){var h=$("#hdr").getBoundingClientRect().height+($(".strip").getBoundingClientRect().height||0);document.documentElement.style.setProperty("--hdr",Math.round($("#hdr").getBoundingClientRect().height)+"px");document.documentElement.style.setProperty("--top",Math.round(h)+"px")}
+function setHdr(){var h=$("#hdr").getBoundingClientRect().height+((document.querySelector(".topline")||{getBoundingClientRect:function(){return {height:0}}}).getBoundingClientRect().height||0);document.documentElement.style.setProperty("--hdr",Math.round($("#hdr").getBoundingClientRect().height)+"px");document.documentElement.style.setProperty("--top",Math.round(h)+"px")}
 setHdr();addEventListener("resize",setHdr);
 
 /* ======================= SERVICES / LICENCES / STEPS ======================= */
@@ -862,7 +862,7 @@ liveGet("public/"+REGION).then(function(P){window.__liveFetched=true;if(!P){if(h
   document.addEventListener("click",function(e){if(e.target.closest("[data-chat]")){var f=$("#chatFab");if(f)f.click()}})})();
 (function(){var i=$("#sIn");if(!i)return;var full=i.placeholder;function ph(){i.placeholder=innerWidth<=900?"Search services, products…":full}ph();addEventListener("resize",ph)})();
 /* mobile search button */
-(function(){var t=$(".msearch"),bar=$(".bar");if(!t||!bar)return;t.addEventListener("click",function(){var o=!bar.classList.contains("s-on");bar.classList.toggle("s-on",o);t.setAttribute("aria-expanded",o);if(o){var m=$("#mnav"),b=$(".mburger");if(m&&!m.hidden&&b)b.click();setTimeout(function(){var i=$("#sIn");i&&i.focus()},50)}})})();
+(function(){var t=$(".msearch"),bar=$("#hdr");if(!t||!bar)return;t.addEventListener("click",function(){var o=!bar.classList.contains("s-on");bar.classList.toggle("s-on",o);t.setAttribute("aria-expanded",o);if(o){var m=$("#mnav"),b=$(".mburger");if(m&&!m.hidden&&b)b.click();setTimeout(function(){var i=$("#sIn");i&&i.focus()},50)}})})();
 
 /* live weather chip in the top line + desktop floating Book / Call / Chat bar */
 (function(){var chip=$(".wxchip");var ICW={sun:"☀️",hot:"🔥",cloud:"☁️",fog:"🌫️",rain:"🌧️",storm:"⛈️",snow:"❄️",cold:"🥶"};
@@ -870,5 +870,52 @@ liveGet("public/"+REGION).then(function(P){window.__liveFetched=true;if(!P){if(h
     chip.innerHTML='<i class="wx-live" aria-hidden="true"></i><span class="wxi" aria-hidden="true">'+k+'</span><b>'+Math.round(WX.temp)+'°C</b><span>'+esc(WX.city||"")+'</span><small>Live</small>';chip.hidden=false;chip.title="Live weather — the website changes with it"}
   draw();var n=0,t=setInterval(function(){draw();if(++n>20){clearInterval(t);setInterval(draw,60000)}},2000);
   var fd=$(".fdock");if(fd){var on=false;function chk(){var s=scrollY>140;if(s!==on){on=s;document.body.classList.toggle("fd-on",s)}}addEventListener("scroll",chk,{passive:true});chk()}})();
+
+/* desktop drop-down menus (hover, click and keyboard) */
+(function(){var dds=$$(".dd");if(!dds.length)return;var hov=matchMedia("(hover:hover)").matches,tm;
+  function close(x){dds.forEach(function(d){if(d!==x){d.classList.remove("open");d.querySelector(".dd-b").setAttribute("aria-expanded","false")}})}
+  function open(d){close(d);d.classList.add("open");d.querySelector(".dd-b").setAttribute("aria-expanded","true")}
+  dds.forEach(function(d){var b=d.querySelector(".dd-b");
+    b.addEventListener("click",function(){d.classList.contains("open")?close():open(d)});
+    if(hov){d.addEventListener("mouseenter",function(){clearTimeout(tm);open(d)});d.addEventListener("mouseleave",function(){tm=setTimeout(function(){d.classList.remove("open");b.setAttribute("aria-expanded","false")},180)})}
+    d.addEventListener("click",function(e){if(e.target.closest("a,[data-open]"))close()})});
+  document.addEventListener("click",function(e){if(!e.target.closest(".dd"))close()});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")close()})})();
+/* thermostat dial: shows the real outside temperature where the visitor is (setpoint shows briefly when + / − are pressed) */
+function dialMode(){var d=$("#dial");if(!d)return;var live=WX.temp!=null,showSet=Date.now()<(window.__setUntil||0);
+  var cool=live?WX.temp>=24:document.body.classList.contains("wx-hot");d.classList.toggle("cool",cool);
+  if(showSet||!live){$("#tMode").textContent=(cool?"Cool":"Heat")+" to";$("#tSet").textContent=WX.set+"°";d.style.setProperty("--p",Math.round((WX.set-16)/12*100))}
+  else{$("#tMode").textContent=String(WX.city||"Outside").slice(0,13);$("#tSet").textContent=Math.round(WX.temp)+"°";d.style.setProperty("--p",Math.max(4,Math.min(100,Math.round((WX.temp+30)/65*100))))}
+  d.title=live?"Live temperature in "+(WX.city||"your area")+": "+Math.round(WX.temp)+"°C":"";
+  var cap=$("#dialCap");if(!cap){cap=document.createElement("span");cap.id="dialCap";cap.className="dial-cap";d.appendChild(cap)}
+  cap.innerHTML=live?'<i aria-hidden="true"></i>'+(showSet?"Your setting":"Live outside"):""}
+(function(){$$("#dial .dn,#dial .up").forEach(function(b){b.addEventListener("click",function(){window.__setUntil=Date.now()+2200;dialMode();setTimeout(dialMode,2300)})});dialMode()})();
+/* ---------- office-panel content: SEO per page, blog posts, Our Work projects ---------- */
+function livePath(){try{var base=new URL(ROOT,location.href).pathname,p=location.pathname;if(p.indexOf(base)===0)p=p.slice(base.length);return p.replace(/index\.html$/,"")}catch(e){return ""}}
+function liveMeta(sel,attr,val){var m=document.querySelector(sel);if(m&&val)m.setAttribute(attr,val)}
+function liveSEO(P){var s=(P.seo||{})[livePath()];if(!s)return;if(s.title){document.title=s.title;liveMeta('meta[property="og:title"]',"content",s.title)}
+  if(s.desc){liveMeta('meta[name="description"]',"content",s.desc);liveMeta('meta[property="og:description"]',"content",s.desc)}}
+function livePosts(P){return (P.posts||[]).filter(function(x){return x&&x.id&&!x.off&&x.title}).sort(function(a,b){return String(b.date||"").localeCompare(String(a.date||""))})}
+function livePostURL(id){return ROOT+"blog/post/"+LINKS.idx+"?id="+encodeURIComponent(id)}
+function livePostCard(x){return '<article class="post" data-live="1"><div class="pt pt-photo">'+(x.imgDoc?'<img data-pimg="'+esc(x.imgDoc)+'" src="'+((window.__pimg||{})[x.imgDoc]||liveBlank())+'" alt="">':'')+'<span>'+esc(x.tag||"Advice")+'</span></div><div class="pb"><time>'+esc(x.date||"")+'</time><h3><a href="'+livePostURL(x.id)+'">'+esc(x.title)+'</a></h3><p>'+esc(x.excerpt||"")+'</p><a class="more" href="'+livePostURL(x.id)+'">Read more ›</a></div></article>'}
+function liveContent(P){P=P||{};liveSEO(P);var L=livePosts(P);
+  [["#blogAll",99],["#blogGrid",3]].forEach(function(g){var el=$(g[0]);if(!el)return;$$('[data-live]',el).forEach(function(x){x.remove()});if(!L.length)return;
+    el.insertAdjacentHTML("afterbegin",L.slice(0,g[1]).map(livePostCard).join(""));if(g[1]<99){var cards=$$(".post",el);cards.slice(g[1]).forEach(function(c){c.remove()})}
+    L.forEach(function(x){if(x.imgDoc)livePimg(x.imgDoc)})});
+  if(has("#postItem")){var id=(/[?&]id=([^&]+)/.exec(location.search)||[])[1],x=id&&L.find(function(q){return q.id===decodeURIComponent(id)}),box=$("#postItem");
+    if(!x){box.innerHTML=window.__liveFetched?'<h1 class="h2">Article not found</h1><p>It may have been removed. <a href="'+ROOT+'blog/'+LINKS.idx+'">See all articles</a>.</p>':'<p style="color:#666">Loading…</p>'}
+    else{document.title=x.title+" | Jora Mechanical Systems";liveMeta('meta[name="description"]',"content",x.excerpt||x.title);
+      box.innerHTML='<nav class="crumbs" aria-label="Breadcrumb"><a href="'+ROOT+LINKS.idx+'">Home</a> › <a href="'+ROOT+'blog/'+LINKS.idx+'">Advice</a> › <span>'+esc(x.title)+'</span></nav>'+
+        '<article class="lpost"><span class="kick">'+esc(x.tag||"Advice")+'</span><h1>'+esc(x.title)+'</h1><p class="lp-meta">'+esc(x.date||"")+' · Jora Mechanical Systems</p>'+
+        (x.imgDoc?'<img class="lp-img" data-pimg="'+esc(x.imgDoc)+'" src="'+((window.__pimg||{})[x.imgDoc]||liveBlank())+'" alt="'+esc(x.title)+'">':'')+
+        (x.excerpt?'<p class="lead">'+esc(x.excerpt)+'</p>':'')+String(x.body||"").split(/\n\s*\n/).map(function(t){t=t.trim();if(!t)return "";return /^#{1,3}\s/.test(t)?'<h2>'+esc(t.replace(/^#+\s*/,""))+'</h2>':'<p>'+esc(t).replace(/\n/g,"<br>")+'</p>'}).join("")+
+        '<div class="phero-ctas" style="margin-top:26px"><button class="btn" type="button" data-open="quote">Get a free quote</button><a class="btn wk" href="tel:+19056672823">Call 905-667-2823</a></div></article>';
+      if(x.imgDoc)livePimg(x.imgDoc)}}
+  var PR=(P.projects||[]).filter(function(x){return x&&!x.off&&x.title});
+  if(PR.length&&(has("#wpGrid")||has("#workStrip"))&&typeof renderWork==="function"){var need=[];PR.forEach(function(x){(x.photos||[]).forEach(function(i){if(!(window.__pimg||{})[i])need.push(i)})});
+    Promise.all(need.map(function(i){return liveGet("pimg/"+i).then(function(d){if(d&&d.data)__pimg[i]=d.data})})).then(function(){
+      WORKDB=PR.map(function(x){return {title:x.title,city:x.city||"",date:x.date||"",cat:x.cat||"furnace",brand:x.brand||"",text:x.text||"",photos:(x.photos||[]).map(function(i){return __pimg[i]}).filter(Boolean)}});renderWork()})}}
+liveContent(window.__live);
+(function(){var t=setInterval(function(){if(window.__liveFetched){clearInterval(t);liveContent(window.__live)}},400);setTimeout(function(){clearInterval(t)},15000)})();
 
 })();

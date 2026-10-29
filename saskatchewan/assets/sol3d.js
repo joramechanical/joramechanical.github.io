@@ -120,7 +120,7 @@ function car(g,x,z,col){var c=new T.Group(),m=mstd(col,{r:.35,metalness:.1});box
   [[-.95,1.3],[.95,1.3],[-.95,-1.3],[.95,-1.3]].forEach(function(w){var wh=new T.Mesh(new T.CylinderGeometry(.36,.36,.28,18),mat("black"));wh.rotation.z=Math.PI/2;wh.position.set(w[0],.36,w[1]);wh.castShadow=true;c.add(wh)});
   box(c,.3,.12,.05,mstd(0xfff3c0,{emissive:0xfff3c0,emissiveIntensity:.6}),-.6,.7,2.11);box(c,.3,.12,.05,mstd(0xfff3c0,{emissive:0xfff3c0,emissiveIntensity:.6}),.6,.7,2.11);c.position.set(x,0,z);g.add(c)}
 function buildHome(g){MODE.parts={};LABELS=[];ground(g,140);
-  var cut=mstd(0xf4efe8,{r:.9}),floorW=mstd(0xc9a273,{r:.7}),duct=mstd(0xaab3bb,{r:.3,metalness:.9});
+  var cut=mstd(0xd8cfc2,{r:.9}),floorW=mstd(0x7e7a73,{r:.95}),duct=mstd(0xaab3bb,{r:.3,metalness:.9});
   /* driveway + sidewalk */
   var dw=new T.Mesh(new T.PlaneGeometry(6.4,14),mat("asphalt"));dw.rotation.x=-Math.PI/2;dw.position.set(7.2,.02,9);dw.receiveShadow=true;g.add(dw);
   var sw=new T.Mesh(new T.PlaneGeometry(1.4,9),mat("conc"));sw.rotation.x=-Math.PI/2;sw.position.set(-1,.02,8.3);g.add(sw);
@@ -132,18 +132,39 @@ function buildHome(g){MODE.parts={};LABELS=[];ground(g,140);
   /* furnace room: floor, inner walls, ceiling, orange section edges */
   box(g,3.9,.06,3.4,floorW,-5,.6,2.3);box(g,3.9,2.8,.06,cut,-5,.6,.62);box(g,.06,2.8,3.4,cut,-3.03,.6,2.3);box(g,3.9,.06,3.4,cut,-5,3.34,2.3);
   box(g,.2,2.8,3.4,"siding",-6.9,.6,2.3);
-  var tw=new T.MeshStandardMaterial({map:tex("siding"),color:0xdfeaf2,transparent:true,opacity:.18,roughness:.15,metalness:.1,depthWrite:false,side:T.DoubleSide});
+  var tw=new T.MeshStandardMaterial({color:0xcfe3f2,transparent:true,opacity:.1,roughness:.05,metalness:.2,depthWrite:false,side:T.DoubleSide});
   var twm=new T.Mesh(new T.BoxGeometry(3.9,2.8,.06),tw);twm.position.set(-5,2,4.0);g.add(twm);
   box(g,4,.08,.1,"trim",-5,.56,4.02);box(g,4,.08,.1,"trim",-5,3.36,4.02);box(g,.08,2.8,.1,"trim",-3.04,.6,4.02);
-  /* the furnace */
-  var F=new T.Group();box(F,1,1.7,.9,mstd(0x3a3f45,{r:.45,metalness:.5}),0,0,0);box(F,1,.08,.92,mstd(0x2a2e33),0,.85,0);
-  var fw=box(F,.46,.32,.03,mat("glow"),0,.45,.46);box(F,.7,.22,.03,mstd(0x9aa1a8,{r:.4,metalness:.6}),0,1.25,.46);box(F,.16,.08,.03,mstd(0x58e07a,{emissive:0x58e07a,emissiveIntensity:.8}),.28,1.5,.46);
-  box(F,.9,.7,.8,mstd(0x5b6168,{r:.4,metalness:.6}),0,1.7,0);box(F,.6,.36,.5,duct,0,2.4,-.1);
-  F.scale.set(1.15,1.15,1.15);F.position.set(-5.2,.66,1.9);g.add(F);
-  var fl=new T.PointLight(0xff7a2a,1.1,4.5,2);fl.position.set(-5.2,1.2,2.6);g.add(fl);updaters.push(function(){var k=1+Math.sin(performance.now()/180)*.08+Math.sin(performance.now()/97)*.05;fl.intensity=1.05*k;fw.material.emissiveIntensity=1.5*k});
-  /* PVC exhaust/intake from furnace through the back wall + steam outside */
-  [[-5.55],[-4.85]].forEach(function(p){var v=new T.Mesh(new T.CylinderGeometry(.07,.07,1.1,12),mat("pvc"));v.position.set(p[0],2.75,1.35);g.add(v)});
-  var room=new T.PointLight(0xffe6c8,.5,6,2);room.position.set(-4.4,2.8,3.2);g.add(room);
+  /* the furnace: high-efficiency upflow gas furnace on a pad against the back wall */
+  var cab=mstd(0x9fa4a9,{r:.4,metalness:.4}),cabD=mstd(0x858b91,{r:.42,metalness:.4}),galv=mstd(0xb7bec4,{r:.32,metalness:.85}),blk=mstd(0x1d1f22,{r:.6}),pvc=mat("pvc");
+  var F=new T.Group();
+  box(F,.95,.07,.95,mstd(0x9c9890,{r:.95}),0,0,0);                                  /* concrete pad */
+  box(F,.62,1.25,.74,cab,0,.07,0);                                                  /* cabinet */
+  box(F,.58,.62,.02,cabD,0,.11,.375);box(F,.58,.52,.02,cabD,0,.76,.375);              /* blower door + burner door */
+  for(var i=0;i<6;i++)box(F,.36,.018,.025,blk,0,.2+i*.07,.388);                       /* blower door louvres */
+  for(var j=0;j<4;j++)box(F,.3,.016,.025,blk,0,1.1+j*.05,.388);                       /* burner door louvres */
+  box(F,.16,.03,.03,blk,0,.69,.39);box(F,.16,.03,.03,blk,0,1.25,.39);                 /* door handles */
+  var sight=box(F,.12,.08,.02,mat("glow"),.17,.9,.39);                               /* flame sight glass */
+  box(F,.05,.03,.02,mstd(0x58e07a,{emissive:0x58e07a,emissiveIntensity:1}),-.2,.9,.39); /* status light */
+  box(F,.14,.05,.012,mstd(0xb5121b,{r:.4}),-.18,1.23,.39);                           /* brand plate */
+  box(F,.66,.55,.78,cab,0,1.32,0);box(F,.58,.03,.02,blk,0,1.6,.392);                  /* A-coil cabinet */
+  box(F,.66,.06,.78,galv,0,1.87,0);box(F,.56,.42,.66,galv,0,1.93,0);                 /* supply plenum */
+  box(F,.4,.3,1.55,galv,0,2.1,-.6);                                                  /* trunk into the ceiling/wall */
+  box(F,.05,.9,.7,galv,-.34,.07,0);box(F,.05,.06,.74,mstd(0x2b6cb0),-.36,.35,0);      /* return drop + filter slot */
+  box(F,.42,.35,.55,galv,-.58,.07,0);box(F,.42,1.55,.4,galv,-.58,.42,-.08);           /* return duct */
+  /* PVC intake + exhaust rising from the cabinet, then out the side wall */
+  [-.06,.14].forEach(function(z,k){var up=new T.Mesh(new T.CylinderGeometry(.045,.045,1.4,14),pvc);up.position.set(-.22,1.46,z+.2);up.scale.y=.2;F.add(up);
+    var el=new T.Mesh(new T.SphereGeometry(.05,10,8),pvc);el.position.set(-.22,1.6,z+.2);F.add(el);
+    var run=new T.Mesh(new T.CylinderGeometry(.045,.045,1.75,14),pvc);run.rotation.z=Math.PI/2;run.position.set(-1.1,1.6,z+.2);F.add(run)});
+  /* gas line with shut-off valve and drip leg */
+  var gp=new T.Mesh(new T.CylinderGeometry(.022,.022,1.05,10),blk);gp.position.set(.42,.75,.1);F.add(gp);
+  var gh=new T.Mesh(new T.CylinderGeometry(.022,.022,.14,10),blk);gh.rotation.z=Math.PI/2;gh.position.set(.36,.95,.1);F.add(gh);
+  box(F,.1,.025,.04,mstd(0xf2c200,{r:.4}),.42,1.02,.14);
+  /* condensate drain */
+  var cd=new T.Mesh(new T.CylinderGeometry(.015,.015,.5,8),pvc);cd.position.set(.25,.32,.4);F.add(cd);
+  F.scale.set(1.65,1.65,1.65);F.position.set(-4.9,.62,1.3);g.add(F);
+  var fl=new T.PointLight(0xff7a2a,.8,3,2);fl.position.set(-4.6,2.1,2.7);g.add(fl);updaters.push(function(){var k=1+Math.sin(performance.now()/180)*.1+Math.sin(performance.now()/97)*.06;fl.intensity=.75*k;sight.material.emissiveIntensity=1.6*k});
+  var room=new T.PointLight(0xfff1e0,1.1,7,1.5);room.position.set(-4.6,2.9,3.4);g.add(room);
   gable(g,11.6,8,3.3,"shingle",-1.5,6.8,0,.45);
   gableWall(g,11,3.2,"siding",-1.5,6.8,4.0);gableWall(g,11,3.2,"siding",-1.5,6.8,-4.0,Math.PI);
   /* front: door with porch */
@@ -152,7 +173,7 @@ function buildHome(g){MODE.parts={};LABELS=[];ground(g,140);
   [1.4,3.2].forEach(function(x){windowW(g,1.3,1.5,x,1.7,4.05,0,false)});[-5,-1,3].forEach(function(x){windowW(g,1.4,1.4,x,4.5,4.05,0,true)});
   windowW(g,1.4,1.4,-7.06,4.5,-1,-Math.PI/2,true);windowW(g,1.4,1.5,-7.06,1.7,-2.2,-Math.PI/2);
   /* furnace vents on the side wall + steam */
-  [[-7.12,1.3,-3.2],[-7.12,1.3,-3.6]].forEach(function(p,i){var pp=new T.Mesh(new T.CylinderGeometry(.08,.08,.7,14),mat("pvc"));pp.rotation.z=Math.PI/2;pp.position.set(p[0]-.3,p[1],p[2]);pp.castShadow=true;g.add(pp);if(i===0)steam(g,p[0]-.7,p[1],p[2],.32,.35)});
+  [[-7.12,3.26,1.3],[-7.12,3.26,1.63]].forEach(function(p,i){var pp=new T.Mesh(new T.CylinderGeometry(.08,.08,.7,14),mat("pvc"));pp.rotation.z=Math.PI/2;pp.position.set(p[0]-.3,p[1],p[2]);pp.castShadow=true;g.add(pp);if(i===0)steam(g,p[0]-.7,p[1],p[2],.32,.35)});
   /* attached garage with the door open, garage heater glowing inside */
   box(g,6.6,3.6,.3,"siding2",7.2,.2,-3.85);box(g,.3,3.6,8.4,"siding2",10.35,.2,.2);box(g,6.6,.3,8.4,"siding2",7.2,3.5,.2);
   box(g,.6,3.6,.3,"siding2",4.2,.2,4.25);box(g,.6,3.6,.3,"siding2",10.2,.2,4.25);box(g,6.6,.7,.3,"siding2",7.2,3.1,4.25);
@@ -175,7 +196,7 @@ function buildHome(g){MODE.parts={};LABELS=[];ground(g,140);
   spruce(g,-12,6,1.2);spruce(g,-13.5,-3,1.45);spruce(g,14.5,-5,1.3);spruce(g,-10,-9,1.1);spruce(g,13,8,.9);
   snowbank(g,3.5,10,1.4,4,.7);snowbank(g,11,10.5,1.2,3,.6);snowbank(g,-6,8,3,1,.45);
   box(g,.12,1.2,10,"trim",-15,0,0);
-  snowfall(g,50,700);target.set(1,2.4,0);dist=30}
+  snowfall(g,50,700);target.set(-.5,2.2,0);dist=27}
 function setMode(heat){MODE.heat=heat;var P=MODE.parts;if(!P.duct)return;var col=heat?0xff5200:0x0f7bff;
   P.duct.concat(P.room).forEach(function(s){s.material.color.setHex(col)});P.gh.forEach(function(s){s.visible=heat;s.material.color.setHex(0xff5200)});
   if(P.tops)P.tops.forEach(function(t){t.material=heat?P.snowMat:P.grass});if(P.caps)P.caps.forEach(function(o){o.visible=heat});if(P.snow)P.snow.visible=heat;if(P.steam)P.steam.visible=heat;

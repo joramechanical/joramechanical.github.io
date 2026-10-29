@@ -852,5 +852,13 @@ liveDom(window.__live);
 liveGet("public/"+REGION).then(function(P){window.__liveFetched=true;if(!P){if(has("#pItem"))liveItem();return}
   var s=JSON.stringify(P);if(s===JSON.stringify(window.__liveRaw||null)){if(has("#pItem"))liveItem();return}
   try{localStorage.setItem(liveKey(),s)}catch(e){}window.__liveRaw=P;liveData(P);renderShop();liveDom(P)});
+/* mobile menu + bottom bar chat button */
+(function(){var b=$(".mburger"),m=$("#mnav");if(b&&m){function set(o){m.hidden=!o;b.setAttribute("aria-expanded",o);b.setAttribute("aria-label",o?"Close menu":"Open menu");document.body.classList.toggle("mnav-on",o)}
+  b.addEventListener("click",function(){set(m.hidden)});
+  m.addEventListener("click",function(e){var g=e.target.closest(".mg-b");if(g){var ul=document.getElementById(g.getAttribute("aria-controls")),o=g.getAttribute("aria-expanded")!=="true";g.setAttribute("aria-expanded",o);ul.hidden=!o;g.parentNode.classList.toggle("open",o);return}if(e.target.closest("a,[data-open]"))set(false)});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!m.hidden){set(false);b.focus()}});
+  addEventListener("resize",function(){if(innerWidth>900&&!m.hidden)set(false)})}
+  document.addEventListener("click",function(e){if(e.target.closest("[data-chat]")){var f=$("#chatFab");if(f)f.click()}})})();
+(function(){var i=$("#sIn");if(!i)return;var full=i.placeholder;function ph(){i.placeholder=innerWidth<=900?"Search services, products…":full}ph();addEventListener("resize",ph)})();
 
 })();

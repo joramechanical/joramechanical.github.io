@@ -351,14 +351,14 @@ function wxClassify(code,temp,day){var k;if(code>=95)k="storm";else if((code>=71
 function wxSeason(){var d=new Date(),m=d.getMonth(),h=d.getHours();return {kind:m<=1||m===11?"snow":m===2||m===3||m===10?"cloud":m>=5&&m<=7?"hot":"sun",night:h<7||h>=19}}
 async function wxJSON(url,ms){var c=new AbortController(),t=setTimeout(function(){c.abort()},ms||5000);try{var r=await fetch(url,{signal:c.signal});return await r.json()}finally{clearTimeout(t)}}
 async function wxGeo(){
-  try{var g=await wxJSON("https://get.geojs.io/v1/ip/geo.json",3500);if(g&&g.latitude&&(g.country_code==="CA"||g.country_code==="US"))return {lat:+g.latitude,lon:+g.longitude,city:g.city||"",region:g.region||""}}catch(e){}
-  try{var h=await wxJSON("https://ipwho.is/?fields=success,latitude,longitude,country_code,city,region",3500);if(h&&h.success&&(h.country_code==="CA"||h.country_code==="US"))return {lat:+h.latitude,lon:+h.longitude,city:h.city||"",region:h.region||""}}catch(e){}
+  try{var g=await wxJSON("https://get.geojs.io/v1/ip/geo.json",3500);if(g&&g.latitude&&(g.country_code==="CA"&&g.region==="Ontario"))return {lat:+g.latitude,lon:+g.longitude,city:g.city||"",region:g.region||""}}catch(e){}
+  try{var h=await wxJSON("https://ipwho.is/?fields=success,latitude,longitude,country_code,city,region",3500);if(h&&h.success&&(h.country_code==="CA"&&h.region==="Ontario"))return {lat:+h.latitude,lon:+h.longitude,city:h.city||"",region:h.region||""}}catch(e){}
   return {lat:43.589,lon:-79.644,city:"Mississauga",region:"Ontario",fallback:true}}
-async function wxLoad(){var c0=null;try{c0=JSON.parse(sessionStorage.getItem("jora_wx")||"null")}catch(e){}
+async function wxLoad(){var c0=null;try{c0=JSON.parse(sessionStorage.getItem("jora_wx_gta")||"null")}catch(e){}
   if(c0&&c0.live&&Date.now()-c0.ts<30*60*1000){Object.assign(WX,c0);wxApply();return}
   var loc=await wxGeo();WX.city=loc.city;WX.region=loc.region;
   try{var j=await wxJSON("https://api.open-meteo.com/v1/forecast?latitude="+loc.lat+"&longitude="+loc.lon+"&current=temperature_2m,weather_code,is_day&timezone=auto",5000);var c=j.current;var r=wxClassify(c.weather_code,c.temperature_2m,c.is_day);WX.kind=r.kind;WX.night=r.night;WX.temp=c.temperature_2m;WX.code=c.weather_code;WX.live=true;
-    try{sessionStorage.setItem("jora_wx",JSON.stringify({kind:WX.kind,night:WX.night,temp:WX.temp,code:WX.code,city:WX.city,region:WX.region,live:true,ts:Date.now()}))}catch(e){}}
+    try{sessionStorage.setItem("jora_wx_gta",JSON.stringify({kind:WX.kind,night:WX.night,temp:WX.temp,code:WX.code,city:WX.city,region:WX.region,live:true,ts:Date.now()}))}catch(e){}}
   catch(e){var s=wxSeason();WX.kind=s.kind;WX.night=s.night}
   window.JORA_WX=WX;wxApply()}
 var WXFORCE=(function(){var m=/[?&#]weather=(\w+)/.exec(location.search+location.hash);return m?m[1]:null})();
@@ -415,8 +415,8 @@ function fxDraw(){var c=fx.ctx,w=fx.w,h=fx.h,m=fx.mode;
   if(m==="none"){fx.run=false;return}
   requestAnimationFrame(fxDraw)}
 addEventListener("resize",function(){var m=fx.mode;fx.mode="";fxSize();wxApply()});
-(function(){try{var c0=JSON.parse(sessionStorage.getItem("jora_wx")||"null");if(c0)Object.assign(WX,c0)}catch(e){}})();wxApply();wxLoad().catch(function(){var s=wxSeason();WX.kind=s.kind;WX.night=s.night;wxApply()});
-setInterval(function(){try{sessionStorage.removeItem("jora_wx")}catch(e){}wxLoad().catch(function(){})},30*60*1000);
+(function(){try{var c0=JSON.parse(sessionStorage.getItem("jora_wx_gta")||"null");if(c0)Object.assign(WX,c0)}catch(e){}})();wxApply();wxLoad().catch(function(){var s=wxSeason();WX.kind=s.kind;WX.night=s.night;wxApply()});
+setInterval(function(){try{sessionStorage.removeItem("jora_wx_gta")}catch(e){}wxLoad().catch(function(){})},30*60*1000);
 
 /* ======================= CAPABILITIES (db / user / assets / downloads) ======================= */
 var CAP={db:null,user:null,assets:null,dl:null,canWrite:false,admin:false};

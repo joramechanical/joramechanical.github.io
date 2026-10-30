@@ -1686,3 +1686,12 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 /* narrower desktops: arrows + counter only, so the slider controls never sit under the chat button */
 @media(min-width:981px) and (max-width:1299px){.jx-hero .jx-dots{display:none}}
 
+
+/* product type + brand logo on one line, under the thermostat */
+.jx-cat{display:none}
+@media(min-width:981px){
+  .jx-cat{display:inline-flex;align-items:center;vertical-align:middle;margin-right:14px;padding-right:16px;border-right:2px solid var(--line);height:34px;font:800 clamp(18px,1.5vw,22px)/1 var(--hd);letter-spacing:.08em;text-transform:uppercase;color:var(--or)}
+  #jx-info .jx-brand{vertical-align:middle}
+  body.wx-night .jx-cat{border-right-color:rgba(255,255,255,.25)}
+}
+

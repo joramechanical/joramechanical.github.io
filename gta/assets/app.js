@@ -1003,4 +1003,11 @@ function fxDraw(now){var c=fx.ctx,w=fx.w,h=fx.h,m=fx.mode;
   else if(m==="stars"){fx.parts.forEach(function(p){p.p+=(.012+p.s*.025)*dt;var a=.15+Math.pow(Math.abs(Math.sin(p.p)),2)*.7;c.fillStyle="rgba(255,255,255,"+a.toFixed(2)+")";var s=.8+p.s*1.5;c.beginPath();c.arc(p.x,p.y*.7,s/1.6,0,6.28);c.fill()})}
   requestAnimationFrame(fxDraw)}
 
+/* hero model name: shrink only when a long model name would not fit on one line (desktop) */
+(function(){var t=$("#jx-title");if(!t)return;
+  function fit(){if(innerWidth<=980){t.style.removeProperty("--tfs");return}var s=t.querySelector("span");if(!s)return;t.style.removeProperty("--tfs");
+    var cw=t.clientWidth,sw=s.scrollWidth;if(sw>cw&&cw>0){var fs=parseFloat(getComputedStyle(s).fontSize);t.style.setProperty("--tfs",Math.max(28,Math.floor(fs*cw/sw)-1)+"px")}}
+  new MutationObserver(fit).observe(t,{childList:true,subtree:true,characterData:true});addEventListener("resize",fit);fit();
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit)})();
+
 })();

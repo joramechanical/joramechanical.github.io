@@ -1696,6 +1696,21 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 }
 
 
+/* model details: the type + brand row names the product, so the big line is just the model, sized to fit */
+@media(min-width:981px){
+  .jx-title{font-size:0!important;line-height:0;margin:clamp(12px,2vh,18px) 0 clamp(8px,1.4vh,12px)!important}
+  .jx-title span{display:block;white-space:nowrap;font-size:var(--tfs,clamp(40px,min(4.4vw,8vh),66px));line-height:1;letter-spacing:-.005em;color:var(--or)}
+  .jx-desc{max-width:46ch;text-wrap:pretty;font-size:17px}
+  body.wx-night .jx-title span{color:#FF7A1F}
+}
+
+
+/* products further back fade out softly before they reach the text column */
+@media(min-width:981px){
+  .jx-track{perspective:1500px;perspective-origin:50% 38%;-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 7%,#000 20%,#000 94%,rgba(0,0,0,.4) 100%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 7%,#000 20%,#000 94%,rgba(0,0,0,.4) 100%)}
+}
+
+
 /* ===== weather v2: Jora colours under the 3D showroom, tinted gently by the real weather ===== */
 .jx-hero,body.wx-sun .jx-hero{background:
   radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.13),transparent 64%),
@@ -1721,9 +1736,9 @@ body.wx-snow .jx-hero{background:
 body.wx-snow .jx-hero::after{display:none}
 body.wx-rain .jx-hero::before,body.wx-storm .jx-hero::before,body.wx-snow .jx-hero::before{background-image:linear-gradient(rgba(70,85,105,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(70,85,105,.08) 1px,transparent 1px)!important}
 body.wx-night .jx-hero{background:
-  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.20),transparent 64%),
-  radial-gradient(900px 600px at 0% 100%,rgba(194,65,12,.10),transparent 60%),
-  linear-gradient(180deg,#13161C 0%,#1B1F27 60%,#20242D 100%)}
+  radial-gradient(720px 500px at 70% 58%,rgba(249,99,2,.30),transparent 66%),
+  radial-gradient(1000px 520px at 30% 0%,rgba(255,214,170,.11),transparent 70%),
+  linear-gradient(180deg,#463A33 0%,#3B302A 55%,#312823 100%)}
 body.wx-night .jx-hero::before{background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px)!important;opacity:1}
 
 /* sunny: a soft, real-looking sun glow with gentle light beams instead of the striped cartoon sun */
@@ -1747,5 +1762,8 @@ body.wx-snow .hdr::after,body.wx-snow .qb::before,body.wx-snow .steps li::before
 body.wx-snow .btn{box-shadow:none}
 body.wx-snow #wxpage .wx-tint{background:linear-gradient(rgba(225,236,250,.10),rgba(255,255,255,0))}
 body.wx-night .jx-feats li{background:none!important;border:0!important}
+body.wx-night #wxpage .wx-tint{background:linear-gradient(rgba(30,20,10,.06),rgba(30,20,10,.02))}
+body.wx-night .jx-desc{color:#E9DDD3}
+body.wx-night .jx-arrow{border-color:rgba(255,255,255,.85)}
 @media(prefers-reduced-motion:reduce){#wxpage .wx-sunball::after{animation:none}}
 

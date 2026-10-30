@@ -1575,3 +1575,25 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 @media(min-width:1101px) and (max-width:1360px){.dnav .dd-b,.dnav .dn-l{font-size:14.5px!important;letter-spacing:.05em!important}}
 @media(min-width:1101px) and (max-width:1200px){.dnav .dd-b,.dnav .dn-l{font-size:13.5px!important;letter-spacing:.03em!important}}
 
+
+/* ===== desktop v7: three calm bands — warm booking band, white logo row, white product bar between two fine lines ===== */
+@media(min-width:1101px){
+  .topline .wrap,.hdr .wrap.bar,.hsearch,.dd-in{max-width:1400px!important;padding-left:32px!important;padding-right:32px!important}
+  .topline{background:#FCE9DA;color:var(--ink2);border-bottom:1px solid #F3D3BB}
+  .topline::after{display:none}
+  .topline .wrap{min-height:60px;padding-top:10px;padding-bottom:10px}
+  .tl-msg{color:#5A2A0C;font:500 17px/1.2 var(--bd);gap:18px}
+  .tl-msg b{color:var(--ember)}
+  .tl-book{padding:11px 20px;border-radius:8px;font-size:15.5px;animation:none;box-shadow:0 4px 12px rgba(194,65,12,.25)}
+  .wxchip:not([hidden]){background:#fff;border-color:#F3D3BB;color:var(--ink2)}.wxchip span{color:var(--mut)}.wxchip small{color:#1F9D3A}
+  .tl-call{color:var(--ink2)}.tl-call span{color:var(--ember)}.tl-call:hover b{color:var(--or)}
+  .hdr{background:#fff;box-shadow:0 8px 24px rgba(20,22,26,.05)}
+  .hdr .bar{padding-top:22px!important}
+  .dutil{gap:34px}
+  .dnav{margin-top:22px!important;margin-bottom:18px;border-top:1px solid #E4E1DD;border-bottom:1px solid #E4E1DD}
+  .dnav .dd-b,.dnav .dn-l{padding:20px 0!important}
+  .dnav .dd-b::after,.dnav .dn-l::after{bottom:-1px}
+}
+@media(min-width:1101px) and (max-width:1300px){.dnav .dn-l[href*="plumbing"],.dnav .dn-l[href*="boilers"]{display:none!important}}
+
+@media(min-width:1101px){.topline{position:relative;z-index:95}}

@@ -1725,3 +1725,57 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
   body.wx-night .jx-cat{border-right-color:rgba(255,255,255,.25)}
 }
 
+
+/* ===== weather v2: Jora colours under the 3D showroom, tinted gently by the real weather ===== */
+.jx-hero,body.wx-sun .jx-hero{background:
+  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.13),transparent 64%),
+  radial-gradient(900px 620px at 100% 0%,rgba(255,200,130,.30),transparent 60%),
+  linear-gradient(180deg,#FFFDF9 0%,#FBF4EB 58%,#F5E9DB 100%)}
+.jx-hero::before{background-image:linear-gradient(rgba(194,65,12,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(194,65,12,.09) 1px,transparent 1px)!important}
+body.wx-hot .jx-hero{background:
+  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.16),transparent 64%),
+  radial-gradient(1000px 700px at 100% 0%,rgba(255,184,70,.45),transparent 62%),
+  linear-gradient(180deg,#FFF9EF 0%,#FDEBD3 100%)}
+body.wx-cloud .jx-hero,body.wx-fog .jx-hero{background:
+  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.10),transparent 64%),
+  linear-gradient(180deg,#FBFAF8 0%,#F1EDE8 60%,#E8E3DD 100%)}
+body.wx-rain .jx-hero{background:
+  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.10),transparent 64%),
+  linear-gradient(180deg,#F1F2F4 0%,#E4E7EB 60%,#D9DDE2 100%)}
+body.wx-storm .jx-hero{background:
+  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.12),transparent 64%),
+  linear-gradient(180deg,#E6E9ED 0%,#D3D8DE 60%,#C6CCD3 100%)}
+body.wx-snow .jx-hero{background:
+  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.10),transparent 64%),
+  linear-gradient(180deg,#FFFFFF 0%,#F4F7FA 60%,#E9EEF4 100%)}
+body.wx-snow .jx-hero::after{display:none}
+body.wx-rain .jx-hero::before,body.wx-storm .jx-hero::before,body.wx-snow .jx-hero::before{background-image:linear-gradient(rgba(70,85,105,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(70,85,105,.08) 1px,transparent 1px)!important}
+body.wx-night .jx-hero{background:
+  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.20),transparent 64%),
+  radial-gradient(900px 600px at 0% 100%,rgba(194,65,12,.10),transparent 60%),
+  linear-gradient(180deg,#13161C 0%,#1B1F27 60%,#20242D 100%)}
+body.wx-night .jx-hero::before{background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px)!important;opacity:1}
+
+/* sunny: a soft, real-looking sun glow with gentle light beams instead of the striped cartoon sun */
+#wxpage .wx-rays{display:none!important}
+#wxpage .wx-sunball{right:-260px!important;top:-300px!important;width:760px!important;height:760px!important;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,250,232,.95) 0 5%,rgba(255,226,160,.6) 12%,rgba(255,200,120,.26) 28%,rgba(255,180,90,.08) 46%,rgba(255,170,80,0) 62%)}
+#wxpage .wx-sunball::after{inset:-25%;border-radius:50%;
+  background:conic-gradient(from 190deg,transparent 0deg,rgba(255,230,170,.20) 6deg,transparent 14deg,transparent 22deg,rgba(255,230,170,.14) 27deg,transparent 36deg,transparent 47deg,rgba(255,230,170,.18) 52deg,transparent 61deg,transparent 74deg,rgba(255,230,170,.12) 78deg,transparent 88deg,transparent 360deg);
+  filter:blur(10px);-webkit-mask-image:radial-gradient(circle,#000 12%,transparent 64%);mask-image:radial-gradient(circle,#000 12%,transparent 64%);animation:wxbeam 18s ease-in-out infinite alternate}
+@keyframes wxbeam{from{transform:rotate(-6deg);opacity:.75}to{transform:rotate(8deg);opacity:1}}
+body.wx-hot #wxpage .wx-sunball{filter:saturate(1.25) brightness(1.03)}
+body.wx-sun #wxpage .wx-tint{background:radial-gradient(1000px 760px at 100% 0%,rgba(255,214,140,.16),transparent 60%)}
+body.wx-hot #wxpage .wx-tint{background:radial-gradient(1100px 800px at 100% 0%,rgba(255,190,90,.24),transparent 62%),linear-gradient(rgba(255,170,60,.04),rgba(255,120,0,.03))}
+
+/* rain: a soft grey sky, nothing cartoonish */
+body.wx-rain #wxpage .wx-tint{background:linear-gradient(rgba(60,75,95,.07),rgba(60,75,95,.03))}
+body.wx-storm #wxpage .wx-tint{background:linear-gradient(rgba(30,40,60,.14),rgba(30,40,60,.06))}
+
+/* snow: falling flakes only — no painted snow caps on buttons and cards */
+body.wx-snow .hdr::after,body.wx-snow .qb::before,body.wx-snow .steps li::before,body.wx-snow .post::before,body.wx-snow .pc .pim::before{display:none!important}
+body.wx-snow .btn{box-shadow:none}
+body.wx-snow #wxpage .wx-tint{background:linear-gradient(rgba(225,236,250,.10),rgba(255,255,255,0))}
+body.wx-night .jx-feats li{background:none!important;border:0!important}
+@media(prefers-reduced-motion:reduce){#wxpage .wx-sunball::after{animation:none}}
+

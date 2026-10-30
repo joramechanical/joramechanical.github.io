@@ -1564,3 +1564,14 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 @media(min-width:1101px) and (max-width:1360px){.du-trust{display:none}.dutil{gap:24px}.dnav .dd-b,.dnav .dn-l{font-size:15.5px!important}}
 @media(min-width:1101px) and (max-width:1200px){.dnav .dn-l[href*="indoor-air"]{display:none!important}.wm b{font-size:30px}.l3d{--s:54px}}
 
+
+/* desktop product bar: Jora's own type — condensed, uppercase, tracked */
+@media(min-width:1101px){
+  .dnav .dd-b,.dnav .dn-l{font:700 15.5px/1 var(--hd)!important;letter-spacing:.07em!important;text-transform:uppercase;padding:19px 0!important}
+  .dnav{margin-top:16px}
+  .du-hot{display:inline-flex;align-items:center;gap:8px}
+  .du-tag{width:24px;height:24px;border-radius:7px;background:var(--or);color:#fff;display:grid;place-items:center;font:800 13px/1 var(--hd)}
+}
+@media(min-width:1101px) and (max-width:1360px){.dnav .dd-b,.dnav .dn-l{font-size:14.5px!important;letter-spacing:.05em!important}}
+@media(min-width:1101px) and (max-width:1200px){.dnav .dd-b,.dnav .dn-l{font-size:13.5px!important;letter-spacing:.03em!important}}
+

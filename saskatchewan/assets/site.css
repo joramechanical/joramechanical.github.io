@@ -1627,3 +1627,20 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 @media(min-width:1101px) and (max-width:1300px){.dnav .dn-l[href*="plumbing"],.dnav .dn-l[href*="boilers"]{display:none!important}}
 
 @media(min-width:1101px){.topline{position:relative;z-index:95}}
+
+/* one shared page edge: header bands line up exactly with the hero and every section below */
+@media(min-width:1101px){
+  .topline .wrap,.hdr .wrap.bar,.hsearch,.dd-in{max-width:1280px!important;padding-left:16px!important;padding-right:16px!important}
+}
+
+
+/* desktop: header gets slimmer once the page is scrolled */
+@media(min-width:1101px){
+  .hdr .bar,.l3d,.wm b,.dnav,.dnav .dd-b,.dnav .dn-l{transition:padding .2s,margin .2s,font-size .2s,width .2s,height .2s}
+  body.h-slim .hdr .bar{padding-top:10px!important}
+  body.h-slim .l3d{--s:46px}
+  body.h-slim .wm b{font-size:28px}
+  body.h-slim .dnav{margin-top:10px!important;margin-bottom:0}
+  body.h-slim .dnav .dd-b,body.h-slim .dnav .dn-l{padding:14px 0!important}
+}
+

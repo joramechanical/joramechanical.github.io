@@ -939,5 +939,6 @@ liveContent(window.__live);
 (function(){var t=setInterval(function(){if(window.__liveFetched){clearInterval(t);liveContent(window.__live)}},400);setTimeout(function(){clearInterval(t)},15000)})();
 
 
+(function(){var on=false;function chk(){var s=scrollY>90;if(s!==on){on=s;document.body.classList.toggle("h-slim",s)}}addEventListener("scroll",chk,{passive:true});chk()})();
 
 })();

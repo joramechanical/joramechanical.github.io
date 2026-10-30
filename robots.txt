@@ -64,6 +64,6 @@ Disallow: /admin/
 Disallow: /account/
 Disallow: /quote/
 
-Sitemap: https://joramechanical.github.io/sitemap.xml
-Sitemap: https://joramechanical.github.io/gta/sitemap.xml
-Sitemap: https://joramechanical.github.io/saskatchewan/sitemap.xml
+Sitemap: https://joramechanicalsystems.com/sitemap.xml
+Sitemap: https://joramechanicalsystems.com/gta/sitemap.xml
+Sitemap: https://joramechanicalsystems.com/saskatchewan/sitemap.xml

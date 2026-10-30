@@ -1817,3 +1817,16 @@ body.wx-night.wx-sun .jx-hero::after,body.wx-night.wx-cold .jx-hero::after{conte
   .stc small{display:none!important}
 }
 
+
+/* equipment section: categories first, the brand logos move to a tidy strip at the end */
+#shop>.wrap{display:flex;flex-direction:column}
+#shop .sh{order:1}#shop #prows{order:2}
+#shop .logowall{order:3;margin-top:clamp(22px,3vw,36px)!important}
+#shop .logowall::before{content:"Brands we install & service";grid-column:1/-1;display:block;text-align:center;margin:0 0 6px;font:800 12.5px/1.2 var(--hd);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+/* row headers never overlap: title on its own line on phones, View all underneath */
+@media(max-width:700px){
+  .prow-h{grid-template-columns:1fr auto!important;grid-template-areas:"t t" "vall vall" "chips chips"!important;gap:10px!important}
+  .prow-h .t h3{font-size:22px!important;line-height:1.1!important}
+  .prow-h .vall{justify-self:start;padding:7px 12px!important;font-size:12.5px!important}
+}
+

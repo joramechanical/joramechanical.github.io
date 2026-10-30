@@ -1810,3 +1810,9 @@ body.wx-night.wx-sun .jx-hero::after,body.wx-night.wx-cold .jx-hero::after{conte
 /* desktop slider: no ring and no dots under the products — just the arrows and the counter */
 @media(min-width:981px){.jx-hero .jx-ring,.jx-hero .jx-dots{display:none!important}}
 
+
+/* phones and tablets too: no ring, no dots, no counter under the products — just the arrows */
+.jx-hero .jx-ring,.jx-hero .jx-dots,.jx-hero .jx-count{display:none!important}
+.jx-hero .jx-controls{gap:18px}
+
+@media(max-width:980px){body.wx-night .jx-hero::after{display:none!important}}

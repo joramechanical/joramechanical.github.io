@@ -1848,3 +1848,9 @@ body.wx-night.wx-sun .jx-hero::after,body.wx-night.wx-cold .jx-hero::after{conte
 .stc b{font-weight:900!important}
 .stc-l{font-weight:800!important;color:var(--ink2)!important}
 
+
+/* "Book in 2 minutes": a clear badge, not tiny small-caps */
+#services .sh .kick{display:inline-flex;align-items:center;gap:8px;padding:8px 16px 8px 12px;margin-bottom:12px;border-radius:999px;background:var(--or);color:#fff!important;font:800 clamp(14px,1.3vw,16px)/1 var(--hd)!important;letter-spacing:.08em!important;box-shadow:0 8px 18px -8px rgba(249,99,2,.65)}
+#services .sh .kick::before{content:"";width:18px;height:18px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E") center/contain no-repeat}
+@media(max-width:560px){#services .sh .kick{font-size:13.5px!important;padding:7px 14px 7px 10px}}
+

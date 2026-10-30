@@ -4,7 +4,8 @@
 "use strict";
 var CFG=window.JORA_CONFIG||{};
 var DEMO=!(CFG.firebase&&CFG.firebase.projectId&&window.firebase);
-var OWNER=(CFG.ownerEmail||"info@joramechanicalsystems.com").toLowerCase();
+var OWNER=(CFG.ownerEmail||"info@joramechanicalsystems.com").toLowerCase(),OWNERH=CFG.ownerHashes||[];
+function sha(t){try{return crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("")})}catch(e){return Promise.resolve("")}}
 
 /* ---------- small helpers shared by every page ---------- */
 function rid(n){var a="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789",s="",r=new Uint8Array(n||20);crypto.getRandomValues(r);for(var i=0;i<r.length;i++)s+=a[r[i]%a.length];return s}
@@ -89,7 +90,7 @@ if(!DEMO){try{firebase.initializeApp(CFG.firebase);fbAuth=firebase.auth();fbDB=f
 var ROLES={owner:"Owner",admin:"Admin",staff:"Staff",partner:"Partner",customer:"Customer"};
 function roleFor(user){if(!user)return Promise.resolve("none");var em=(user.email||"").toLowerCase();
   if(em===OWNER)return Promise.resolve("owner");
-  return JDB.db.collection("team").doc(em).get().then(function(s){return s.exists&&s.data().role&&!s.data().disabled?s.data().role:"customer"}).catch(function(){return "customer"})}
+  return sha(em).then(function(hx){if(OWNERH.indexOf(hx)>-1)return "owner";return JDB.db.collection("team").doc(em).get().then(function(s){return s.exists&&s.data().role&&!s.data().disabled?s.data().role:"customer"}).catch(function(){return "customer"})})}
 function can(role,what){var R={
   view:["owner","admin","staff","partner"],           // see the office panel
   work:["owner","admin","staff"],                     // requests, quotes, customers

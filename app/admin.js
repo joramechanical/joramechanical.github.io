@@ -86,7 +86,7 @@ auth.onAuthStateChanged(function(u){S.unsub.forEach(function(f){try{f()}catch(e)
   if(!u){authScreen("in");return}
   J.roleFor(u).then(function(role){S.role=role;
     if(!can("view")){noAccess('<h1>No office access</h1><p class="sub">'+esc(u.email)+' isn\'t on the Jora team list. Ask the office to add you in <b>Team</b>, then sign in again.</p>');return}
-    if(!J.demo&&!u.emailVerified){noAccess('<h1>Verify your email</h1><p class="sub">We sent a link to <b>'+esc(u.email)+'</b>. Open it, then come back and press the button below.</p><div class="acts"><button class="btn" id="vchk" type="button">I\'ve verified — continue</button><button class="btn g" id="vre" type="button">Send the link again</button></div>');
+    if(!J.demo&&!u.emailVerified){noAccess('<h1>Verify your email</h1><p class="sub">We sent a link to <b>'+esc(u.email)+'</b>. Open it, then come back and press the button below.</p><p class="mut tiny" style="margin-top:-6px">It comes from <b>noreply@jora-mechanical.firebaseapp.com</b> with a subject like <b>“Verify your email for jora-mechanical”</b>. It can take a few minutes — check <b>Spam / Junk</b> too.</p><div class="acts"><button class="btn" id="vchk" type="button">I\'ve verified — continue</button><button class="btn g" id="vre" type="button">Send the link again</button></div>');
       $("#vchk").onclick=function(){u.reload().then(function(){return u.getIdToken(true)}).then(function(){if(auth.currentUser.emailVerified)location.reload();else toast("Not verified yet — check your inbox (and spam).")})};
       $("#vre").onclick=function(){u.sendEmailVerification().then(function(){toast("Sent again")}).catch(fail)};return}
     shell();subscribe()})});

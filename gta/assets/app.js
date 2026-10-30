@@ -198,12 +198,12 @@ renderShop();
     ghost.style.opacity=0;setTimeout(function(){ghost.textContent=p.brand.toUpperCase();ghost.style.opacity=1},300);tabs.forEach(function(t){t.setAttribute("aria-selected",t.dataset.cat===p.cat)});
     $("#jx-quote").dataset.quoteProduct=p.id;$("#jx-more").dataset.product=p.id}
   function go(i){cur=(i+N)%N;layout();setInfo(SL[cur]);dots.forEach(function(d,k){d.classList.remove("on");if(k===cur){void d.offsetWidth;d.classList.add("on")}});$("#jx-count").innerHTML="<b>"+String(cur+1).padStart(2,"0")+"</b> / "+N;restart()}
-  function restart(){clearInterval(timer);if(!hero.classList.contains("paused")&&!reduce)timer=setInterval(function(){go(cur+1)},JORA.slideSeconds*1000)}
+  function restart(){clearInterval(timer);if(!hero.classList.contains("paused"))timer=setInterval(function(){go(cur+1)},JORA.slideSeconds*1000)}
   $("#jx-next").onclick=function(){go(cur+1)};$("#jx-prev").onclick=function(){go(cur-1)};
   tabs.forEach(function(t){t.onclick=function(){go(SL.findIndex(function(p){return p.cat===t.dataset.cat}))}});
   stage.addEventListener("keydown",function(e){if(e.key==="ArrowRight")go(cur+1);if(e.key==="ArrowLeft")go(cur-1)});
-  hero.addEventListener("mouseenter",function(){hero.classList.add("paused");clearInterval(timer)});
-  hero.addEventListener("mouseleave",function(){hero.classList.remove("paused");restart()});
+  /* keep moving; pause only while the visitor points at the product in front */
+  slides.forEach(function(sl){sl.addEventListener("mouseenter",function(){if(sl.classList.contains("on")){hero.classList.add("paused");clearInterval(timer)}});sl.addEventListener("mouseleave",function(){if(hero.classList.contains("paused")){hero.classList.remove("paused");restart()}})});
   document.addEventListener("visibilitychange",function(){document.hidden?clearInterval(timer):restart()});
   var sx=null,dx=0;stage.addEventListener("pointerdown",function(e){sx=e.clientX;dx=0});addEventListener("pointermove",function(e){if(sx!==null)dx=e.clientX-sx});addEventListener("pointerup",function(){if(sx!==null&&Math.abs(dx)>45)go(cur+(dx<0?1:-1));sx=null});
   stage.addEventListener("pointermove",function(e){if(e.pointerType!=="mouse")return;var r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;slides[cur].querySelector(".jx-tilt").style.transform="rotateY("+(x*18)+"deg) rotateX("+(-y*10)+"deg)";ghost.style.transform="translate(calc(-50% + "+(x*-30)+"px),calc(-50% + "+(y*-14)+"px))"});

@@ -33,9 +33,9 @@ Brands installed: Lennox, Carrier, Trane, Goodman, Kepler, TOSOT, Midea, Gree, R
 - [Lennox Elite EL16XC1 Air Conditioner](https://joramechanical.github.io/saskatchewan/products/lennox-el16xc1/): Quiet, efficient central air — up to 17 SEER.
 - [Carrier Performance Air Conditioner (26SPA6)](https://joramechanical.github.io/saskatchewan/products/carrier-26spa6/): Up to 16.5 SEER2 with Carrier reliability.
 - [Trane XV18 Variable-Speed Air Conditioner](https://joramechanical.github.io/saskatchewan/products/trane-xv18/): Variable-speed TruComfort cooling, quiet as 55 dB.
-- [Kepler Central Air Conditioner](https://joramechanical.github.io/saskatchewan/products/kepler-ac/): Clean, modern outdoor unit for steady summer comfort.
 - [Lennox Elite EL18KSLV Heat Pump](https://joramechanical.github.io/saskatchewan/products/lennox-el18kslv/): Slim side-discharge cold-climate heat pump, made for Canada.
 - [TOSOT APEX Central Heat Pump](https://joramechanical.github.io/saskatchewan/products/tosot-apex/): Inverter central heat pump that heats down to −30 °C.
+- [Kepler Heat Pump](https://joramechanical.github.io/saskatchewan/products/kepler-ac/): Clean, modern outdoor unit that heats and cools your home.
 - [Midea Inverter Heat Pump](https://joramechanical.github.io/saskatchewan/products/midea-hp/): Efficient inverter heating & cooling for rooms or whole homes.
 - [Gree Ductless Mini-Split Heat Pump](https://joramechanical.github.io/saskatchewan/products/gree-minisplit/): Cools and heats rooms with no ductwork.
 - [Reznor UDX Garage & Shop Heater](https://joramechanical.github.io/saskatchewan/products/reznor-udx/): Rugged power-vented Reznor unit heater, up to 83% efficient — built for prairie shops.

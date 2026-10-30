@@ -1741,6 +1741,10 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 }
 
 
+/* desktop: arrows only, no "02 / 25" counter */
+@media(min-width:981px){.jx-hero .jx-count{display:none!important}.jx-hero .jx-controls{gap:18px}}
+
+
 /* ===== weather v2: Jora colours under the 3D showroom, tinted gently by the real weather ===== */
 .jx-hero,body.wx-sun .jx-hero{background:
   radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.13),transparent 64%),

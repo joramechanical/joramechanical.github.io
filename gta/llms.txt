@@ -37,9 +37,9 @@ Brands installed: Lennox, Carrier, Trane, KeepRite, Goodman, Kepler, TOSOT, Mide
 - [Carrier Performance Air Conditioner (26SPA6)](https://joramechanical.github.io/gta/products/carrier-26spa6/): Up to 16.5 SEER2 with Carrier reliability.
 - [KeepRite Ion 17 Air Conditioner (CCA7)](https://joramechanical.github.io/gta/products/keeprite-cca7/): Two-stage comfort, up to 17 SEER.
 - [Trane XV18 Variable-Speed Air Conditioner](https://joramechanical.github.io/gta/products/trane-xv18/): Variable-speed TruComfort cooling, quiet as 55 dB.
-- [Kepler Central Air Conditioner](https://joramechanical.github.io/gta/products/kepler-ac/): Clean, modern outdoor unit for steady summer comfort.
 - [Lennox Elite EL18KSLV Heat Pump](https://joramechanical.github.io/gta/products/lennox-el18kslv/): Slim side-discharge cold-climate heat pump, made for Canada.
 - [TOSOT APEX Central Heat Pump](https://joramechanical.github.io/gta/products/tosot-apex/): Inverter central heat pump that heats down to −30 °C.
+- [Kepler Heat Pump](https://joramechanical.github.io/gta/products/kepler-ac/): Clean, modern outdoor unit that heats and cools your home.
 - [Midea Inverter Heat Pump](https://joramechanical.github.io/gta/products/midea-hp/): Efficient inverter heating & cooling for rooms or whole homes.
 - [Gree Ductless Mini-Split Heat Pump](https://joramechanical.github.io/gta/products/gree-minisplit/): Cools and heats rooms with no ductwork.
 - [AirMax MaxAir e-Series Air Handlers](https://joramechanical.github.io/gta/products/airmax-e/): Four sizes, from small condos to larger homes.

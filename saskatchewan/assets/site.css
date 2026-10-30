@@ -1560,3 +1560,37 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 .hleft{display:none!important}
 @media(max-width:560px){.jx-dots{gap:4px!important;flex-wrap:nowrap;overflow:hidden;max-width:58vw}.jx-dot{width:6px!important;height:6px!important;flex:none}.jx-dot.on{width:20px!important}.jx-controls{gap:10px!important}}
 .jx-ghost{display:none!important}
+
+/* ===== desktop v6: two tidy rows — logo + company links, then a full-width product bar ===== */
+.dutil{display:none}
+@media(min-width:1101px){
+  .hdr .bar{grid-template-columns:auto minmax(0,1fr)!important;grid-template-areas:"logo util" "nav nav"!important;gap:0 28px!important;padding-top:16px!important;padding-bottom:0!important}
+  .hicons{display:none!important}
+  .wm b{font-size:34px}.wm small{font-size:11px;letter-spacing:.26em}.l3d{--s:60px}
+  .dutil{grid-area:util;display:flex;align-items:center;justify-content:flex-end;gap:28px}
+  .dutil .dd-b{padding:8px 0!important;font:500 16px/1 var(--bd)!important;color:var(--ink2)}
+  .dutil .dd-b:hover,.dutil .dd.open .dd-b{background:none;color:var(--or)}
+  .du-l{color:var(--ink2);text-decoration:none;font:500 16px/1 var(--bd);white-space:nowrap;transition:color .15s}
+  .du-l:hover{color:var(--or)}
+  .du-hot{color:var(--or);font-weight:700}
+  .du-trust{display:inline-flex;align-items:center;gap:10px;white-space:nowrap}
+  .du-ic{width:34px;height:34px;border-radius:50%;background:var(--or-l);color:var(--or);display:grid;place-items:center}.du-ic svg{width:19px;height:19px}
+  .du-trust b{display:block;font:700 15px/1.2 var(--bd);color:var(--ink2)}.du-trust small{display:block;font:500 12.5px/1.25 var(--bd);color:var(--mut)}
+  .du-acct{display:inline-flex;align-items:center;gap:8px}.du-acct svg{width:21px;height:21px}
+  .du-s{all:unset;cursor:pointer;display:grid!important;place-items:center;width:40px;height:40px;border-radius:50%;color:var(--ink2);transition:background .15s,color .15s}
+  .du-s:hover,.du-s[aria-expanded=true]{background:var(--or-l);color:var(--or)}.du-s svg{width:24px;height:24px}
+  .dutil .dd-u{position:static}
+  /* product bar: full width, evenly spaced, generous */
+  .dnav{grid-area:nav;display:flex;justify-content:space-between!important;margin-top:14px;padding:0;border-top:1px solid var(--line)}
+  .dnav .dd-b,.dnav .dn-l{padding:18px 0!important;font:600 17px/1 var(--bd)!important;color:var(--ink2);border-radius:0;background:none!important;position:relative}
+  .dnav .dd-b::after,.dnav .dn-l::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;border-radius:3px;background:var(--or);transform:scaleX(0);transition:transform .2s}
+  .dnav .dd-b:hover::after,.dnav .dd.open .dd-b::after,.dnav .dn-l:hover::after,.dnav .dd-b[data-cur]::after,.dnav .dn-l[aria-current]::after{transform:scaleX(1)}
+  .dnav .dd-b:hover,.dnav .dd.open .dd-b,.dnav .dn-l:hover{color:var(--or)}
+  .dnav .dd-b i{display:none}
+  .dnav .dn-hot{color:var(--red)!important;display:inline-flex!important;align-items:center;gap:8px}
+  .dnav .dn-hot i{width:8px;height:8px;border-radius:50%;background:var(--red);animation:tlp 1.8s infinite}
+  .dnav .dd:last-child .dd-b i{display:inline-block}
+}
+@media(min-width:1101px) and (max-width:1360px){.du-trust{display:none}.dutil{gap:24px}.dnav .dd-b,.dnav .dn-l{font-size:15.5px!important}}
+@media(min-width:1101px) and (max-width:1200px){.dnav .dn-l[href*="indoor-air"]{display:none!important}.wm b{font-size:30px}.l3d{--s:54px}}
+

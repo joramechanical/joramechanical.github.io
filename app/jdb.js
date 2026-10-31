@@ -91,16 +91,19 @@ if(!DEMO){try{firebase.initializeApp(CFG.firebase);fbAuth=firebase.auth();fbDB=f
 
 /* ======================= ROLES ======================= */
 /* owner = the office account (info@); team members are invited by email in Admin > Team */
-var ROLES={owner:"Owner",admin:"Admin",staff:"Staff",partner:"Partner",customer:"Customer"};
+var ROLES={owner:"Owner",partner:"Partner (co-owner)",admin:"Office manager",staff:"Office staff",technician:"Technician",customer:"Customer"};
 function roleFor(user){if(!user)return Promise.resolve("none");var em=(user.email||"").toLowerCase();
   if(em===OWNER)return Promise.resolve("owner");
   return sha(em).then(function(hx){if(OWNERH.indexOf(hx)>-1)return "owner";return JDB.db.collection("team").doc(em).get().then(function(s){return s.exists&&s.data().role&&!s.data().disabled?s.data().role:"customer"}).catch(function(){return "customer"})})}
 function can(role,what){var R={
-  view:["owner","admin","staff","partner"],           // see the office panel
-  work:["owner","admin","staff"],                     // requests, quotes, customers
-  jobs:["owner","admin","staff","partner"],           // schedule and update jobs
-  site:["owner","admin"],                             // products, hero, colours, weather
-  team:["owner","admin"]};return (R[what]||[]).indexOf(role)>-1}
+  panel:["owner","partner","admin","staff","technician"],   // can sign in to the panel at all
+  view:["owner","partner","admin","staff"],                // office pages: requests, customers, reports
+  work:["owner","partner","admin","staff"],                // requests, quotes, customers
+  jobs:["owner","partner","admin","staff"],                // schedule, dispatch and update every job
+  mine:["owner","partner","technician"],                   // "My jobs" (jobs sent to this person)
+  site:["owner","partner","admin"],                        // products, hero, colours, weather
+  team:["owner","partner","admin"],                        // add people / technicians
+  finance:["owner","partner"]};return (R[what]||[]).indexOf(role)>-1}  // money: owners only
 
 /* ======================= QUOTE DOCUMENT ======================= */
 var DEFAULT_TERMS="Prices include equipment, labour and standard materials as listed. Permits and inspections are included where noted. Any extra work found on site is quoted in writing before we start. Manufacturer warranty applies; registration is done by Jora. Quote valid until the date shown.";

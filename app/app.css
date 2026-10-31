@@ -225,3 +225,12 @@ label.f{display:block;font-weight:600;font-size:14px;margin:0 0 14px}label.f>spa
 .sizebar{margin-top:14px;font-size:12.5px;color:var(--mut)}.sizebar i{display:block;height:6px;background:#eef0f3;border-radius:4px;margin-top:5px;overflow:hidden}.sizebar b{display:block;height:100%}
 .tips{margin:0;padding-left:20px;line-height:1.8}
 @media(max-width:1100px){.ed{grid-template-columns:1fr}}
+/* follow-ups, steps, report, invoice */
+.fu{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:start;padding:14px 0;border-top:1px solid #f0f1f3}.fu:first-of-type{border-top:0}
+.fu-msg{margin:8px 0 0;font-size:13.5px;color:var(--txt);background:#fafbfc;border:1px solid var(--line);border-radius:10px;padding:8px 10px;max-width:640px}
+.fu-b{flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:720px){.fu{grid-template-columns:1fr}.fu-b{justify-content:flex-start}}
+.steps ol{list-style:none;padding:0;margin:0;display:grid;gap:6px}.steps li{display:flex;gap:10px;align-items:center;font-weight:600;color:var(--mut)}.steps li span{width:24px;height:24px;border-radius:50%;border:2px solid #cfd3d8;display:inline-flex;align-items:center;justify-content:center;font-size:13px;flex:none}
+.steps li.d{color:var(--ink)}.steps li.d span{background:#2E7D32;border-color:#2E7D32;color:#fff}
+.rep-h{display:flex;gap:14px;align-items:center;margin-bottom:18px}.rep-h img{width:54px;height:54px;border-radius:10px}.rep-h b{display:block;font:800 22px var(--hd);text-transform:uppercase}.rep-h span{color:var(--mut)}
+@media print{.ftabs,.bar,.noprint{display:none!important}.rep{border:0;box-shadow:none;padding:0}}

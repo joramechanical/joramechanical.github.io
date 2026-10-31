@@ -114,7 +114,7 @@ var LICC=["#F96302","#2F80ED","#16A085","#D7262B","#8E44AD","#E0A100","#0E9FC9",
 /* stats slider */
 (function(){if(!has("#statTrack"))return;var nb={};PRODUCTS.forEach(function(p){nb[p.brand]=1});
   var LS=(window.__live&&__live.stats)||{};var S=[["smile",+LS.customers||3000,"+","Happy customers","Homes and businesses we've helped"],["tools",+LS.years||28,"","Years of experience","Hands-on heating & cooling know-how"],["clock","24/7","","Emergency service","Real people answer, day or night"],
-    ["shield",Object.keys(nb).length,"+","Trusted brands","Installed by factory-trained technicians"],["doc",100,"%","Written quotes","Upfront pricing — no surprises"],["home",(typeof CITIES!=="undefined"?CITIES.length:30),"+","Cities & towns served","Close by, wherever you are"]];
+    ["shield",Object.keys(nb).length,"+","Trusted brands","Installed by factory-trained technicians"],["doc",100,"%","Written quotes","Upfront pricing — no surprises"],["home","Saskatoon & area","","Plus Regina, P.A. & Moose Jaw","Saskatoon and surrounding communities, plus Regina, Prince Albert and Moose Jaw"]];
   var one=S.map(function(s,i){var c=LICC[(i*3+1)%LICC.length];return '<div class="stc" style="--c:'+c+'"><span class="stc-ic">'+ic(s[0])+'</span><b'+(typeof s[1]==="number"?' data-n="'+s[1]+'" data-s="'+s[2]+'">'+(s[1]>=1000?s[1].toLocaleString("en-CA"):s[1])+s[2]:'>'+s[1])+'</b><span class="stc-l">'+esc(s[3])+'</span><small>'+esc(s[4])+'</small></div>'}).join("");
   $("#statTrack").innerHTML=one+one.replace(/class="stc"/g,'class="stc" aria-hidden="true"');
   if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
@@ -241,7 +241,7 @@ var HOME_TYPES=[["Detached house","home"],["Semi-detached","semi"],["Townhouse (
 var SIZES=["Under 1,000 sq ft","1,000 – 1,500 sq ft","1,500 – 2,000 sq ft","2,000 – 2,500 sq ft","2,500 – 3,000 sq ft","3,000 – 4,000 sq ft","4,000+ sq ft","Not sure"];
 var AGE=["0–5 years","6–10 years","11–15 years","16–20 years","20+ years","Not sure","None yet"];
 var JOB=["Replacement","New installation","Repair","Maintenance"];
-var GHB=["Reznor","Modine","Mr. Heater","Lennox","Re-Verber-Ray (infrared)","Electric","No preference"],HVACB=["Lennox","Carrier","Trane","Goodman","Kepler","No preference"],HPB=["Lennox","TOSOT","Midea","Gree","Carrier","Trane","No preference"],WATB=["Rinnai","Navien","Rheem","Bradford White","Noritz","No preference"];
+var GHB=["Reznor","Modine","Lennox","Re-Verber-Ray (infrared)","Electric","No preference"],HVACB=["Lennox","Carrier","Trane","Goodman","Kepler","No preference"],HPB=["Lennox","TOSOT","Midea","Gree","Carrier","Trane","No preference"],WATB=["Rinnai","Navien","Rheem","Bradford White","Noritz","No preference"];
 function Q(k,label,opts,o){o=o||{};return {k:k,label:label,opts:opts,many:!!o.many,req:o.req!==false,hint:o.hint,brand:!!o.brand}}
 var SYS={
  furnace:[Q("job","What do you need?",JOB),Q("fuel","Current heating fuel",["Natural gas","Propane","Oil","Electric","No current system"]),Q("curAge","How old is your current furnace?",AGE),Q("curBTU","Current furnace size (BTU)",["40,000 BTU","60,000 BTU","80,000 BTU","100,000 BTU","120,000 BTU","Not sure"],{hint:"It's on the label inside the furnace door. Not sure is fine."}),Q("curEff","Current efficiency",["Mid-efficiency (~80%, metal chimney vent)","High-efficiency (90%+, plastic pipe vent)","Not sure"]),Q("addAC","Quote a new AC at the same time?",["Yes","No","Maybe"]),Q("brand","Preferred brand",HVACB,{brand:1})],
@@ -356,7 +356,7 @@ var PREPOSTAL="";
 function checkPostal(raw){var v=String(raw||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
   if(!/^[A-Z]\d[A-Z](\d[A-Z]\d)?$/.test(v))return {state:"bad",msg:"Enter a postal code like S7K 1J5."};
   var pc=v.length>3?v.slice(0,3)+" "+v.slice(3):v,a=v.slice(0,2),L=v[0];
-  if(L==="S")return {state:"ok",pc:pc,msg:"Yes! We serve "+pc+" — anywhere in Saskatchewan."};
+  if(L==="S")return {state:"ok",pc:pc,msg:"We serve Saskatoon and surrounding communities, plus Regina, Prince Albert and Moose Jaw. Book and we'll confirm "+pc+"."};
   return {state:"no",pc:pc,msg:pc+" is outside our usual area — call us, we may still help."}}
 function pcAction(r){return r.state==="bad"?"":'<button type="button" data-book-pc="'+esc(r.pc)+'">'+(r.state==="no"?"Call 905-667-2823":"Book a free quote")+'</button><a class="pc-gmap" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(r.pc+", Saskatchewan, Canada")+'" target="_blank" rel="noopener">View on Google Maps ↗</a>'}
 if(has("#pcForm"))$("#pcForm").addEventListener("submit",function(e){e.preventDefault();var r=checkPostal($("#pcIn").value),o=$("#pcRes");o.className="pres "+(r.state==="bad"?"no":r.state);o.innerHTML=(r.state==="ok"?"✓ ":r.state==="no"?"✕ ":"")+esc(r.msg)+pcAction(r)});
@@ -640,12 +640,12 @@ var hs=(location.hash||"").slice(1);if(SOLUTIONS[hs])solCur=hs;if(document.body.
 /* ======================= REBATES ======================= */
 function cad(n){return "$"+Math.round(n).toLocaleString("en-CA")}
 (function(){if(!has("#rebPick"))return;var R=REBATES,picked={},wins=10;
-  $("#rebMax").textContent=cad(Math.max.apply(null,R.items.map(function(i){return i.amt})));
+  if($("#rebMax"))$("#rebMax").textContent=cad(Math.max.apply(null,R.items.map(function(i){return i.amt})));
   $("#rebProg").innerHTML='Saskatchewan homeowners can get money back on high-efficiency furnaces, tankless and condensing water heaters, boilers and HRVs through the <a href="'+esc(R.link)+'" target="_blank" rel="noopener">'+esc(R.program)+'</a>. It must be installed by a TSASK-licensed contractor — that\'s us.';
   $("#rebCards").innerHTML=R.items.map(function(i,n){return '<div class="rc" style="--d:'+(n*.06)+'s"><span class="rc-ic">'+ic(i.ic)+'</span><div><small>'+(i.up?"Up to":"Get")+'</small><b>'+cad(i.amt)+'</b>'+(i.per?'<em>'+esc(i.per)+'</em>':'')+'<span>'+esc(i.t)+'</span></div></div>'}).join("");
   $("#rebNotes").innerHTML=R.notes.map(function(n){return '<li>'+esc(n)+'</li>'}).join("")+'<li>Updated '+esc(R.updated)+' · <a href="'+esc(R.link)+'" target="_blank" rel="noopener">program details</a></li>';
   $("#rebPick").innerHTML=R.items.filter(function(i){return i.id!=="audit"}).map(function(i){return '<label class="rp"><input type="checkbox" value="'+i.id+'"><span class="rp-b">'+ic(i.ic)+'</span><span>'+esc(i.t)+(i.per?' <input class="rp-n" type="number" min="1" max="60" value="'+wins+'" aria-label="Number of windows and doors"> openings':'')+'</span></label>'}).join("");
-  function total(){var t=0;R.items.forEach(function(i){if(picked[i.id])t+=i.per?i.amt*wins:i.amt});if(picked.furn97&&picked.furn96)t-=325;if(picked.tankless&&picked.condwh)t-=1000;if(picked.condwh&&picked.tank)t-=250;if(picked.tankless&&picked.tank)t-=250;if(picked.boiler&&picked.combi)t-=800;$("#rebTot").textContent=cad(t);$("#rebTot").classList.remove("pop");void $("#rebTot").offsetWidth;$("#rebTot").classList.add("pop")}
+  function total(){var t=0;R.items.forEach(function(i){if(picked[i.id])t+=i.per?i.amt*wins:i.amt});var any=R.items.some(function(i){return picked[i.id]});$("#rebLbl").textContent=any?"Possible rebates, up to":"Tick what you're planning to see your possible rebate";$("#rebTot").hidden=!any;if(!any)return;if(picked.furn97&&picked.furn96)t-=325;if(picked.tankless&&picked.condwh)t-=1000;if(picked.condwh&&picked.tank)t-=250;if(picked.tankless&&picked.tank)t-=250;if(picked.boiler&&picked.combi)t-=800;$("#rebTot").textContent=cad(t);$("#rebTot").classList.remove("pop");void $("#rebTot").offsetWidth;$("#rebTot").classList.add("pop")}
   $("#rebPick").addEventListener("change",function(e){var c=e.target;if(c.type==="checkbox")picked[c.value]=c.checked;if(c.classList.contains("rp-n"))wins=Math.max(1,Math.min(60,+c.value||1));total()});
   $("#rebPick").addEventListener("input",function(e){if(e.target.classList.contains("rp-n")){wins=Math.max(1,Math.min(60,+e.target.value||1));total()}});
   $("#rebQuote").onclick=function(){var first=R.items.find(function(i){return picked[i.id]});openWizard(first?first.svc:"furnace",{rebate:"Yes, check for me"})};

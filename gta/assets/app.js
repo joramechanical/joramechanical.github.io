@@ -94,7 +94,7 @@ var LICC=["#F96302","#2F80ED","#16A085","#D7262B","#8E44AD","#E0A100","#0E9FC9",
 /* stats slider */
 (function(){if(!has("#statTrack"))return;var nb={};PRODUCTS.forEach(function(p){nb[p.brand]=1});
   var LS=(window.__live&&__live.stats)||{};var S=[["smile",+LS.customers||3000,"+","Happy customers","Homes and businesses we've helped"],["tools",+LS.years||28,"","Years of experience","Hands-on heating & cooling know-how"],["clock","24/7","","Emergency service","Real people answer, day or night"],
-    ["shield",Object.keys(nb).length,"+","Trusted brands","Installed by factory-trained technicians"],["doc",100,"%","Written quotes","Upfront pricing — no surprises"],["home",(typeof CITIES!=="undefined"?CITIES.length:30),"+","Cities & towns served","Close by, wherever you are"]];
+    ["shield",Object.keys(nb).length,"+","Trusted brands","Installed by factory-trained technicians"],["doc",100,"%","Written quotes","Upfront pricing — no surprises"],["home","GTA-wide","","Every city & town","Toronto, Peel, York, Halton & Durham"]];
   var one=S.map(function(s,i){var c=LICC[(i*3+1)%LICC.length];return '<div class="stc" style="--c:'+c+'"><span class="stc-ic">'+ic(s[0])+'</span><b'+(typeof s[1]==="number"?' data-n="'+s[1]+'" data-s="'+s[2]+'">'+(s[1]>=1000?s[1].toLocaleString("en-CA"):s[1])+s[2]:'>'+s[1])+'</b><span class="stc-l">'+esc(s[3])+'</span><small>'+esc(s[4])+'</small></div>'}).join("");
   $("#statTrack").innerHTML=one+one.replace(/class="stc"/g,'class="stc" aria-hidden="true"');
   if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
@@ -621,12 +621,12 @@ var hs=(location.hash||"").slice(1);if(SOLUTIONS[hs])solCur=hs;if(document.body.
 /* ======================= REBATES ======================= */
 function cad(n){return "$"+Math.round(n).toLocaleString("en-CA")}
 (function(){if(!has("#rebPick"))return;var R=REBATES,picked={},wins=10;
-  $("#rebMax").textContent=cad(Math.max.apply(null,R.items.map(function(i){return i.amt})));
+  if($("#rebMax"))$("#rebMax").textContent=cad(Math.max.apply(null,R.items.map(function(i){return i.amt})));
   $("#rebProg").innerHTML='Ontario homeowners can get money back on heat pumps, smart thermostats, insulation and more through the <a href="'+esc(R.link)+'" target="_blank" rel="noopener">'+esc(R.program)+'</a>. We tell you what you qualify for.';
   $("#rebCards").innerHTML=R.items.map(function(i,n){return '<div class="rc" style="--d:'+(n*.06)+'s"><span class="rc-ic">'+ic(i.ic)+'</span><div><small>'+(i.up?"Up to":"Get")+'</small><b>'+cad(i.amt)+'</b>'+(i.per?'<em>'+esc(i.per)+'</em>':'')+'<span>'+esc(i.t)+'</span></div></div>'}).join("");
   $("#rebNotes").innerHTML=R.notes.map(function(n){return '<li>'+esc(n)+'</li>'}).join("")+'<li>Updated '+esc(R.updated)+' · <a href="'+esc(R.link)+'" target="_blank" rel="noopener">program details</a></li>';
   $("#rebPick").innerHTML=R.items.filter(function(i){return i.id!=="audit"}).map(function(i){return '<label class="rp"><input type="checkbox" value="'+i.id+'"><span class="rp-b">'+ic(i.ic)+'</span><span>'+esc(i.t)+(i.per?' <input class="rp-n" type="number" min="1" max="60" value="'+wins+'" aria-label="Number of windows and doors"> openings':'')+'</span></label>'}).join("");
-  function total(){var t=0;R.items.forEach(function(i){if(picked[i.id])t+=i.per?i.amt*wins:i.amt});if(picked.ashp&&picked.gshp)t-=R.items.find(function(i){return i.id==="ashp"}).amt;$("#rebTot").textContent=cad(t);$("#rebTot").classList.remove("pop");void $("#rebTot").offsetWidth;$("#rebTot").classList.add("pop")}
+  function total(){var t=0;R.items.forEach(function(i){if(picked[i.id])t+=i.per?i.amt*wins:i.amt});var any=R.items.some(function(i){return picked[i.id]});$("#rebLbl").textContent=any?"Possible rebates, up to":"Tick what you're planning to see your possible rebate";$("#rebTot").hidden=!any;if(!any)return;if(picked.ashp&&picked.gshp)t-=R.items.find(function(i){return i.id==="ashp"}).amt;$("#rebTot").textContent=cad(t);$("#rebTot").classList.remove("pop");void $("#rebTot").offsetWidth;$("#rebTot").classList.add("pop")}
   $("#rebPick").addEventListener("change",function(e){var c=e.target;if(c.type==="checkbox")picked[c.value]=c.checked;if(c.classList.contains("rp-n"))wins=Math.max(1,Math.min(60,+c.value||1));total()});
   $("#rebPick").addEventListener("input",function(e){if(e.target.classList.contains("rp-n")){wins=Math.max(1,Math.min(60,+e.target.value||1));total()}});
   $("#rebQuote").onclick=function(){var svc=picked.ashp||picked.gshp?"hp":picked.hpwh?"water":picked.stat?"thermo":"hp";openWizard(svc,{rebate:"Yes, check for me"})};

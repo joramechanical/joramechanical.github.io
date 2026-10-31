@@ -1917,3 +1917,4 @@ body.wx-night .jx-hero::after{animation:none!important;will-change:auto}
 @media(max-width:900px){.teamph{aspect-ratio:4/4.4;max-width:560px;margin:0 auto}}
 
 @media(max-width:560px){#team h2,.abh{font-size:clamp(24px,7vw,30px)!important;overflow-wrap:anywhere}}
+.foot .tmnote{font-size:12px;line-height:1.5;opacity:.75;margin:0 0 6px;max-width:80ch}

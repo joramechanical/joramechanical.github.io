@@ -12,9 +12,8 @@ var JORA = {
   slideSeconds: 3.5,
   licences: [
     ["TSSA Registered","Fuels contractor registered with the Technical Standards & Safety Authority"],
-    ["313D Licensed","Refrigeration & Air Conditioning Mechanic — Skilled Trades Ontario"],
-    ["HRAI Certified","Heating, Refrigeration & Air Conditioning Institute of Canada"],
-    ["G2 Gas Technician","TSSA-certified for residential gas appliances"],
+    ["313D and G2 licensed technicians","313D refrigeration & AC mechanics (Skilled Trades Ontario) and TSSA G2 gas technicians"],
+    ["HRAI member","Heating, Refrigeration & Air Conditioning Institute of Canada"],
     ["Ontario Building Code","Installs designed and built to OBC requirements"],
     ["Permits Pulled","We handle municipal permits and inspections where required"],
     ["WSIB Covered","Workers covered for your peace of mind"],
@@ -145,8 +144,8 @@ var PRODUCTS = [
   feats:["ENERGY STAR certified","Ultra Low NOx","Natural gas or propane models"],
   src:"https://ferguson.com/product/bradford-white-infiniti-gs-series-199-mbh-indoor-condensing-natural-gas-tankless-water-heater-brtgs199n1/9938270.html"},
  {id:"noritz-eztr50",cat:"water",brand:"Noritz",img:"noritz",model:"EZTR50",name:"Noritz EZ Series EZTR50 Tankless",
-  tag:"Drop-in replacement for a 50-gallon tank.",feats3:["0.98 UEF","9.8 GPM","25-yr warranty"],badge:["25-Year","Warranty"],badgeRed:true,flag:"25-yr warranty",flagRed:true,
-  specs:[["Gas input","18,000 – 180,000 BTU"],["Max flow","9.8 GPM"],["Efficiency","0.98 UEF"],["Install","Indoor or outdoor"],["Venting","25 ft flex vent kit included"],["Warranty","25 years"]],
+  tag:"Drop-in replacement for a 50-gallon tank.",feats3:["0.98 UEF","9.8 GPM","25-yr heat exchanger warranty"],badge:["25-Year","Heat exchanger"],badgeRed:true,flag:"25-yr heat exchanger warranty",flagRed:true,
+  specs:[["Gas input","18,000 – 180,000 BTU"],["Max flow","9.8 GPM"],["Efficiency","0.98 UEF"],["Install","Indoor or outdoor"],["Venting","25 ft flex vent kit included"],["Warranty","25 years on the heat exchanger"]],
   feats:["Uses your tank's existing connections","Dual stainless steel heat exchangers","Bluetooth app (EZ Start Plus)","Natural gas to propane kit included"],
   src:"https://noritz.com/products/eztr50"}
 ];

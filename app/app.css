@@ -208,3 +208,9 @@ label.f{display:block;font-weight:600;font-size:14px;margin:0 0 14px}label.f>spa
 .warnm{background:#FFF4E0;color:#7a4a00;border-radius:10px;padding:10px 12px;font-size:14px;margin:0 0 12px}
 .tl{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin:0 0 16px}.tl span{background:#F6F7F9;border-radius:10px;padding:9px 11px;font-size:13px;color:var(--mut);border-left:4px solid #dfe2e6}.tl span.d{border-left-color:#2E7D32;color:var(--txt)}
 .tl b{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}.tl small{display:block;font-size:12px;color:var(--mut)}
+/* owners */
+.ogrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:20px}.ocard{margin:0;border-top:4px solid var(--c)}
+.oh{display:flex;gap:12px;align-items:center;margin-bottom:12px}.oh b{font:800 20px var(--hd)}.oh small{display:block;color:var(--mut);font-size:12.5px}.ocard .av{background:color-mix(in srgb,var(--c) 14%,#fff);color:var(--c)}
+.odl{display:grid;grid-template-columns:1fr auto;gap:8px 12px;margin:0;font-size:14.5px}.odl dt{color:var(--mut)}.odl dd{margin:0;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}.odl .neg{color:#C62828}
+.odl .tot{border-top:1px solid var(--line);padding-top:10px;color:var(--ink);font-weight:800}.odl dd.tot{font-size:20px}
+.tbl.pl td{padding:10px 12px}.tbl.pl td:last-child{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.tbl.pl tr.sub td{background:#fafbfc;border-top:2px solid var(--line)}

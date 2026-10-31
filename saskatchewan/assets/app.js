@@ -1041,4 +1041,9 @@ function fxDraw(now){var c=fx.ctx,w=fx.w,h=fx.h,m=fx.mode;
 /* weather canvas: draw at normal resolution (much lighter on laptops and phones) */
 function fxSize(){fx.w=innerWidth;fx.h=innerHeight;fx.cv.width=fx.w;fx.cv.height=fx.h;fx.ctx.setTransform(1,0,0,1,0,0)}
 
+/* team section: the Jora team photo (the office can still replace it with their own photos in the admin panel) */
+function renderTeam(){if(!has("#collage"))return;var ph=(SITE.teamPhotos||[]).filter(function(p){return p&&p.url}),src=ph.length?ph[0].url:(typeof IMG!=="undefined"&&IMG["jora-team"]);
+  if(!src)return;var c=$("#collage");c.classList.add("one");
+  c.innerHTML='<figure class="teamph"><img src="'+esc(src)+'" alt="'+esc(ph.length&&ph[0].caption||"The Jora Mechanical Systems team")+'" loading="lazy" decoding="async" width="1250" height="1499"><figcaption><b>Jora Mechanical Systems</b><span>Heating · Cooling · Gas</span></figcaption></figure>'}
+
 })();

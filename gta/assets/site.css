@@ -1876,3 +1876,14 @@ body.wx-night.wx-sun .jx-hero::after,body.wx-night.wx-cold .jx-hero::after{conte
 /* night sky: painted once (no constant re-drawing) */
 body.wx-night .jx-hero::after{animation:none!important;will-change:auto}
 
+
+/* team photo */
+.collage.one{height:auto!important;display:block}
+.teamph{position:relative;margin:0;border-radius:22px;overflow:hidden;box-shadow:0 26px 50px -24px rgba(20,22,29,.45);aspect-ratio:1/1;max-height:600px;width:100%;background:#eee}
+.teamph img{width:100%;height:100%;object-fit:cover;object-position:50% 12%;display:block}
+.teamph figcaption{position:absolute;left:14px;bottom:14px;display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:12px;background:rgba(22,24,29,.88);color:#fff}
+.teamph figcaption b{font:800 15px/1.1 var(--hd);letter-spacing:.06em;text-transform:uppercase}
+.teamph figcaption span{font:600 12.5px/1.2 var(--bd);color:#FFB27A}
+@media(max-width:900px){.teamph{aspect-ratio:4/4.4;max-width:560px;margin:0 auto}}
+
+@media(max-width:560px){#team h2,.abh{font-size:clamp(24px,7vw,30px)!important;overflow-wrap:anywhere}}

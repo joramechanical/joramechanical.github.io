@@ -1647,6 +1647,17 @@ body.fd-on .chat-fab{opacity:0;pointer-events:none;transform:translateY(20px)}
 }
 
 
+/* articles & custom pages written in the office panel */
+.lpost .md ul,.lpost .md ol{font-size:17.5px;line-height:1.7;color:#2b2f36;margin:0 0 18px;padding-left:24px}.lpost .md li{margin:0 0 6px}
+.lpost .md h3{font:800 20px var(--hd);text-transform:uppercase;margin:22px 0 10px;color:var(--ink2)}
+.lpost .md blockquote{margin:0 0 18px;padding:14px 18px;border-left:4px solid var(--or);background:var(--sand,#faf6f1);border-radius:0 12px 12px 0;font-size:17px;color:var(--ink)}
+.lpost .md a{color:var(--or2,#E05500);text-decoration:underline}.lpost .md-cta{margin:22px 0}
+.lp-share{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:26px 0 0;padding-top:18px;border-top:1px solid #eee;font-size:14px}.lp-share span{font-weight:700;margin-right:4px}
+.lp-share a,.lp-share button{border:1px solid #e3e3e3;border-radius:999px;padding:7px 14px;background:#fff;color:inherit;text-decoration:none;font:inherit;cursor:pointer}
+.lp-rel{margin-top:50px}.lp-rel .h2{margin-bottom:18px}
+
+.lp-more{margin:0;padding-left:20px;line-height:1.9;font-size:17px}.lp-more a{color:var(--ink2);font-weight:700}
+
 /* ===== home hero, desktop only (phones and tablets keep their own layout) ===== */
 .jx-h1 .h1-d{display:none}
 @media(min-width:981px){

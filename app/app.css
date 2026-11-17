@@ -241,3 +241,10 @@ label.f{display:block;font-weight:600;font-size:14px;margin:0 0 14px}label.f>spa
 .cnotes{display:grid;gap:10px;margin-bottom:12px}.cnotes>div{background:#fafbfc;border:1px solid var(--line);border-radius:10px;padding:8px 12px}.cnotes small{color:var(--mut)}.cnotes p{margin:4px 0 0;white-space:pre-wrap}
 .card h3 svg{width:18px;height:18px;vertical-align:-3px;margin-right:4px;color:var(--or)}.cmpcard{border-color:#f3c4c4}
 .brief .bi{padding:6px 0;border-bottom:1px solid #f0f1f3;font-size:14.5px}.brief .lbl{margin-top:16px}
+/* suppliers, inbox, scrap, technician report */
+.inb{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:14px 0;border-top:1px solid #f0f1f3}.inb:first-of-type{border-top:0}.inb img{width:110px;height:140px;object-fit:cover;border-radius:8px;border:1px solid var(--line);cursor:zoom-in;background:#fff}
+@media(max-width:620px){.inb{grid-template-columns:1fr}.inb img{width:100%;height:180px}}
+.rw.sc{grid-template-columns:1.3fr 1fr 1.2fr .6fr 1.2fr 38px}@media(max-width:720px){.rw.sc{grid-template-columns:1fr 1fr;padding:10px;border:1px solid var(--line);border-radius:12px}}
+.ftabs .cnt{display:inline-block;min-width:18px;padding:0 5px;border-radius:9px;background:var(--or);color:#fff;font-size:11px;line-height:18px;text-align:center}
+.trep .tbl.pl td,.trep .tbl.pl th{font-size:13px;padding:7px 8px;text-align:left}
+@media print{.trep{font-size:12px}.trep .kpis{grid-template-columns:repeat(4,1fr)}}

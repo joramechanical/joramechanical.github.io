@@ -562,6 +562,8 @@ function partners(){return splitOf().filter(function(p){return !/company/i.test(
 function techs(){return S.team.filter(function(t){return !t.disabled&&(t.role==="technician"||t.role==="partner")}).sort(function(a,b){return (a.role==="partner"?0:1)-(b.role==="partner"?0:1)||(a.name||a._id).localeCompare(b.name||b._id)})}
 /* privacy: the owners' names and emails are never stored on shared records or shown to staff, technicians or customers */
 function stamp(){return isTechRole()?myEm():"office"}
+/* photos keep the uploader's own email until the new database rules are published (Google now requires 2-step verification to publish them) */
+var RULES_V2=false;function photoBy(){return RULES_V2?stamp():myEm()}
 function tname(em){if(!em)return "";if(em==="office")return "Jora office";var t=S.team.find(function(x){return x._id===em});if(t)return t.name||(can("finance")?em:"Team member");if(S.user&&(S.user.email||"").toLowerCase()===em)return S.user.displayName||"Me";return can("finance")?em:"Jora office"}
 function myEm(){return (S.user&&S.user.email||"").toLowerCase()}
 function isTechRole(){return S.role==="technician"}
@@ -687,7 +689,7 @@ function uploadPhotos(input){var jid=input.dataset.job,kind=input.dataset.phup,f
   var lbl=input.closest("label");if(lbl)lbl.classList.add("busy");toast("Uploading "+files.length+" photo(s)…");
   var old=kind==="main"?(S.ph[jid]||[]).filter(function(p){return p.kind==="main"&&(p.by===myEm()||!isTechRole())}):[];
   var shrink=function(f){return J.shrinkImage(f,1600,.78).then(function(d){return d.length>950000?J.shrinkImage(f,1200,.7):d})};
-  (kind==="main"?files.slice(0,1):files).reduce(function(p,f){return p.then(function(){return shrink(f).then(function(d){return db.collection("jobPhotos").add({jobId:jid,tech:j.assignedEmail||"",region:j.region||"",kind:kind,caption:"",data:d,by:stamp(),at:J.now()})})})},Promise.resolve())
+  (kind==="main"?files.slice(0,1):files).reduce(function(p,f){return p.then(function(){return shrink(f).then(function(d){return db.collection("jobPhotos").add({jobId:jid,tech:j.assignedEmail||"",region:j.region||"",kind:kind,caption:"",data:d,by:photoBy(),at:J.now()})})})},Promise.resolve())
    .then(function(){return Promise.all(old.map(function(p){return db.collection("jobPhotos").doc(p._id).delete().catch(function(){})}))})
    .then(function(){toast("Photo(s) saved");return loadPhotos(jid)}).catch(fail).finally(function(){if(lbl)lbl.classList.remove("busy");input.value=""})}
 
@@ -1118,7 +1120,7 @@ function scanFile(f){var st=bubble("ai",'<p class="mut">Reading <b>'+esc(f.name)
 /* ---------- doing the work ---------- */
 function units(v){return String(v||"").split(/\n/).map(function(l){var p=l.split(/\s*\/\s*/);return {item:(p[0]||"").trim(),model:(p[1]||"").trim(),serial:(p[2]||"").trim()}}).filter(function(u){return u.model||u.serial})}
 function jobRef(id){return S.jobs.find(function(x){return x._id===id})}
-function saveDocPhoto(j,img,caption){if(!img)return Promise.resolve();return db.collection("jobPhotos").add({jobId:j._id,tech:j.assignedEmail||"",region:j.region||"",kind:"doc",caption:caption,data:img,by:stamp(),at:J.now()})}
+function saveDocPhoto(j,img,caption){if(!img)return Promise.resolve();return db.collection("jobPhotos").add({jobId:j._id,tech:j.assignedEmail||"",region:j.region||"",kind:"doc",caption:caption,data:img,by:photoBy(),at:J.now()})}
 function run(c,act,v){var k=c.kind;
   if(k==="status"){stampLoc(c.job,c.st);var u={status:c.st,updatedAt:J.now(),updatedBy:stamp()};if(c.st==="done")u.doneAt=J.now();if(c.st==="on-the-way")u.onWayAt=J.now();if(c.st==="in-progress")u.startedAt=J.now();return db.collection("jobs").doc(c.job).update(u).then(function(){return "Job marked "+c.st.replace(/-/g," ")})}
   if(k==="assign"){var tn=tname(v.assignedEmail);return db.collection("jobs").doc(c.job).update({assignedEmail:v.assignedEmail,assignedTo:tn,updatedAt:J.now()}).then(function(){return "Sent to "+tn+" — it's in their My jobs now"})}
@@ -1163,7 +1165,7 @@ function openSign(jid){var j=jobRef(jid);if(!j)return;var hasMain=(S.ph[jid]||[]
   $("#sigClr").onclick=function(){x.clearRect(0,0,c.width,c.height);drew=false};$("#sigX").onclick=function(){d.remove()};
   $("#sigOk").onclick=function(){var no=$("#sigNo").checked,nm=$("#sigName").value.trim();if(!no&&!drew){toast("Ask the customer to sign, or tick “isn't available”");return}this.disabled=true;
     var t=document.createElement("canvas");t.width=600;t.height=200;var tx=t.getContext("2d");tx.fillStyle="#fff";tx.fillRect(0,0,600,200);tx.drawImage(c,0,0,600,200);
-    var step=no?Promise.resolve():db.collection("jobPhotos").add({jobId:jid,tech:j.assignedEmail||"",region:j.region||"",kind:"sign",caption:"Signed by "+(nm||"customer"),data:t.toDataURL("image/png"),by:stamp(),at:J.now()});
+    var step=no?Promise.resolve():db.collection("jobPhotos").add({jobId:jid,tech:j.assignedEmail||"",region:j.region||"",kind:"sign",caption:"Signed by "+(nm||"customer"),data:t.toDataURL("image/png"),by:photoBy(),at:J.now()});
     step.then(function(){return db.collection("jobs").doc(jid).update({status:"done",doneAt:J.now(),updatedAt:J.now(),updatedBy:stamp(),signedBy:no?"":nm,signedAt:no?"":J.now(),noSignature:no})})
      .then(function(){d.remove();toast("Job finished — thank you!");talk("Job finished. Thank you!");stampLoc(jid,"done");render();loadPhotos(jid);askReview(j)}).catch(function(e){fail(e);$("#sigOk").disabled=false})}}
 function timeline(j){var on=j.onWayAt,st=j.startedAt,dn=j.status==="done"?j.doneAt:"",dur=function(a,b){if(!a||!b)return "";var m=Math.round((new Date(b)-new Date(a))/6e4);return m<0?"":m<60?m+" min":Math.floor(m/60)+" h "+String(m%60).padStart(2,"0")+" min"};

@@ -425,9 +425,9 @@ setInterval(function(){try{sessionStorage.removeItem("jora_wx_gta")}catch(e){}wx
 /* ======================= CAPABILITIES (db / user / assets / downloads) ======================= */
 var CAP={db:null,user:null,assets:null,dl:null,canWrite:false,admin:false};
 window.JORA_CAP=CAP;
-(async function(){if(!window.claude||!claude.use)return;
-  try{CAP.user=await claude.use("user")}catch(e){}
-  try{CAP.db=await claude.use("db")}catch(e){}
+(async function(){if(!window.JRT||!JRT.use)return;
+  try{CAP.user=await JRT.use("user")}catch(e){}
+  try{CAP.db=await JRT.use("db")}catch(e){}
   if(CAP.user){try{CAP.admin=!!(await CAP.user.canEdit())}catch(e){}try{var w=await CAP.user.can("data.write");CAP.canWrite=w===null?CAP.admin:!!w}catch(e){}}
   if(CAP.db){
     CAP.db.doc("pub/site").onSnapshot(function(s){var d=s.exists?s.data():{};SITE=Object.assign({teamPhotos:[]},d);renderTeam()},function(){});
@@ -450,7 +450,7 @@ function openAdmin(){if(!CAP.admin||!CAP.db)return;if(!A.subs){A.subs=true;
   CAP.db.collection("customers").orderBy("name").limit(1000).onSnapshot(function(s){A.cust=s.docs.map(function(d){return Object.assign({_id:d.id},d.data())});renderA()},aErr);
   CAP.db.collection("quotes").orderBy("createdAt","desc").limit(500).onSnapshot(function(s){A.quotes=s.docs.map(function(d){return Object.assign({_id:d.id},d.data())});renderA()},aErr);
   CAP.db.collection("campaigns").orderBy("at","desc").limit(50).onSnapshot(function(s){A.camps=s.docs.map(function(d){return Object.assign({_id:d.id},d.data())});renderA()},aErr);
-  claude.use("assets").then(function(a){CAP.assets=a}).catch(function(){});claude.use("downloads").then(function(d){CAP.dl=d}).catch(function(){})}
+  JRT.use("assets").then(function(a){CAP.assets=a}).catch(function(){});JRT.use("downloads").then(function(d){CAP.dl=d}).catch(function(){})}
   renderA();openO("admin")}
 function aErr(e){toast("Database: "+(e&&e.message||"unavailable"))}
 function toast(m){var t=$("#admToast");if(!t){t=document.createElement("div");t.id="admToast";t.style.cssText="position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#1E1E1E;color:#fff;padding:10px 16px;z-index:400;font-weight:700;border-left:4px solid #F96302;max-width:90vw";document.body.appendChild(t)}t.textContent=m;t.style.display="block";clearTimeout(t._h);t._h=setTimeout(function(){t.style.display="none"},3200)}
@@ -524,9 +524,9 @@ function syncQuote(){var q=A.qEdit;if(!q)return;$$("#admMain [data-qk]").forEach
   $$("#admMain [data-li]").forEach(function(i){var it=q.items[+i.dataset.li];if(it)it[i.dataset.f]=i.dataset.f==="d"?i.value:(+i.value||0)})}
 function refreshTotals(){syncQuote();var t=qTotals(A.qEdit),box=$("#qtots");if(!box)return;var b=box.querySelectorAll("b");b[0].textContent=money(t.sub);b[1].textContent="-"+money(t.disc);var rows=box.querySelectorAll("div");t.tax.forEach(function(x,k){var r=rows[2+k];if(r)r.lastChild.textContent=money(x[1])});box.querySelector(".gt span:last-child").textContent=money(t.total);
   $$("#admMain .li").forEach(function(row,i){if(i===0)return;var it=A.qEdit.items[i-1],tt=row.querySelector(".tot");if(it&&tt)tt.textContent=money((+it.q||0)*(+it.p||0))})}
-async function gmail(input){if(!CAP.mcp){try{CAP.mcp=await claude.use("mcp")}catch(e){}}if(!CAP.mcp){toast("Gmail isn't available here — use the email app button");return false}try{await CAP.mcp.callTool("Gmail","send_message",input);return true}catch(e){toast("Gmail: "+(e&&(e.message||e.code)||"failed"));return false}}
+async function gmail(input){if(!CAP.mcp){try{CAP.mcp=await JRT.use("mcp")}catch(e){}}if(!CAP.mcp){toast("Gmail isn't available here — use the email app button");return false}try{await CAP.mcp.callTool("Gmail","send_message",input);return true}catch(e){toast("Gmail: "+(e&&(e.message||e.code)||"failed"));return false}}
 async function save(fn,ok){try{await fn();ok&&toast(ok)}catch(e){toast("Couldn't save: "+(e&&e.message||e&&e.code||"error"))}}
-async function dl(name,data,type){if(!CAP.dl){try{CAP.dl=await claude.use("downloads")}catch(e){}}if(!CAP.dl){toast("Downloads aren't available here");return}try{await CAP.dl.save({filename:name,data:new Blob([data],{type:type})})}catch(e){if(e&&e.code!=="declined")toast("Download failed: "+(e.message||e.code))}}
+async function dl(name,data,type){if(!CAP.dl){try{CAP.dl=await JRT.use("downloads")}catch(e){}}if(!CAP.dl){toast("Downloads aren't available here");return}try{await CAP.dl.save({filename:name,data:new Blob([data],{type:type})})}catch(e){if(e&&e.code!=="declined")toast("Download failed: "+(e.message||e.code))}}
 
 $("#admMain").addEventListener("input",function(e){var t=e.target;if(t.id==="cq"){A.cq=t.value;var pos=t.selectionStart;$("#admMain").innerHTML=aCust();var n=$("#cq");n.focus();n.setSelectionRange(pos,pos);return}
   if(A.qEdit&&(t.dataset.li!==undefined||t.dataset.qk)){refreshTotals();return}
@@ -540,7 +540,7 @@ $("#admMain").addEventListener("change",async function(e){var t=e.target;
   if(t.hasAttribute("data-qcust")){syncQuote();var c=A.cust.find(function(x){return x._id===t.value});if(c){A.qEdit.customerId=c._id;A.qEdit.customer={name:c.name,email:c.email,phone:c.phone,address:[c.street,c.unit,c.city,c.province,c.postal].filter(Boolean).join(", ")};if(c.province==="QC")A.qEdit.province="QC"}$("#admMain").innerHTML=quoteForm(A.qEdit);return}
   if(t.id==="pImg"&&t.files[0]){var url=await upload(t.files[0]);if(url){A.pNew.imgUrl=url;$("#admMain").innerHTML=aProd()}return}
   if(t.dataset.tfile!==undefined&&t.files[0]){var i=+t.dataset.tfile,u=await upload(t.files[0]);if(u){var ph=(SITE.teamPhotos||[]).slice();while(ph.length<3)ph.push({});ph[i]={url:u,caption:(ph[i]&&ph[i].caption)||""};save(function(){return savePub({teamPhotos:ph})},"Photo saved")}}});
-async function upload(file){if(!CAP.assets){try{CAP.assets=await claude.use("assets")}catch(e){}}if(!CAP.assets){toast("Uploads need editor access");return null}toast("Uploading…");try{var r=await CAP.assets.upload(file);toast("Uploaded");return r.url}catch(e){toast("Upload failed: "+(e.message||e.code));return null}}
+async function upload(file){if(!CAP.assets){try{CAP.assets=await JRT.use("assets")}catch(e){}}if(!CAP.assets){toast("Uploads need editor access");return null}toast("Uploading…");try{var r=await CAP.assets.upload(file);toast("Uploaded");return r.url}catch(e){toast("Upload failed: "+(e.message||e.code));return null}}
 $("#admMain").addEventListener("click",async function(e){var b=e.target.closest("[data-a],[data-rq],[data-qe],[data-tab]");if(!b)return;
   if(b.dataset.tab){A.qEdit=null;A.cEdit=null;A.rView=null;setTab(b.dataset.tab);return}
   if(b.dataset.rq){A.tab="req";A.rView=b.dataset.rq;renderA();return}
@@ -708,7 +708,7 @@ $("#admMain").addEventListener("click",function(e){var b=e.target.closest("[data
   function actsFor(f){var a=[];if(f&&f.svc)a.push(A_("Book "+svcName(f.svc).toLowerCase(),'data-cbook="'+f.svc+'"'));if(f&&f.go)a.push(A_(f.go==="work"?"See our work":"Show me",'data-cgo="'+f.go+'"'));if(f&&f.svc==="repair")a.unshift(callBtn());return a}
   function ruleAnswer(q){var pc=/[a-z]\d[a-z]\s?\d[a-z]\d/i.exec(q);if(pc){var r=checkPostal(pc[0]);bot(esc(r.msg)+(r.state==="ok"?" Want to book a free visit?":""),r.state==="ok"?[A_("Book a free visit",'data-cbook=""')]:[callBtn()]);return true}
     var f=match(q);if(!f)return false;bot(esc(f.a==="@lic"?lic():f.a),actsFor(f));return true}
-  async function ai(q){if(!window.claude||!claude.use)return false;if(!CAP.sample&&!aiTried){aiTried=true;try{CAP.sample=await claude.use("sample")}catch(e){}}if(!CAP.sample)return false;
+  async function ai(q){if(!window.JRT||!JRT.use)return false;if(!CAP.sample&&!aiTried){aiTried=true;try{CAP.sample=await JRT.use("sample")}catch(e){}}if(!CAP.sample)return false;
     var kb=CHAT.faq.map(function(f){return "- "+(f.a==="@lic"?lic():f.a)}).join("\n");
     var sys="You are the 24/7 website chat assistant for "+JORA.company+", a licensed heating, cooling, hot water and plumbing contractor in Ontario (phone "+JORA.phone+"). Answer in 1-3 short, friendly sentences. Only use these facts; if you don't know, say a technician will confirm and suggest calling or booking. Never quote prices or promise dates. For gas smells tell them to leave and call the gas utility emergency line or 911.\nFacts:\n"+kb+"\nRebates: "+REBATES.items.map(function(i){return i.t+" "+(i.up?"up to ":"")+cad(i.amt)+(i.per?" "+i.per:"")}).join("; ")+" ("+REBATES.program+", eligibility applies).\nBrands: "+allBrands.join(", ")+".\nService area: the whole Greater Toronto Area (Toronto, Peel, York, Halton, Durham).";
     var msgs=[{role:"user",content:sys+"\n\nConversation so far follows. Reply to the last customer message only."}].concat(hist.slice(-8).map(function(m){return {role:m.role,content:m.content}}));

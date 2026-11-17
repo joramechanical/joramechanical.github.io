@@ -40,18 +40,6 @@ Disallow: /admin/
 Disallow: /account/
 Disallow: /quote/
 
-User-agent: ClaudeBot
-Allow: /
-Disallow: /admin/
-Disallow: /account/
-Disallow: /quote/
-
-User-agent: Claude-SearchBot
-Allow: /
-Disallow: /admin/
-Disallow: /account/
-Disallow: /quote/
-
 User-agent: Applebot
 Allow: /
 Disallow: /admin/

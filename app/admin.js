@@ -563,7 +563,7 @@ function techs(){return S.team.filter(function(t){return !t.disabled&&(t.role===
 /* privacy: the owners' names and emails are never stored on shared records or shown to staff, technicians or customers */
 function stamp(){return isTechRole()?myEm():"office"}
 /* photos keep the uploader's own email until the new database rules are published (Google now requires 2-step verification to publish them) */
-var RULES_V2=false;function photoBy(){return RULES_V2?stamp():myEm()}
+var RULES_V2=true;function photoBy(){return RULES_V2?stamp():myEm()}
 function tname(em){if(!em)return "";if(em==="office")return "Jora office";var t=S.team.find(function(x){return x._id===em});if(t)return t.name||(can("finance")?em:"Team member");if(S.user&&(S.user.email||"").toLowerCase()===em)return S.user.displayName||"Me";return can("finance")?em:"Jora office"}
 function myEm(){return (S.user&&S.user.email||"").toLowerCase()}
 function isTechRole(){return S.role==="technician"}

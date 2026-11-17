@@ -826,6 +826,8 @@ function livePimg(id){if(!id||(window.__pimg&&__pimg[id])||livePend[id])return;l
 async function liveSaveRequest(rec,subject,text){rec.region=REGION;var ok=false,c=liveFb();
   if(c){try{var r=await fetch(fsURL("requests","documentId="+encodeURIComponent(rec.ref)),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({fields:toFs(rec).mapValue.fields})});ok=r.ok}catch(e){}}
   else{try{var d=liveDemoDB();d.requests=d.requests||{};d.requests[rec.ref]=JSON.parse(JSON.stringify(rec));localStorage.setItem("jora_demo_db",JSON.stringify(d))}catch(e){}}
+  var E=liveCfg().emailjs,ct0=rec.contact||{};if(E&&E.publicKey&&E.teamService&&E.alertTemplate){try{var r3=await fetch("https://api.emailjs.com/api/v1.0/email/send",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({service_id:E.teamService,template_id:E.alertTemplate,user_id:E.publicKey,template_params:{subject:subject+" · "+(REGION==="sk"?"Saskatchewan":"GTA"),from_name:"Jora Mechanical website",reply_to:ct0.email||"admin@joramechanicalsystems.com",message:text+"\n\nName: "+(((ct0.firstName||"")+" "+(ct0.lastName||"")).trim()||"Website visitor")+"\nPhone: "+(ct0.phone||"—")+"\nEmail: "+(ct0.email||"—")}})});if(r3.ok)return true}catch(e){}}
   var k=liveCfg().web3formsKey;if(k){try{var ct=rec.contact||{};var r2=await fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},
     body:JSON.stringify({access_key:k,subject:subject+" · "+(REGION==="sk"?"Saskatchewan":"GTA"),from_name:"Jora Mechanical website",name:((ct.firstName||"")+" "+(ct.lastName||"")).trim()||"Website visitor",email:ct.email||"",phone:ct.phone||"",message:text})});ok=ok||r2.ok}catch(e){}}
   return ok}

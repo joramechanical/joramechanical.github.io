@@ -24,12 +24,27 @@ function quoteTotals(q){var sub=(q.items||[]).reduce(function(a,i){return a+(+i.
 /* shrink a photo in the browser before saving it (keeps the free database plan small) */
 function shrinkImage(file,max,q){return new Promise(function(res,rej){var r=new FileReader();r.onerror=rej;r.onload=function(){var im=new Image();im.onerror=rej;im.onload=function(){var s=Math.min(1,(max||900)/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);var x=c.getContext("2d");x.drawImage(im,0,0,c.width,c.height);var d=c.toDataURL("image/webp",q||.82);if(d.indexOf("data:image/webp")!==0)d=c.toDataURL("image/jpeg",q||.82);res(d)};im.src=r.result};r.readAsDataURL(file)})}
 /* email to the office through Web3Forms (free); quietly does nothing until a key is set */
-function notifyOffice(subject,fields){if(!CFG.web3formsKey)return Promise.resolve(false);
-  var body=Object.assign({access_key:CFG.web3formsKey,subject:subject,from_name:"Jora Mechanical website"},fields||{});
+/* EmailJS: two senders. "customer" = info@ (quotes, invoices, customers); "team" = admin@ (technicians, suppliers, staff, office alerts) */
+var MAILBOX={customer:"info@joramechanicalsystems.com",team:"admin@joramechanicalsystems.com"};
+function ejs(){var E=CFG.emailjs;return E&&E.publicKey?E:null}
+function mailReady(kind){var E=ejs();if(!E)return false;return !!(kind==="team"?(E.teamService||E.serviceId):(E.customerService||E.serviceId))}
+function ejsSend(service,template,p){var E=ejs();
+  return fetch("https://api.emailjs.com/api/v1.0/email/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({service_id:service,template_id:template,user_id:E.publicKey,template_params:p})}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t||"Email failed")});return true})}
+function sendMail(kind,p){var E=ejs();if(!mailReady(kind))return Promise.reject(new Error("Direct email isn't set up yet"));
+  var svc=kind==="team"?(E.teamService||E.serviceId):(E.customerService||E.serviceId);
+  p=Object.assign({from_name:kind==="team"?"Jora Mechanical — Office":"Jora Mechanical Systems",reply_to:MAILBOX[kind==="team"?"team":"customer"],link:"",link_label:""},p||{});
+  if(p.quote_link&&!p.link){p.link=p.quote_link;p.link_label="View your quotation"}
+  return ejsSend(svc,E.templateId||"jora_send",p)}
+function emailCustomer(p){return sendMail("customer",p)}
+function emailTeam(p){return sendMail("team",p)}
+/* email alert to the office: EmailJS (admin@ sender, fixed-recipient template) first, then Web3Forms if a key is set */
+function notifyOffice(subject,fields){fields=fields||{};var E=ejs();
+  var lines=Object.keys(fields).filter(function(k){return k!=="message"&&fields[k]}).map(function(k){return k.charAt(0).toUpperCase()+k.slice(1)+": "+fields[k]});
+  var msg=(fields.message||"")+(lines.length?"\n\n"+lines.join("\n"):"");
+  if(E&&(E.teamService||E.serviceId)&&E.alertTemplate)return ejsSend(E.teamService||E.serviceId,E.alertTemplate,{subject:subject,message:msg,reply_to:fields.email||MAILBOX.team,from_name:"Jora Mechanical website"}).catch(function(){return false});
+  if(!CFG.web3formsKey)return Promise.resolve(false);
+  var body=Object.assign({access_key:CFG.web3formsKey,subject:subject,from_name:"Jora Mechanical website"},fields);
   return fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(body)}).then(function(r){return r.ok}).catch(function(){return false})}
-/* send an email straight to a customer through EmailJS (optional) */
-function emailCustomer(p){var E=CFG.emailjs;if(!E||!E.serviceId||!E.templateId||!E.publicKey)return Promise.reject(new Error("Direct email isn't set up yet"));
-  return fetch("https://api.emailjs.com/api/v1.0/email/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({service_id:E.serviceId,template_id:E.templateId,user_id:E.publicKey,template_params:p})}).then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t||"Email failed")});return true})}
 
 /* ======================= DEMO DATABASE (localStorage) ======================= */
 var KEY="jora_demo_db",subs=[];
@@ -123,7 +138,7 @@ function quoteHTML(q,opt){opt=opt||{};var t=quoteTotals(q),c=q.customer||{},reg=
 var JDB=window.JDB={demo:DEMO,quoteHTML:quoteHTML,DEFAULT_TERMS:DEFAULT_TERMS,owner:OWNER,cfg:CFG,
   db:DEMO?demoDB:fbDB,auth:DEMO?demoAuth:fbAuth,
   demoOwnerSignIn:demoOwnerSignIn,roleFor:roleFor,can:can,ROLES:ROLES,
-  rid:rid,now:now,esc:esc,money:money,quoteTotals:quoteTotals,shrinkImage:shrinkImage,notifyOffice:notifyOffice,emailCustomer:emailCustomer,
+  rid:rid,now:now,esc:esc,money:money,quoteTotals:quoteTotals,shrinkImage:shrinkImage,notifyOffice:notifyOffice,emailCustomer:emailCustomer,emailTeam:emailTeam,sendMail:sendMail,mailReady:mailReady,MAILBOX:MAILBOX,
   resetDemo:function(){localStorage.removeItem(KEY);localStorage.removeItem(AKEY);sessionStorage.removeItem("jora_demo_session");fire()},
   friendlyError:function(e){var c=(e&&e.code)||"",m={"auth/invalid-credential":"Email or password is wrong. First time here? Press “First time? Create your login” below. Forgot it? Press “Forgot password?”.","auth/invalid-login-credentials":"Email or password is wrong. First time here? Press “First time? Create your login” below. Forgot it? Press “Forgot password?”.","auth/wrong-password":"Email or password is wrong. Forgot it? Press “Forgot password?” below.","auth/user-not-found":"No login with that email yet — press “First time? Create your login” below.","auth/operation-not-allowed":"Email sign-in is switched off for this site. In Firebase → Authentication → Sign-in method, turn on Email/Password.","auth/unauthorized-domain":"This web address isn't allowed to sign in yet. In Firebase → Authentication → Settings → Authorized domains, add this website’s address.","auth/user-disabled":"This login has been turned off by the office.","auth/missing-password":"Type your password.",
     "auth/email-already-in-use":"There's already an account with that email — sign in instead.","auth/weak-password":"Password needs at least 6 characters.","auth/invalid-email":"Enter a valid email address.",

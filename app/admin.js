@@ -246,7 +246,7 @@ function quoteDoc(q){var d=JSON.parse(JSON.stringify(q));delete d._new;delete d.
 function saveQuote(extra){syncQuote();var q=S.edit.data;if(!q.customer.name){toast("Add the customer's name first");return Promise.reject(new Error("name"))}
   Object.assign(q,extra||{});var d=quoteDoc(q);return db.collection("quotes").doc(q._id).set(d).then(function(){q._new=false;q.createdAt=d.createdAt;upsertCustomer(Object.assign({region:q.region},q.customer)).catch(function(){});
     if(q.requestRef){var r=S.req.find(function(x){return x.ref===q.requestRef||x._id===q.requestRef});if(r&&["new","contacted"].indexOf(r.status||"new")>-1)db.collection("requests").doc(r._id).update({status:"quoted"}).catch(function(){})}return q})}
-function sendBox(){var q=S.edit.data,link=quoteLink(q._id,true),em=q.customer.email,t=J.quoteTotals(q),direct=!!(J.cfg.emailjs&&J.cfg.emailjs.serviceId);
+function sendBox(){var q=S.edit.data,link=quoteLink(q._id,true),em=q.customer.email,t=J.quoteTotals(q),direct=J.mailReady("customer");
   var body="Hi "+(q.customer.name||"").split(" ")[0]+",\n\nThank you for choosing Jora Mechanical Systems. Your quotation "+q.number+(q.title?" for "+q.title:"")+" is ready.\n\nTotal: "+money(t.total)+" (CAD, incl. tax)\n\nView, print or accept it here:\n"+link+"\n\nAny questions, just reply or call 905-667-2823.\n\nJora Mechanical Systems\ninfo@joramechanicalsystems.com";
   $("#sendBox").innerHTML='<div class="card" style="margin-top:18px;background:#fafbfc"><h3>Send quotation '+esc(q.number)+'</h3>'+(em?'<p>To: <b>'+esc(em)+'</b></p>':'<p class="err on">Add the customer\'s email above to send it by email. You can still copy the link and text it.</p>')+
   '<label class="f"><span>Message</span><textarea class="inp" id="sendMsg" rows="9">'+esc(body)+'</textarea></label><div class="acts">'+
@@ -428,7 +428,7 @@ function vTeam(){var L=S.team.slice().sort(function(a,b){return (a.name||a._id).
 /* ======================= SETUP ======================= */
 function vSetup(){var c=J.cfg,ok='<span class="pill won">Connected</span>',no='<span class="pill new">Not yet</span>';
   return top("Setup & help","What's connected, and what each part of the panel does.","",true)+
-  '<div class="two"><div class="card"><h3>Connections</h3><dl class="dl"><dt>Database &amp; logins</dt><dd>'+(J.demo?no+' — demo mode (this browser only)':ok+' Firebase project <code>'+esc(c.firebase.projectId)+'</code>')+'</dd><dt>Email alerts to the office</dt><dd>'+(c.web3formsKey?ok+' sent to info@':no)+'</dd><dt>Send quotes from the panel</dt><dd>'+(c.emailjs&&c.emailjs.serviceId?ok:no+' — “Open in my email” works meanwhile')+'</dd></dl>'+
+  '<div class="two"><div class="card"><h3>Connections</h3><dl class="dl"><dt>Database &amp; logins</dt><dd>'+(J.demo?no+' — demo mode (this browser only)':ok+' Firebase project <code>'+esc(c.firebase.projectId)+'</code>')+'</dd><dt>Email alerts to the office</dt><dd>'+(c.emailjs&&c.emailjs.alertTemplate||c.web3formsKey?ok+' sent to admin@':no)+'</dd><dt>Quotes &amp; invoices to customers</dt><dd>'+(J.mailReady("customer")?ok+' sent from info@':no+' — “Open in my email” works meanwhile')+'</dd><dt>Jobs to technicians, suppliers &amp; team</dt><dd>'+(J.mailReady("team")?ok+' sent from admin@':no+' — “Email it” opens your email meanwhile')+'</dd></dl>'+
   (J.demo?'<p style="margin-top:16px">To go live, the database (Firebase) needs to be connected. Until then you can try everything here — it\'s saved only in this browser, and nobody else can see it.</p>':'')+'</div>'+
   '<div class="card"><h3>What each page does</h3><dl class="dl"><dt>Today</dt><dd>The day at a glance: jobs, new requests, quotes, money. Print it or copy it to send.</dd><dt>Requests</dt><dd>Every quote request, chat and account request from both websites.</dd><dt>Quotations</dt><dd>Build a quote with tax worked out, send it, and see when the customer accepts online.</dd><dt>Jobs</dt><dd>Book work by day or week and assign a technician.</dd><dt>Products / Hero</dt><dd>Add products with photos, hide models, pick the hero slider.</dd><dt>Colours, weather</dt><dd>Brand colours, weather effect, announcement bar, numbers.</dd><dt>Team</dt><dd>Logins for employees and partners.</dd></dl></div></div>'}
 
@@ -662,7 +662,8 @@ function sendTech(j){var t=S.team.find(function(x){return x._id===j.assignedEmai
   return (timeline(j)?'<div class="card"><h3>Job progress</h3>'+timeline(j)+(j.warrantyYears?'<p class="mut tiny" style="margin:10px 0 0">Warranty on file: '+esc(j.warrantyYears)+' years'+(j.warrantyDoc?' — '+esc(j.warrantyDoc):'')+'</p>':'')+'</div>':'')+'<div class="card"><h3>Send to the technician</h3><p class="mut" style="margin-top:-6px">'+esc(tname(j.assignedEmail))+' already sees this job in <b>My jobs</b> when they sign in. You can also text or email it.</p><div class="acts">'+
     (t&&t.phone?'<a class="btn o sm" href="sms:'+esc(digits(t.phone))+'?&body='+encodeURIComponent(body)+'">'+ic("phone")+'Text it</a>':'')+
     '<a class="btn g sm" href="mailto:'+esc(j.assignedEmail)+'?subject='+encodeURIComponent("New job — "+(j.title||svcName(j.service))+" — "+nice(j.date))+'&body='+encodeURIComponent(body)+'">'+ic("mail")+'Email it</a>'+
-    '<button class="btn g sm" type="button" data-act="copyjob" data-id="'+esc(j._id)+'">Copy details</button></div></div>'}
+    (J.mailReady("team")&&j.assignedEmail.indexOf("@")>0?'<button class="btn sm" type="button" data-act="mailjob" data-id="'+esc(j._id)+'">'+ic("mail")+'Email from admin@</button>':'')+
+    '<button class="btn g sm" type="button" data-act="copyjob" data-id="'+esc(j._id)+'">Copy details</button></div>'+(j.emailedAt?'<p class="mut tiny" style="margin:8px 0 0">Emailed '+esc(new Date(j.emailedAt).toLocaleString())+'</p>':'')+'</div>'}
 function expRow(e,tech){e=e||{};var pb=["Company card"].concat(partners());if(tech)pb.push(tname(myEm())+" (me)");if(e.paidBy&&pb.indexOf(e.paidBy)<0)pb.push(e.paidBy);
   return '<div class="rw ex" data-id="'+esc(e.id||J.rid(8))+'" data-rep="'+(e.repaid?1:0)+'"><input class="inp" name="e.desc" placeholder="What was bought (e.g. copper, fittings)" value="'+esc(e.desc)+'"><select class="inp" name="e.cat">'+EXPCAT.map(function(c){return '<option'+((e.cat||"Materials & parts")===c?" selected":"")+'>'+c+'</option>'}).join("")+'</select><input class="inp" name="e.amount" type="number" step="0.01" min="0" placeholder="$" value="'+esc(e.amount)+'"><select class="inp" name="e.paid" title="Who paid">'+pb.map(function(p){return '<option'+((e.paidBy||"Company card")===p?" selected":"")+'>'+esc(p)+'</option>'}).join("")+'</select><button type="button" class="icon-b" data-act="delrow" aria-label="Remove">×</button></div>'}
 function serRow(s){s=s||{};return '<div class="rw sr"><input class="inp" name="s.item" placeholder="Unit (e.g. Furnace)" value="'+esc(s.item)+'"><input class="inp" name="s.model" placeholder="Model #" value="'+esc(s.model)+'"><input class="inp" name="s.serial" placeholder="Serial #" value="'+esc(s.serial)+'"><button type="button" class="icon-b" data-act="delrow" aria-label="Remove">×</button></div>'}
@@ -850,6 +851,9 @@ function crmClick(e){var t=e.target,b;
   if(a==="phdel"){if(!confirmDo("Delete this photo?"))return true;var jid=$("#phbox").dataset.job;db.collection("jobPhotos").doc(id).delete().then(function(){toast("Photo deleted");loadPhotos(jid)}).catch(fail);return true}
   if(a==="tst"){var s=b.dataset.s,u={status:s,updatedAt:J.now(),updatedBy:stamp()};if(s==="on-the-way")u.onWayAt=J.now();if(s==="in-progress")u.startedAt=J.now();if(s==="done")u.doneAt=J.now();
     b.disabled=true;db.collection("jobs").doc(id).update(u).then(function(){toast(s==="done"?"Job done — great work!":"Status: "+s.replace(/-/g," "));render();loadPhotos(id)}).catch(fail);return true}
+  if(a==="mailjob"){var jm=S.jobs.find(function(y){return y._id===id})||S.edit.data,tm=S.team.find(function(x){return x._id===jm.assignedEmail})||{};b.disabled=true;
+    J.emailTeam({to_email:jm.assignedEmail,to_name:tm.name||"",subject:"New job — "+(jm.title||svcName(jm.service))+" — "+nice(jm.date),message:jobText(jm)})
+      .then(function(){toast("Job emailed to "+(tm.name||jm.assignedEmail));if(jm._id)return db.collection("jobs").doc(jm._id).update({emailedAt:Date.now()}).catch(function(){})}).catch(fail).finally(function(){b.disabled=false});return true}
   if(a==="copyjob"){var jj=S.jobs.find(function(y){return y._id===id})||S.edit.data,txt=jobText(jj);(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(function(){toast("Job details copied")}).catch(function(){prompt("Copy:",txt)});return true}
   if(a==="repaid"){var src=b.dataset.src,pr;if(src==="exp")pr=db.collection("expenses").doc(id).update({repaid:true,repaidAt:J.now()});else{var jb=S.jobs.find(function(y){return y._id===id}),L=JSON.parse(JSON.stringify(jb.jobExp||[]));L[+b.dataset.i].repaid=true;pr=db.collection("jobs").doc(id).update({jobExp:L,updatedAt:J.now()})}
     pr.then(function(){toast("Marked as paid back")}).catch(fail);return true}
@@ -1430,12 +1434,15 @@ NAV.splice(NAV.findIndex(function(x){return x[1]==="cust"})+1,0,["Daily","fol","
 NAV.splice(NAV.findIndex(function(x){return x[1]==="techs"})+1,0,["Business","war","Warranties","view"]);
 var PHONE_TXT="905-667-2823";
 function first(c){return (cname(c||{}).split(" ")[0]||"there").replace(/^—$/,"there")}
+/* one-tap email straight from the panel (info@ for customers, admin@ for team/suppliers) — shows only once email is connected */
+function dmailBtn(kind,to,name,subj,body,link,label,doneAct,id){if(!to||!J.mailReady||!J.mailReady(kind))return "";
+  return '<button class="btn sm" type="button" data-dmail="'+kind+'" data-to="'+esc(to)+'" data-name="'+esc(name||"")+'" data-subj="'+esc(subj)+'" data-body="'+esc(body)+'" data-link="'+esc(link||"")+'" data-label="'+esc(label||"")+'"'+(doneAct?' data-done="'+doneAct+'" data-did="'+esc(id||"")+'"':'')+'>'+ic("mail")+'Send email'+(kind==="team"?' (admin@)':' (info@)')+'</button>'}
 function smsHref(phone,body){var d=digits(phone);return d?"sms:"+(d.length===10?"+1"+d:"+"+d)+"?&body="+encodeURIComponent(body):""}
 function mailHref(to,subj,body){return to?"mailto:"+encodeURIComponent(to)+"?subject="+encodeURIComponent(subj)+"&body="+encodeURIComponent(body):""}
 function invLink(id){var p="quote/"+IDX+"?inv="+encodeURIComponent(id);return new URL(ROOT+p,location.href).href}
 function reviewUrl(r){return (pubOf(r||"gta").reviewUrl)||(pubOf("gta").reviewUrl)||""}
 function sendBtns(c,subj,body,doneAct,id,extra){var s=smsHref(c&&c.phone,body),m=mailHref(c&&c.email,subj,body);
-  return '<div class="acts fu-b">'+(s?'<a class="btn sm o" href="'+s+'">'+ic("phone")+'Text</a>':'')+(m?'<a class="btn sm g" href="'+m+'">'+ic("mail")+'Email</a>':'')+'<button class="btn sm g" type="button" data-copytxt="'+esc(body)+'">Copy</button>'+(doneAct?'<button class="btn sm ok" type="button" data-act="'+doneAct+'" data-id="'+esc(id)+'"'+(extra||"")+'>✓ Done</button>':'')+'</div>'}
+  return '<div class="acts fu-b">'+dmailBtn("customer",c&&c.email,c&&c.name,subj,body,"","",doneAct,id)+(s?'<a class="btn sm o" href="'+s+'">'+ic("phone")+'Text</a>':'')+(m?'<a class="btn sm g" href="'+m+'">'+ic("mail")+'Email</a>':'')+'<button class="btn sm g" type="button" data-copytxt="'+esc(body)+'">Copy</button>'+(doneAct?'<button class="btn sm ok" type="button" data-act="'+doneAct+'" data-id="'+esc(id)+'"'+(extra||"")+'>✓ Done</button>':'')+'</div>'}
 
 /* ---------- invoices ---------- */
 function invNumber(){var d=new Date();return "JI-"+String(d.getFullYear()).slice(2)+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0")+"-"+String(Math.floor(Math.random()*900)+100)}
@@ -1448,7 +1455,7 @@ function invCard(j){if(!can("work"))return "";var inv=j.invoiceId&&S.invs.find(f
   if(!inv)return '<div class="card"><h3>Invoice</h3><p class="mut" style="margin-top:-6px">Make an invoice from this job — items come from the quotation (or the job value), with tax worked out.</p><button class="btn" data-act="mkinv" data-id="'+esc(j._id)+'"'+(num(j.amount)||j.quoteId?'':' disabled title="Add the job value first"')+'>'+ic("inv")+'Create invoice</button></div>';
   var c=j.customer||{},link=invLink(inv._id),body="Hi "+first(c)+", thank you for choosing Jora Mechanical Systems. Here is your invoice "+inv.number+" for "+money(inv.total)+": "+link+"\n\nPay by e-transfer to info@joramechanicalsystems.com or call "+PHONE_TXT+" to pay by card.";
   return '<div class="card"><h3>Invoice '+esc(inv.number)+' '+(inv.status==="paid"?'<span class="pill done">paid</span>':'<span class="pill new">'+money(inv.total-num(inv.paid))+' due</span>')+'</h3><div class="acts"><a class="btn sm" href="'+esc(link)+'" target="_blank" rel="noopener">Open / print</a>'+
-    (smsHref(c.phone,body)?'<a class="btn sm o" href="'+smsHref(c.phone,body)+'" data-act="invsent" data-id="'+esc(inv._id)+'">'+ic("phone")+'Text it</a>':'')+(c.email?'<a class="btn sm g" href="'+mailHref(c.email,"Invoice "+inv.number+" — Jora Mechanical Systems",body)+'" data-act="invsent" data-id="'+esc(inv._id)+'">'+ic("mail")+'Email it</a>':'')+
+    (smsHref(c.phone,body)?'<a class="btn sm o" href="'+smsHref(c.phone,body)+'" data-act="invsent" data-id="'+esc(inv._id)+'">'+ic("phone")+'Text it</a>':'')+dmailBtn("customer",c.email,c.name,"Invoice "+inv.number+" — Jora Mechanical Systems",body,link,"View your invoice","invsent",inv._id)+(c.email?'<a class="btn sm g" href="'+mailHref(c.email,"Invoice "+inv.number+" — Jora Mechanical Systems",body)+'" data-act="invsent" data-id="'+esc(inv._id)+'">'+ic("mail")+'Email it</a>':'')+
     '<button class="btn sm g" type="button" data-copytxt="'+esc(link)+'">Copy link</button><button class="btn sm g" type="button" data-act="reinv" data-id="'+esc(j._id)+'">Update from job</button></div>'+(inv.sentAt?'<p class="mut tiny" style="margin:8px 0 0">Sent '+niceT(inv.sentAt)+'</p>':'')+'</div>'}
 
 /* ---------- follow-ups ---------- */
@@ -1895,5 +1902,12 @@ function privacyScrub(){if(!can("finance"))return;var k="jora_scrub2_"+myEm();tr
   ["gta","sk"].forEach(function(r){var P=pubOf(r);if(P&&ownerish(P.updatedBy)){var P2=Object.assign(defaultPub(),P);savePub(r,P2)}});
   db.collection("jobPhotos").where("by","==",me).get().then(function(s){s.docs.forEach(function(d){fix("jobPhotos",d.id,{by:"office"})})}).catch(function(){});
   Promise.all(B).then(function(){try{localStorage.setItem(k,"1")}catch(e){}})}
+/* ---------- send email straight from the panel ---------- */
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-dmail]");if(!b)return;e.preventDefault();e.stopPropagation();
+  var d=b.dataset;if(!confirmDo("Send this email to "+d.to+" from "+(d.dmail==="team"?"admin@":"info@")+"joramechanicalsystems.com?"))return;
+  b.disabled=true;var old=b.innerHTML;b.textContent="Sending…";
+  J.sendMail(d.dmail,{to_email:d.to,to_name:d.name,subject:d.subj,message:d.body,link:d.link,link_label:d.label})
+    .then(function(){toast("Email sent to "+d.to);if(d.done){var x=document.createElement("button");x.type="button";x.hidden=true;x.dataset.act=d.done;x.dataset.id=d.did||"";b.parentNode.appendChild(x);x.click();x.remove()}})
+    .catch(fail).finally(function(){b.disabled=false;b.innerHTML=old})},true);
 
 })();

@@ -426,8 +426,9 @@
 
     <div class="pfx-mapcol">
       <div class="pfx-maptools">
-      <div class="pfx-tabs" role="tablist" aria-label="Map view" style="display:none">
-        <button type="button" class="pfx-tab" role="tab" data-pfx-view="gta" aria-selected="true" hidden style="display:none">GTA</button>
+      <div class="pfx-tabs" role="tablist" aria-label="Map view">
+        <button type="button" class="pfx-tab" role="tab" data-pfx-view="ontario" aria-selected="true">Southern Ontario</button>
+        <button type="button" class="pfx-tab" role="tab" data-pfx-view="gta" aria-selected="false">GTA area</button>
       </div>
       <button type="button" class="pfx-spinbtn" data-pfx-spin aria-pressed="false"><span aria-hidden="true">⟳</span> Auto-rotate</button>
       </div>
@@ -468,7 +469,7 @@
       <h3 class="pfx-h3">Cities we serve</h3>
       <ul class="pfx-cities" data-pfx-list aria-label="Cities we serve"></ul>
       <button type="button" class="pfx-more" data-pfx-more hidden>Show all cities</button>
-      <button type="button" class="pfx-switch" data-pfx-switch hidden style="display:none">See all GTA cities →</button>
+      <button type="button" class="pfx-switch" data-pfx-switch>See all GTA cities →</button>
     </div>
 
     <form class="pfx-book" data-pfx-book aria-labelledby="pfx-book-title" onsubmit="return false">
@@ -501,7 +502,7 @@
     // Where "Get a free quote" goes. Use "#quote" / "/contact" / a full URL – or keep the email link.
     quoteHref:    "mailto:info@joramechanicalsystems.com?subject=Free%20quote%20request",
     autoCycleMs:  3500,           // auto-highlight a new city every N ms (0 = off)
-    startView:    "gta",          // the GTA-only view
+    startView:    "ontario",      // "ontario" = Southern Ontario overview, "gta" = GTA close-up
 
     // ----- booking card -----
     requestEmail: "info@joramechanicalsystems.com",   // where "Request this visit" emails go (CHANGE to the Jora address)
@@ -1240,8 +1241,7 @@
     } else {
       var near = CONFIG.gtaCities.filter(function(c){ return ["Toronto", "Mississauga", "Brampton", "Oshawa"].indexOf(c.name) > -1; });
       items = [{ name:CONFIG.hub.name, tag:"GTA", lat:CONFIG.hub.lat, lon:CONFIG.hub.lon, hub:true }]
-        .concat(near.map(function(c){ return { name:c.name, lat:c.lat, lon:c.lon }; }))
-        .concat(CONFIG.farCities.map(function(c){ return { name:c.name, lat:c.lat, lon:c.lon }; }));
+        .concat(near.map(function(c){ return { name:c.name, lat:c.lat, lon:c.lon }; }));
     }
 
     items.forEach(function(c, idx){

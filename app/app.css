@@ -248,3 +248,7 @@ label.f{display:block;font-weight:600;font-size:14px;margin:0 0 14px}label.f>spa
 .ftabs .cnt{display:inline-block;min-width:18px;padding:0 5px;border-radius:9px;background:var(--or);color:#fff;font-size:11px;line-height:18px;text-align:center}
 .trep .tbl.pl td,.trep .tbl.pl th{font-size:13px;padding:7px 8px;text-align:left}
 @media print{.trep{font-size:12px}.trep .kpis{grid-template-columns:repeat(4,1fr)}}
+/* invoices + messages */
+.mpv{white-space:pre-wrap;font:14px/1.55 var(--bd,inherit);background:#f6f8fa;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:6px 0 0;overflow:auto}
+.prog{height:10px;background:#eef1f4;border-radius:99px;overflow:hidden;margin:6px 0}.prog>div{height:100%;background:#2E8B57;transition:width .3s}
+details>summary{cursor:pointer;padding:6px 0}

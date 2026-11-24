@@ -17,7 +17,11 @@ function now(){return new Date().toISOString()}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function money(n){return "$"+(Math.round((+n||0)*100)/100).toLocaleString("en-CA",{minimumFractionDigits:2,maximumFractionDigits:2})}
 /* tax by region: GTA = Ontario HST 13%; Saskatchewan = GST 5% + PST 6% */
-function quoteTotals(q){var sub=(q.items||[]).reduce(function(a,i){return a+(+i.qty||0)*(+i.price||0)},0),disc=Math.min(sub,+q.discount||0),net=Math.max(0,sub-disc),tax=[];
+/* brand options: a quote can offer up to 5 units; each option's total = its installed price + the shared lines */
+function chosenOpt(q){var O=q.options||[];if(!O.length)return -1;var id=q.response&&q.response.option;if(id==null)id=q.chosen;if(id==null)return -1;for(var i=0;i<O.length;i++)if(O[i].id===id)return i;return -1}
+function quoteTotals(q,oi){var O=q.options||[];if(oi===undefined)oi=chosenOpt(q);
+  if(O.length&&oi<0){var best=null;for(var k=0;k<O.length;k++){var tk=quoteTotals(q,k);if(!best||tk.total<best.total)best=tk}best.from=true;return best}
+  var sub=(q.items||[]).reduce(function(a,i){return a+(+i.qty||0)*(+i.price||0)},0)+(O.length&&oi>=0?(+O[oi].price||0):0),disc=Math.min(sub,+q.discount||0),net=Math.max(0,sub-disc),tax=[];
   if(q.taxMode==="none"){}else if(q.region==="sk"){tax.push(["GST 5%",net*.05],["PST 6%",net*.06])}else{tax.push(["HST 13%",net*.13])}
   var total=net+tax.reduce(function(a,x){return a+x[1]},0),dep=q.depositPct?total*(+q.depositPct)/100:0;
   return {sub:sub,disc:disc,net:net,tax:tax,total:total,deposit:dep}}
@@ -128,14 +132,26 @@ function quoteHTML(q,opt){opt=opt||{};var t=quoteTotals(q),c=q.customer||{},reg=
    '<div class="qd-no"><h2>'+(opt.doc||"Quotation")+'</h2><div><b>'+esc(q.number||"Draft")+'</b></div><div>Date: '+d(q.sentAt||q.createdAt||new Date().toISOString())+'</div>'+(q.validUntil&&!opt.doc?'<div>Valid until: '+d(q.validUntil)+'</div>':'')+(opt.doc&&q.workDate?'<div>Work done: '+d(q.workDate)+'</div>':'')+(opt.doc&&q.dueDate&&q.status!=="paid"?'<div>Due: '+d(q.dueDate)+'</div>':'')+(opt.status&&q.status?'<span class="pill qd-st '+esc(q.status)+'">'+esc(q.status)+'</span>':'')+'</div></div>'+
    '<div class="qd-to"><div><h4>'+(opt.doc?"Bill to":"Prepared for")+'</h4><b>'+esc(c.name||"—")+'</b><br>'+[c.address,[c.city,c.postal].filter(Boolean).join(" ")].filter(Boolean).map(esc).join("<br>")+(c.phone?'<br>'+esc(c.phone):'')+(c.email?'<br>'+esc(c.email):'')+'</div>'+
    '<div><h4>Project</h4><b>'+esc(q.title||"Heating & cooling work")+'</b>'+(q.site?'<br>'+esc(q.site):'')+'</div></div>'+
-   '<table class="qd-t"><thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Unit price</th><th class="r">Amount</th></tr></thead><tbody>'+
-   ((q.items||[]).length?(q.items||[]).map(function(i){return '<tr><td>'+esc(i.desc).replace(/\n/g,"<br>")+'</td><td class="r">'+esc(i.qty)+'</td><td class="r">'+money(i.price)+'</td><td class="r">'+money((+i.qty||0)*(+i.price||0))+'</td></tr>'}).join(""):'<tr><td colspan="4" style="color:#999">No items yet</td></tr>')+'</tbody></table>'+
-   '<div class="qd-sum"><div><span>Subtotal</span><span>'+money(t.sub)+'</span></div>'+(t.disc?'<div><span>Discount</span><span>−'+money(t.disc)+'</span></div>':'')+t.tax.map(function(x){return '<div><span>'+x[0]+'</span><span>'+money(x[1])+'</span></div>'}).join("")+
-   '<div class="g"><span>Total (CAD)</span><span>'+money(t.total)+'</span></div>'+(opt.doc&&+q.paid?'<div><span>Paid</span><span>−'+money(q.paid)+'</span></div><div class="g"><span>Balance due</span><span>'+money(Math.max(0,t.total-q.paid))+'</span></div>':'')+(t.deposit&&!opt.doc?'<div class="dep"><span>Deposit to book ('+esc(q.depositPct)+'%)</span><span>'+money(t.deposit)+'</span></div>':'')+'</div>'+
+   optHTML(q,opt)+(((q.options||[]).length&&!(q.items||[]).some(function(i){return (i.desc||"").trim()||+i.price}))?'':
+   ((q.options||[]).length?'<h4 class="qd-inc">Included with every option</h4>':'')+'<table class="qd-t"><thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Unit price</th><th class="r">Amount</th></tr></thead><tbody>'+
+   ((q.items||[]).length?(q.items||[]).map(function(i){return '<tr><td>'+esc(i.desc).replace(/\n/g,"<br>")+'</td><td class="r">'+esc(i.qty)+'</td><td class="r">'+money(i.price)+'</td><td class="r">'+money((+i.qty||0)*(+i.price||0))+'</td></tr>'}).join(""):'<tr><td colspan="4" style="color:#999">No items yet</td></tr>')+'</tbody></table>')+
+   ((q.options||[]).length&&chosenOpt(q)<0&&!opt.doc?cmpHTML(q):'<div class="qd-sum"><div><span>Subtotal</span><span>'+money(t.sub)+'</span></div>'+(t.disc?'<div><span>Discount</span><span>−'+money(t.disc)+'</span></div>':'')+t.tax.map(function(x){return '<div><span>'+x[0]+'</span><span>'+money(x[1])+'</span></div>'}).join("")+
+   '<div class="g"><span>Total (CAD)</span><span>'+money(t.total)+'</span></div>'+(opt.doc&&+q.paid?'<div><span>Paid</span><span>−'+money(q.paid)+'</span></div><div class="g"><span>Balance due</span><span>'+money(Math.max(0,t.total-q.paid))+'</span></div>':'')+(t.deposit&&!opt.doc?'<div class="dep"><span>Deposit to book ('+esc(q.depositPct)+'%)</span><span>'+money(t.deposit)+'</span></div>':'')+'</div>')+
    (q.notes?'<div class="qd-n"><h4>Notes</h4>'+esc(q.notes)+'</div>':'')+'<div class="qd-n"><h4>Terms</h4>'+esc(q.terms||DEFAULT_TERMS)+'</div>'+
    '<div class="qd-f">Thank you for choosing Jora Mechanical Systems · Licensed &amp; insured · 24/7 emergency service 905-667-2823</div></div>'}
 
-var JDB=window.JDB={demo:DEMO,quoteHTML:quoteHTML,DEFAULT_TERMS:DEFAULT_TERMS,owner:OWNER,cfg:CFG,
+function optHTML(q,opt){var O=q.options||[];if(!O.length)return "";var ci=chosenOpt(q);
+  return '<div class="qd-opts"><h4>'+(ci>=0?"Your choice":O.length>1?"Your options — choose the one that fits you best":"Your equipment")+'</h4><div class="qd-og'+(O.length===1?" one":"")+'">'+O.map(function(o,i){var t=quoteTotals(q,i),ch=i===ci,F=String(o.features||"").split("\n").map(function(x){return x.replace(/^[-•*]\s*/,"").trim()}).filter(Boolean);
+    var W=[["Labour",o.wLab],["Parts",o.wParts],["Heat exchanger",o.wHx],["",o.wOther]].filter(function(w){return String(w[1]||"").trim()});
+    return '<div class="qd-o'+(ch?" ch":"")+(ci>=0&&!ch?" dim":"")+'">'+(ch?'<span class="qd-rec ok">✓ Chosen</span>':o.rec?'<span class="qd-rec">Recommended</span>':'')+
+      (o.img?'<div class="qd-oi"><img src="'+esc(o.img)+'" alt="'+esc((o.brand||"")+" "+(o.name||""))+'"></div>':'')+
+      '<div class="qd-ob">Option '+(i+1)+'</div><div class="qd-bn">'+esc(o.brand||"")+'</div><div class="qd-nm">'+esc(o.name||"")+'</div>'+
+      (o.model?'<div class="qd-md">Model # <b>'+esc(o.model)+'</b></div>':'')+(o.model2?'<div class="qd-md">Model # <b>'+esc(o.model2)+'</b></div>':'')+(o.eff?'<div class="qd-md">'+esc(o.eff)+'</div>':'')+
+      (F.length?'<ul class="qd-fe">'+F.map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+'</ul>':'')+
+      (W.length?'<div class="qd-w"><div class="qd-wt">Warranty</div>'+W.map(function(w){return '<div><span>'+esc(w[0]||"Also")+'</span><b>'+esc(w[1])+'</b></div>'}).join("")+'</div>':'')+
+      '<div class="qd-op"><small>'+money(t.net)+' + '+(t.tax.length?t.tax.map(function(x){return x[0].split(" ")[0]}).join(" + "):"no tax")+'</small><b>'+money(t.total)+'</b></div></div>'}).join("")+'</div></div>'}
+function cmpHTML(q){var O=q.options||[];return '<table class="qd-t qd-cmp"><thead><tr><th>Option</th><th class="r">Before tax</th><th class="r">Tax</th><th class="r">Total (CAD)</th>'+(+q.depositPct?'<th class="r">Deposit</th>':'')+'</tr></thead><tbody>'+O.map(function(o,i){var t=quoteTotals(q,i);return '<tr><td><b>'+(i+1)+'. '+esc(o.brand||"")+'</b> '+esc(o.name||"")+(o.rec?' <small class="qd-rs">Recommended</small>':'')+'</td><td class="r">'+money(t.net)+'</td><td class="r">'+money(t.total-t.net)+'</td><td class="r"><b>'+money(t.total)+'</b></td>'+(+q.depositPct?'<td class="r">'+money(t.deposit)+'</td>':'')+'</tr>'}).join("")+'</tbody></table>'+(+q.discount?'<p class="qd-sm">Prices include your discount of '+money(q.discount)+'.</p>':'')}
+var JDB=window.JDB={chosenOpt:chosenOpt,demo:DEMO,quoteHTML:quoteHTML,DEFAULT_TERMS:DEFAULT_TERMS,owner:OWNER,cfg:CFG,
   db:DEMO?demoDB:fbDB,auth:DEMO?demoAuth:fbAuth,
   demoOwnerSignIn:demoOwnerSignIn,roleFor:roleFor,can:can,ROLES:ROLES,
   rid:rid,now:now,esc:esc,money:money,quoteTotals:quoteTotals,shrinkImage:shrinkImage,notifyOffice:notifyOffice,emailCustomer:emailCustomer,emailTeam:emailTeam,sendMail:sendMail,mailReady:mailReady,MAILBOX:MAILBOX,

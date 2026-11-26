@@ -1,3 +1,12 @@
+/* lead source: which page, website or ad brought the visitor (saved with each request) */
+(function(){try{var k="jora_track",q=new URLSearchParams(location.search),t=JSON.parse(sessionStorage.getItem(k)||"null");
+  if(!t){var r=document.referrer||"",h="";try{h=r?new URL(r).hostname:""}catch(e){}
+    if(h&&h.indexOf("joramechanicalsystems.com")>=0)h="";
+    t={landing:location.pathname,ref:h,src:q.get("utm_source")||(q.get("gclid")?"google-ads":q.get("fbclid")?"facebook":/google\./.test(h)?"google":/bing\./.test(h)?"bing":/facebook|fb\.|instagram/.test(h)?"facebook":/yelp|homestars|yellowpages/.test(h)?h:h?"other site":"direct"),
+       medium:q.get("utm_medium")||(q.get("gclid")?"cpc":/google\.|bing\./.test(h)?"organic":""),campaign:q.get("utm_campaign")||"",at:new Date().toISOString()};
+    sessionStorage.setItem(k,JSON.stringify(t))}
+  t.pages=(t.pages||0)+1;t.last=location.pathname;sessionStorage.setItem(k,JSON.stringify(t))}catch(e){}})();
+window.joraTrack=function(){try{var t=JSON.parse(sessionStorage.getItem("jora_track")||"null");if(t)return {landing:String(t.landing||"").slice(0,120),src:String(t.src||"").slice(0,40),medium:String(t.medium||"").slice(0,30),campaign:String(t.campaign||"").slice(0,60),ref:String(t.ref||"").slice(0,80),pages:t.pages||1,last:String(t.last||"").slice(0,120)}}catch(e){}return {src:"unknown"}};
 /* Jora guard: the website only runs on its own address and can't be shown inside another site */
 (function(){try{var h=location.hostname,ok=["joramechanicalsystems.com","www.joramechanicalsystems.com","joramechanical.github.io","localhost","127.0.0.1"];
 if(ok.indexOf(h)<0&&!/\.localhost$/.test(h)){document.documentElement.style.display="none";location.replace("https://joramechanicalsystems.com/");return}
@@ -302,7 +311,7 @@ function refNo(){var d=new Date();return "JM-"+String(d.getFullYear()).slice(2)+
 function custId(email){return "c_"+String(email||"").toLowerCase().replace(/[^a-z0-9]+/g,"_").slice(0,120)}
 async function submitRequest(){var rec={ref:refNo(),service:W.svc,serviceName:svcName(W.svc),answers:JSON.parse(JSON.stringify(W.a)),contact:Object.assign({},W.c,{postal:(W.c.postal||"").toUpperCase()}),status:"new",source:"website",createdAt:new Date().toISOString()};
   var saved=false;
-  if(CAP.db&&CAP.canWrite){try{await CAP.db.collection("requests").doc(rec.ref).set(rec);await upsertCustomer(rec.contact,rec.serviceName);saved=true}catch(err){saved=false}}
+  if(CAP.db&&CAP.canWrite){try{await CAP.db.collection("requests").doc(rec.ref).set(Object.assign(rec,{track:joraTrack()}));await upsertCustomer(rec.contact,rec.serviceName);saved=true}catch(err){saved=false}}
   if(!saved)saved=await liveSaveRequest(rec,"Quote request "+rec.ref+" — "+rec.serviceName,summaryText(rec));
   if(!saved&&JORA.formEndpoint){try{var r=await fetch(JORA.formEndpoint,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(Object.assign({_subject:"Quote request "+rec.ref,message:summaryText(rec)},rec))});saved=r.ok}catch(err){}}
   var mail="mailto:"+(SITE.notifyEmail||JORA.notifyEmail)+"?subject="+encodeURIComponent("Quote request "+rec.ref+" — "+rec.serviceName)+"&body="+encodeURIComponent(summaryText(rec));
@@ -337,7 +346,8 @@ function checkPostal(raw){var v=String(raw||"").toUpperCase().replace(/[^A-Z0-9]
   if(!/^[A-Z]\d[A-Z](\d[A-Z]\d)?$/.test(v))return {state:"bad",msg:"Enter a postal code like L5B 3C2."};
   var pc=v.length>3?v.slice(0,3)+" "+v.slice(3):v,a=v.slice(0,2),L=v[0];
   if(L==="M"||["L1","L3","L4","L5","L6","L7","L9"].indexOf(a)>-1)return {state:"ok",pc:pc,msg:"Yes! We serve "+pc+" — anywhere in the GTA."};
-  if(/^L/.test(v))return {state:"maybe",pc:pc,msg:pc+" is just outside the GTA. Book or call and we'll confirm we can come to you."};
+  if(/^[KLN]/.test(v))return {state:"ok",pc:pc,msg:"Yes! We serve "+pc+" in Ontario. Book your free quote and we'll confirm your visit time."};
+  if(L==="P")return {state:"maybe",pc:pc,msg:pc+" is in northern Ontario. Book or call and we'll confirm we can come to you."};
   return {state:"no",pc:pc,msg:pc+" is outside our usual area — call us, we may still help."}}
 function pcAction(r){return r.state==="bad"?"":'<button type="button" data-book-pc="'+esc(r.pc)+'">'+(r.state==="no"?"Call 905-667-2823":"Book a free quote")+'</button><a class="pc-gmap" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(r.pc+", Ontario, Canada")+'" target="_blank" rel="noopener">View on Google Maps ↗</a>'}
 if(has("#pcForm"))$("#pcForm").addEventListener("submit",function(e){e.preventDefault();var r=checkPostal($("#pcIn").value),o=$("#pcRes");o.className="pres "+(r.state==="bad"?"no":r.state);o.innerHTML=(r.state==="ok"?"✓ ":r.state==="no"?"✕ ":"")+esc(r.msg)+pcAction(r)});
@@ -723,7 +733,7 @@ $("#admMain").addEventListener("click",function(e){var b=e.target.closest("[data
     var d=add("bot",'<form class="cform" novalidate><input name="n" placeholder="Your name" required autocomplete="name"><input name="p" type="tel" placeholder="Phone" required autocomplete="tel"><input name="pc" placeholder="Postal code (optional)" maxlength="7" autocomplete="postal-code"><textarea name="m" placeholder="How can we help?" rows="2"></textarea><button class="btn sm" type="submit">Send to the team</button></form>');
     d.querySelector("form").addEventListener("submit",async function(e){e.preventDefault();var f=e.target,n=f.n.value.trim(),ph=f.p.value.trim();if(!n||ph.replace(/\D/g,"").length<10){f.querySelector(n?"[name=p]":"[name=n]").focus();f.classList.add("bad");return}
       f.querySelector("button").disabled=true;var rec={ref:refNo(),service:"chat",serviceName:"Chat message",answers:{details:f.m.value.trim(),chat:hist.slice(-10).map(function(m){return (m.role==="user"?"Customer: ":"Assistant: ")+m.content}).join("\n")},contact:{firstName:n.split(" ")[0],lastName:n.split(" ").slice(1).join(" "),phone:ph,postal:f.pc.value.toUpperCase(),email:"",province:"ON",city:""},status:"new",source:"chat",createdAt:new Date().toISOString()};
-      var saved=false;if(CAP.db&&CAP.canWrite){try{await CAP.db.collection("requests").doc(rec.ref).set(rec);saved=true}catch(err){}}
+      var saved=false;if(CAP.db&&CAP.canWrite){try{await CAP.db.collection("requests").doc(rec.ref).set(Object.assign(rec,{track:typeof joraTrack==="function"?joraTrack():{}}));saved=true}catch(err){}}
       if(!saved)saved=await liveSaveRequest(rec,"Chat message "+rec.ref+" — "+n,"Name: "+n+"\nPhone: "+ph+"\nPostal code: "+rec.contact.postal+"\n\n"+rec.answers.details);
       if(!saved&&JORA.formEndpoint){try{var r=await fetch(JORA.formEndpoint,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({_subject:"Chat message "+rec.ref,name:n,phone:ph,postal:rec.contact.postal,message:rec.answers.details,chat:rec.answers.chat})});saved=r.ok}catch(err){}}
       f.remove();if(saved)bot("Thanks, "+esc(n.split(" ")[0])+"! Your message is with our team (ref "+esc(rec.ref)+"). We'll call you back soon.");

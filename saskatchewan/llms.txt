@@ -14,9 +14,10 @@ Brands installed: Lennox, Carrier, Trane, Goodman, Kepler, TOSOT, Midea, Gree, R
 - [24/7 heating & cooling repair](https://joramechanicalsystems.com/saskatchewan/hvac-repair/): No heat at −30 °C is an emergency. Call 905-667-2823 any time — day, night, weekends and holidays.
 - [Water heater replacement](https://joramechanicalsystems.com/saskatchewan/water-heaters/): Tank water heaters replaced fast — gas, propane or electric — with SaskEnergy rebates of $250 to $1,000 on qualifying models.
 - [Ductwork design & installation](https://joramechanicalsystems.com/saskatchewan/ductwork/): Cold bonus rooms over the garage and chilly basements are usually duct problems. We design, build and fix ductwork.
+- [Custom sheet metal & duct fabrication](https://joramechanicalsystems.com/saskatchewan/sheet-metal/): Residential and commercial sheet metal work: we measure, fabricate and install the ductwork your heating, cooling and ventilation system needs.
 - [Whole-home humidifiers](https://joramechanicalsystems.com/saskatchewan/humidifiers/): Prairie winter air is extremely dry. A humidifier on your furnace adds moisture to every room automatically.
 - [Smart thermostats](https://joramechanicalsystems.com/saskatchewan/smart-thermostats/): Check on your home's heat from anywhere — and get an alert if the furnace stops while you're away in January.
-- [HRV & ERV ventilation](https://joramechanicalsystems.com/saskatchewan/hrv-erv/): Fresh air in, stale air out — while recovering most of the heat. ENERGY STAR HRVs qualify for a $100 SaskEnergy rebate.
+- [HRV & ERV ventilation](https://joramechanicalsystems.com/saskatchewan/hrv-erv/): Fresh air in, stale air out — while recovering most of the heat.
 - [Boilers & in-floor heating](https://joramechanicalsystems.com/saskatchewan/boilers/): Quiet, even heat for in-floor radiant slabs, garages, shops and radiators — with SaskEnergy rebates may be available.
 - [Indoor air quality](https://joramechanicalsystems.com/saskatchewan/indoor-air-quality/): Better filtration on your furnace — for prairie dust, allergies, pets and summer wildfire smoke.
 - [Maintenance & tune-ups](https://joramechanicalsystems.com/saskatchewan/hvac-maintenance/): A yearly tune-up before the first hard freeze keeps your heat safe and reliable — and helps keep warranties valid.
@@ -65,6 +66,22 @@ Brands installed: Lennox, Carrier, Trane, Goodman, Kepler, TOSOT, Midea, Gree, R
 - [Hague](https://joramechanicalsystems.com/saskatchewan/service-areas/hague/)
 - [Rosthern](https://joramechanicalsystems.com/saskatchewan/service-areas/rosthern/)
 - [Corman Park](https://joramechanicalsystems.com/saskatchewan/service-areas/corman-park/)
+- [Asquith](https://joramechanicalsystems.com/saskatchewan/service-areas/asquith/)
+- [Waldheim](https://joramechanicalsystems.com/saskatchewan/service-areas/waldheim/)
+- [Hepburn](https://joramechanicalsystems.com/saskatchewan/service-areas/hepburn/)
+- [Borden](https://joramechanicalsystems.com/saskatchewan/service-areas/borden/)
+- [Radisson](https://joramechanicalsystems.com/saskatchewan/service-areas/radisson/)
+- [Vonda](https://joramechanicalsystems.com/saskatchewan/service-areas/vonda/)
+- [Colonsay](https://joramechanicalsystems.com/saskatchewan/service-areas/colonsay/)
+- [Hanley](https://joramechanicalsystems.com/saskatchewan/service-areas/hanley/)
+- [Davidson](https://joramechanicalsystems.com/saskatchewan/service-areas/davidson/)
+- [Watrous](https://joramechanicalsystems.com/saskatchewan/service-areas/watrous/)
+- [Lanigan](https://joramechanicalsystems.com/saskatchewan/service-areas/lanigan/)
+- [Wakaw](https://joramechanicalsystems.com/saskatchewan/service-areas/wakaw/)
+- [Duck Lake](https://joramechanicalsystems.com/saskatchewan/service-areas/duck-lake/)
+- [Blaine Lake](https://joramechanicalsystems.com/saskatchewan/service-areas/blaine-lake/)
+- [White City](https://joramechanicalsystems.com/saskatchewan/service-areas/white-city/)
+- [Lumsden](https://joramechanicalsystems.com/saskatchewan/service-areas/lumsden/)
 - [Prince Albert](https://joramechanicalsystems.com/saskatchewan/service-areas/prince-albert/)
 - [North Battleford](https://joramechanicalsystems.com/saskatchewan/service-areas/north-battleford/)
 - [Humboldt](https://joramechanicalsystems.com/saskatchewan/service-areas/humboldt/)
@@ -90,8 +107,7 @@ Brands installed: Lennox, Carrier, Trane, Goodman, Kepler, TOSOT, Midea, Gree, R
 - [Terms and conditions](https://joramechanicalsystems.com/saskatchewan/terms/)
 - [Accessibility policy](https://joramechanicalsystems.com/saskatchewan/accessibility/)
 - [WCB clearance](https://joramechanicalsystems.com/saskatchewan/wcb-clearance/)
-
-## Added pages
+- [HRV & ERV ventilation](https://joramechanicalsystems.com/saskatchewan/hrv-erv/): Fresh air in, stale air out — while recovering most of the heat. ENERGY STAR HRVs qualify for a $100 SaskEnergy rebate.
 - [Gas line installation in Saskatoon](https://joramechanicalsystems.com/saskatchewan/gas-line-installation/): BBQ, range, dryer, fire pit and garage heater gas lines by TSASK-licensed gas fitters.
 - [HVAC service in Stonebridge, Saskatoon](https://joramechanicalsystems.com/saskatchewan/service-areas/saskatoon/stonebridge/)
 - [HVAC service in Evergreen, Saskatoon](https://joramechanicalsystems.com/saskatchewan/service-areas/saskatoon/evergreen/)

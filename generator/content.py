@@ -491,12 +491,72 @@ EXTRA_POSTS = [
          ('Do I need a carbon monoxide alarm on every floor in Ontario?',
           "Since January 1, 2026, yes, if your house has a fuel-burning appliance such as a gas furnace, a fireplace or an attached garage. You also need one next to each sleeping area. Ontario's CO "
           'safety page has the full rules.')]},
- {"tag": "Rebates", "col": "#2E7D32", "ic": "rebate", "date": "Oct 2026", "slug": "ontario-heat-pump-rebates",
-  "t": "Ontario heat pump rebates explained", "x": "What the Home Renovation Savings Program covers and how to qualify.",
-  "body": ["Ontario's Home Renovation Savings Program is delivered by Save on Energy and Enbridge Gas. It offers rebates on energy upgrades for homeowners.",
-           "The program lists up to $7,500 for a cold-climate air-source heat pump and up to $12,000 for a ground-source system, depending on size and eligibility. Smart thermostats, insulation, windows and heat pump water heaters have their own rebates.",
-           "Some upgrades require an energy assessment or a participating contractor, and rules can change — so check before work starts.",
-           "When we quote a heat pump, we tell you which rebates you may qualify for and help you with the paperwork."]},
+ {'tag': 'Rebates',
+ 'col': '#2E7D32',
+ 'ic': 'rebate',
+ 'date': 'Nov 2026',
+ 'iso': '2026-11-27',
+ 'slug': 'ontario-heat-pump-rebates',
+ 't': 'Ontario Heat Pump Rebates: What Your Home Can Actually Get',
+ 'x': 'How Ontario Home Renovation Savings heat pump rebates are worked out, why gas-heated homes get less, and how the new federal rebate fits in.',
+ 'body': ['Most ads say Ontario heat pump rebates go "up to $7,500." Some homes do qualify for that. Many homes in the GTA heat with natural gas, though, and they fall under a smaller rebate. Before '
+          'you budget around a number, it helps to know which group your house is in and how the amount is worked out.',
+          'This guide covers the provincial Home Renovation Savings Program and the new federal National Heat Pump Rebate, as their official pages read on November 27, 2026.',
+          '## Who runs the Ontario program',
+          'Home Renovation Savings is run by Save on Energy and Enbridge Gas. Heat pumps sit in the part of the program that needs no home energy assessment. The details are on the [official heat '
+          'pump page](https://www.homerenovationsavings.ca/without-assessment/heat-pumps).',
+          '## The rebate depends on how you heat now',
+          'This is the part most people miss. The program pays per ton of heat pump capacity, and the rate depends on your main heat source today.',
+          '- **Electricity, oil, propane or wood:** a cold-climate air-source heat pump earns $1,250 per ton, up to $7,500. A ground-source (geothermal) system earns $2,000 per ton, up to $12,000.',
+          '- **Natural gas from Enbridge:** a cold-climate air-source heat pump earns $500 per ton, up to $2,000. A ground-source system gets a flat $3,000.',
+          '- **Rented heat pumps:** they get the same amounts as the gas group, whatever fuel the home used before.',
+          'Tons are counted from the rated heating capacity at 8.3°C (47°F), not from the cooling size printed on the box. So a 3-ton cold-climate unit in a house heated with electric baseboards '
+          'would work out to $3,750. The same unit in a gas-heated house would work out to $1,500.',
+          'That difference matters in places like Peterborough, Orillia or the cottage country north of Barrie, where plenty of homes still burn oil or propane or use electric baseboards. Those '
+          'owners stand to gain the most from the provincial program.',
+          '## Rules that can cost you the rebate',
+          'The program is strict about order. Miss one of these and the rebate can be refused.',
+          '1. **Pre-approval comes first.** The program says installs done before approval are not eligible. Plan the job before the old system fails, if you can.',
+          '2. **Use a participating contractor.** The contractor sends the pre-installation and post-installation applications for you.',
+          "3. **Pick a listed model.** The air-source unit must be an active model on Natural Resources Canada's qualified product list. Not every heat pump sold in Ontario is on it.",
+          '4. **Own an eligible home.** Detached, semi-detached, row houses, townhomes and mobile homes on a permanent foundation qualify. Homes occupied for six months or less do not. If the home '
+          'has tenants, the owner applies.',
+          'Once the final application is approved, the program says the cheque should arrive by mail within 60 days.',
+          '## The federal rebate on top',
+          "Canada's [National Heat Pump Rebate](https://www.canada.ca/en/environment-climate-change/campaigns/one-million-home-energy-retrofits.html) is a separate program run by the federal "
+          'government. It covers heat pumps installed on or after November 1, 2026. The application portal is expected to open in early 2027.',
+          '- Households with above-median income can get $2,000.',
+          '- Low- to median-income households can get up to $10,000, capped at the cost of the install. Income limits depend on household size and province.',
+          '- You apply yourself. Contractors cannot apply on your behalf.',
+          '- The unit must be on the federal eligible product list by its AHRI number, as of the install date.',
+          'Can you combine the two? The federal page says some households may be able to, with details to come before launch. Until those rules are published, nobody can promise you both. Our '
+          '[National Heat Pump Rebate page](national-heat-pump-rebate/) has the income limits and a calculator, and we update it as the rules firm up.',
+          '## Is a heat pump worth it in a gas-heated home?',
+          'The federal page itself warns that switching off natural gas may not lower your heating bills, depending on where you live. In much of '
+          'Ontario, gas is still cheap to burn.',
+          'For gas homes, the setup that usually makes sense is a hybrid. A cold-climate heat pump does the cooling and most of the spring and fall heating. The gas furnace takes over on the coldest '
+          'nights. If your central air is near the end of its life, that is the natural time to put in a heat pump instead of a new AC.',
+          'For homes on oil, propane or electric baseboards, the case is much stronger. Running costs often drop, and the provincial rebate is at its highest.',
+          '## Sizing still comes first',
+          'A rebate is no reason to buy the wrong size. The federal program says the system must be able to heat the whole home, with more detail promised before launch. We size from a room-by-room '
+          'heat loss calculation and check the ducts, since an older duct system can limit what a ducted heat pump delivers. Ductless units can work well in homes without ducts or for a cold '
+          'addition.',
+          '## What we do when we quote',
+          '1. Check how your home is heated now, since that sets the provincial rate.',
+          '2. Size the system and choose a model that appears on the lists for both programs.',
+          '3. Show you each rebate separately, with the rate used, so you can see the math.',
+          '4. Handle the provincial pre-approval before any work starts.',
+          'See our [heat pump page](heat-pumps/) for the equipment we install, or our [Ontario rebates page](rebates/) for other upgrades such as insulation. We work across the [GTA](service-areas/) '
+          'and in towns like [Peterborough](service-areas/peterborough/), [Orillia](service-areas/orillia/) and [Kingston](service-areas/kingston/). [Book a free quote](free-quote/) and we will tell '
+          'you plainly which rebates your home qualifies for.'],
+ 'faq': [('Why is my heat pump rebate only $2,000 when ads say $7,500?',
+          'Under Home Renovation Savings, homes that mainly heat with Enbridge natural gas get $500 per ton, up to $2,000. The $7,500 maximum is for homes heated with electricity, oil, propane or '
+          'wood.'),
+         ('Can I get the Ontario rebate if my heat pump is already installed?',
+          'The provincial program requires pre-approval and says installs done before approval are not eligible. The federal National Heat Pump Rebate is different: it accepts installs from November '
+          '1, 2026, with applications expected in early 2027.'),
+         ('Do I need an energy assessment for a heat pump rebate?',
+          'Not for the heat pump itself. The Ontario program lists heat pumps under upgrades that need no assessment, and the federal program says no pre- or post-installation audit is required.')]},
  {"tag": "Cooling", "col": "#1E1E1E", "ic": "ac", "date": "Sep 2026", "slug": "ac-sizing-guide",
   "t": "Why AC size matters more than brand", "x": "Oversized and undersized air conditioners both cost you comfort.",
   "body": ["An oversized air conditioner cools the house quickly, shuts off, and never runs long enough to remove humidity — so the home feels cold and clammy.",

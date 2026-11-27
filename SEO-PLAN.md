@@ -22,7 +22,7 @@ tankless/water heaters, garage heaters (SK), residential and commercial.
 
 ## Queue (take the first unchecked item for your run type; add new ideas at the end)
 - [x] Article (rewrite): GTA "signs-you-need-a-new-furnace" — expand to 700+ words, passes content_check
-- [ ] Article (rewrite): GTA "ontario-heat-pump-rebates" — verify Ontario Home Renovation Savings on the official page, link /gta/national-heat-pump-rebate/
+- [x] Article (rewrite): GTA "ontario-heat-pump-rebates" — verify Ontario Home Renovation Savings on the official page, link /gta/national-heat-pump-rebate/
 - [ ] Article (rewrite): GTA "ac-sizing-guide"
 - [ ] Article (rewrite): GTA "water-heater-rental-buyout"
 - [ ] Article (rewrite): every thin Saskatchewan post (run `python3 tools/content_check.py sk --all` to list them), one per run
@@ -45,6 +45,7 @@ tankless/water heaters, garage heaters (SK), residential and commercial.
 - [ ] Article (both): Commercial HVAC maintenance plans — what's included and why it saves money
 - [ ] Article (ON): Rental water heater or furnace vs buying your own — questions to ask
 - [ ] Article (SK): Frozen furnace intake/exhaust pipes in deep cold — prevention and fixes
+- [ ] Improve: Ontario heat pump page FAQ, rebates page description and rebate callouts say "up to $7,500" with no fuel condition. Official HRS page (checked 2026-11-27): gas-heated Enbridge homes get $500/ton up to $2,000; $1,250/ton up to $7,500 only for electric/oil/propane/wood. Add the condition.
 - [ ] Improve: add 2 unique FAQs to each new lake-area city page (local, factual)
 - [ ] Improve: check every page title/description is unique and under ~60/155 characters
 
@@ -54,3 +55,4 @@ tankless/water heaters, garage heaters (SK), residential and commercial.
 - 2026-11-26 — Blog upgraded (headings, lists, links, FAQ + BlogPosting schema with dates); tools/content_check.py quality gate; articles /gta/blog/furnace-replacement-ontario-guide/ and /saskatchewan/blog/replacing-a-furnace-in-saskatoon/ (both PASS + LanguageTool); SaskEnergy rebates corrected to the Aug 17, 2026 terms ($325 furnace, 120 days); overlay no longer overwrites the Saskatchewan sitemap/search index.
 - 2026-11-26 — Rewrote /gta/blog/signs-you-need-a-new-furnace/ (1,022 words, PASS; Ontario CO alarm rules checked on ontario.ca/cosafety). Note: deploy step must keep gta/ and saskatchewan/blog/live-posts.json (robot files, not in the build).
 - 2026-11-26 (evening) — 10 Ontario city pages with a local note each: /gta/service-areas/{bracebridge,huntsville,gravenhurst,parry-sound,orangeville,kawartha-lakes,napanee,cornwall,stratford,south-bruce-peninsula}/; postal check now accepts Muskoka/Parry Sound (P1H, P1L, P1P, P2A). Rebate re-check blocked (official HRS site unreachable), no rebate changes.
+- 2026-11-27 — Rewrote /gta/blog/ontario-heat-pump-rebates/ (932 words, PASS; HRS amounts checked on homerenovationsavings.ca, federal rebate on canada.ca). LanguageTool not reachable from the run (manual proofread instead).

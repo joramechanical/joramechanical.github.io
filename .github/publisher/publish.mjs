@@ -7,6 +7,7 @@ const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync(new URL("./md
 const E=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const conv=v=>"stringValue" in v?v.stringValue:"integerValue" in v?Number(v.integerValue):"doubleValue" in v?v.doubleValue:"booleanValue" in v?v.booleanValue:"timestampValue" in v?v.timestampValue:"arrayValue" in v?(v.arrayValue.values||[]).map(conv):"mapValue" in v?Object.fromEntries(Object.entries(v.mapValue.fields||{}).map(([k,x])=>[k,conv(x)])):null;
 const MOCK=process.env.JORA_MOCK?JSON.parse(fs.readFileSync(process.env.JORA_MOCK,"utf8")):null;
+const SAFE=s=>typeof s==="string"&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(s)&&s.length<=80;
 async function getDoc(p){if(MOCK){const [c,id]=p.split("/");return (MOCK[c]||{})[id]||null}const r=await fetch(`https://firestore.googleapis.com/v1/projects/${PROJECT}/databases/(default)/documents/${p}`);if(r.status===404)return null;if(!r.ok)throw new Error(p+" "+r.status);const j=await r.json();return conv({mapValue:{fields:j.fields||{}}})}
 const today=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Karachi",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
 const read=f=>{try{return fs.readFileSync(path.join(ROOT,f),"utf8")}catch{return null}};
@@ -30,7 +31,7 @@ for(const [r,dir] of [["gta","gta"],["sk","saskatchewan"]]){
   const P=await getDoc("public/"+r);if(!P){console.log("no data for",r);continue}
   const tpl=read(`${dir}/blog/post/index.html`);if(!tpl){console.log("no template for",dir);continue}
   const manF=`${dir}/blog/live-posts.json`,old=JSON.parse(read(manF)||'{"posts":[],"pages":[]}'),man={posts:[],pages:[],at:new Date().toISOString()},urls=[];
-  const posts=(P.posts||[]).filter(x=>x&&!x.off&&x.title&&x.slug&&(!x.date||x.date<=today)).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+  const posts=(P.posts||[]).filter(x=>x&&!x.off&&x.title&&SAFE(x.slug)&&(!x.date||x.date<=today)).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
   for(const x of posts){const rel=`${dir}/blog/${x.slug}`,abs=path.join(ROOT,rel);if(fs.existsSync(abs)&&!old.posts.includes(x.slug))continue;fs.mkdirSync(abs,{recursive:true});
     let cover="";if(x.imgDoc){try{const d=await getDoc("pimg/"+x.imgDoc);cover=img(d&&d.data,path.join(abs,"cover"))}catch(e){console.log("image",e.message)}}
     const url=SITE+rel+"/",words=joraWords(x.body),others=posts.filter(q=>q.id!==x.id).slice(0,3);
@@ -39,7 +40,7 @@ for(const [r,dir] of [["gta","gta"],["sk","saskatchewan"]]){
       (others.length?`<aside class="lp-rel"><h2 class="h2">More advice</h2><ul class="lp-more">${others.map(q=>`<li><a href="../${q.slug}/">${E(q.title)}</a></li>`).join("")}</ul></aside>`:"");
     const html=fill(tpl,{title:x.title,desc:x.excerpt||x.title,url,image:cover?url+cover:"",body,ld:{"@context":"https://schema.org","@type":"BlogPosting",headline:x.title,description:x.excerpt||"",datePublished:x.date,dateModified:x.updated||x.date,image:cover?url+cover:undefined,author:{"@type":"Organization",name:"Jora Mechanical Systems",url:SITE},publisher:{"@type":"Organization",name:"Jora Mechanical Systems"},mainEntityOfPage:url,wordCount:words}});
     const f=path.join(abs,"index.html");if(read(path.relative(ROOT,f))!==html){fs.writeFileSync(f,html);changed++}man.posts.push(x.slug);urls.push([url,x.updated||x.date])}
-  const pages=(P.cpages||[]).filter(x=>x&&!x.off&&x.title&&x.slug);
+  const pages=(P.cpages||[]).filter(x=>x&&!x.off&&x.title&&SAFE(x.slug));
   for(const x of pages){const rel=`${dir}/page/${x.slug}`,abs=path.join(ROOT,rel);if(fs.existsSync(abs)&&!old.pages.includes(x.slug))continue;fs.mkdirSync(abs,{recursive:true});
     let cover="";if(x.imgDoc){try{const d=await getDoc("pimg/"+x.imgDoc);cover=img(d&&d.data,path.join(abs,"photo"))}catch(e){}}
     const url=SITE+rel+"/";

@@ -490,7 +490,7 @@ function renderA(){if(!$("#admin").classList.contains("open")&&!A.subs)return;va
   var keep=document.activeElement&&m.contains(document.activeElement)&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);if(keep&&A.tab!=="dash"&&A.tab!=="req")return;
   m.innerHTML=f()}
 function stt(s){return '<span class="st '+esc(s||"new")+'">'+esc(s||"new")+'</span>'}
-function d10(s){return s?String(s).slice(0,10):""}
+function d10(s){return s?esc(String(s).slice(0,10)):""}
 function qTotals(q){var sub=(q.items||[]).reduce(function(a,i){return a+(+i.q||0)*(+i.p||0)},0),disc=+q.discount||0,net=Math.max(0,sub-disc),tax=[];
   if(q.province==="SK"||!q.province){tax.push(["GST 5%",net*.05],["PST 6%",net*.06])}else if(q.province==="AB"){tax.push(["GST 5%",net*.05])}else{tax.push(["Tax "+(+q.taxRate||0)+"%",net*(+q.taxRate||0)/100])}
   var t=net+tax.reduce(function(a,x){return a+x[1]},0);return {sub:sub,disc:disc,net:net,tax:tax,total:t}}

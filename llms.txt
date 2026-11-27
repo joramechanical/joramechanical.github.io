@@ -133,6 +133,16 @@ Brands installed: Lennox, Carrier, Trane, KeepRite, Goodman, Kepler, TOSOT, Mide
 - [Kingston](https://joramechanicalsystems.com/gta/service-areas/kingston/)
 - [Brockville](https://joramechanicalsystems.com/gta/service-areas/brockville/)
 - [Ottawa](https://joramechanicalsystems.com/gta/service-areas/ottawa/)
+- [Bracebridge](https://joramechanicalsystems.com/gta/service-areas/bracebridge/)
+- [Huntsville](https://joramechanicalsystems.com/gta/service-areas/huntsville/)
+- [Gravenhurst](https://joramechanicalsystems.com/gta/service-areas/gravenhurst/)
+- [Parry Sound](https://joramechanicalsystems.com/gta/service-areas/parry-sound/)
+- [Orangeville](https://joramechanicalsystems.com/gta/service-areas/orangeville/)
+- [Kawartha Lakes](https://joramechanicalsystems.com/gta/service-areas/kawartha-lakes/)
+- [Napanee](https://joramechanicalsystems.com/gta/service-areas/napanee/)
+- [Cornwall](https://joramechanicalsystems.com/gta/service-areas/cornwall/)
+- [Stratford](https://joramechanicalsystems.com/gta/service-areas/stratford/)
+- [South Bruce Peninsula](https://joramechanicalsystems.com/gta/service-areas/south-bruce-peninsula/)
 
 ## Key pages
 - [Ontario rebates](https://joramechanicalsystems.com/gta/rebates/)

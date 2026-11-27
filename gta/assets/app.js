@@ -347,6 +347,7 @@ function checkPostal(raw){var v=String(raw||"").toUpperCase().replace(/[^A-Z0-9]
   var pc=v.length>3?v.slice(0,3)+" "+v.slice(3):v,a=v.slice(0,2),L=v[0];
   if(L==="M"||["L1","L3","L4","L5","L6","L7","L9"].indexOf(a)>-1)return {state:"ok",pc:pc,msg:"Yes! We serve "+pc+" — anywhere in the GTA."};
   if(/^[KLN]/.test(v))return {state:"ok",pc:pc,msg:"Yes! We serve "+pc+" in Ontario. Book your free quote and we'll confirm your visit time."};
+  if(["P1H","P1L","P1P","P2A"].indexOf(v.slice(0,3))>-1)return {state:"ok",pc:pc,msg:"Yes! We serve "+pc+" in Muskoka and Parry Sound. Book your free quote and we'll confirm your visit time."};
   if(L==="P")return {state:"maybe",pc:pc,msg:pc+" is in northern Ontario. Book or call and we'll confirm we can come to you."};
   return {state:"no",pc:pc,msg:pc+" is outside our usual area — call us, we may still help."}}
 function pcAction(r){return r.state==="bad"?"":'<button type="button" data-book-pc="'+esc(r.pc)+'">'+(r.state==="no"?"Call 905-667-2823":"Book a free quote")+'</button><a class="pc-gmap" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(r.pc+", Ontario, Canada")+'" target="_blank" rel="noopener">View on Google Maps ↗</a>'}

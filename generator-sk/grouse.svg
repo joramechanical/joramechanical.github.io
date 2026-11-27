@@ -1,0 +1,72 @@
+<svg viewBox="0 0 520 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a sharp-tailed grouse, Saskatchewan's provincial bird, standing in a prairie wheat field with a western red lily at sunset">
+<defs>
+<linearGradient id="skSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d3f7a"/><stop offset=".45" stop-color="#e98a3c"/><stop offset=".75" stop-color="#f7c873"/><stop offset="1" stop-color="#f9e2a8"/></linearGradient>
+<radialGradient id="skSun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff6d6"/><stop offset=".55" stop-color="#ffd36b"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
+<linearGradient id="skField" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9a441"/><stop offset="1" stop-color="#8a5a1c"/></linearGradient>
+<linearGradient id="skBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a6236"/><stop offset=".55" stop-color="#b98a52"/><stop offset="1" stop-color="#efe3cc"/></linearGradient>
+<linearGradient id="skWing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6e4a26"/><stop offset="1" stop-color="#a77a45"/></linearGradient>
+<pattern id="skChev" width="14" height="12" patternUnits="userSpaceOnUse"><path d="M1 3l6 5 6-5" fill="none" stroke="#5b3c1e" stroke-width="2" stroke-linecap="round" opacity=".75"/></pattern>
+<pattern id="skBelly" width="16" height="13" patternUnits="userSpaceOnUse"><path d="M2 3l6 5 6-5" fill="none" stroke="#7a5630" stroke-width="1.6" stroke-linecap="round" opacity=".55"/></pattern>
+<pattern id="skSpots" width="18" height="14" patternUnits="userSpaceOnUse"><ellipse cx="6" cy="5" rx="3.2" ry="2.2" fill="#f7efe0"/><ellipse cx="14" cy="11" rx="2.6" ry="1.8" fill="#f7efe0"/></pattern>
+<filter id="skSoft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1.2"/></filter>
+</defs>
+<rect width="520" height="400" rx="22" fill="url(#skSky)"/>
+<circle cx="392" cy="214" r="92" fill="url(#skSun)"/>
+<circle cx="392" cy="214" r="36" fill="#fff1c2" opacity=".95"/>
+<path d="M0 238 C80 228 150 236 230 230 S390 222 520 232 V400 H0Z" fill="#b97b2f" opacity=".55"/>
+<path d="M0 252 C120 244 220 250 330 246 S460 240 520 246 V400 H0Z" fill="url(#skField)"/>
+<g stroke="#f3cf73" stroke-width="2" stroke-linecap="round" opacity=".85">
+<path d="M18 400 q4-60 12-118"/><path d="M40 400 q-2-70 6-128"/><path d="M470 400 q6-70 2-132"/><path d="M494 400 q-6-58 4-120"/><path d="M448 400 q2-50 10-96"/>
+</g>
+<g fill="#f6d27a">
+<ellipse cx="30" cy="278" rx="5" ry="14" transform="rotate(10 30 278)"/><ellipse cx="46" cy="268" rx="5" ry="14" transform="rotate(-6 46 268)"/><ellipse cx="472" cy="264" rx="5" ry="14" transform="rotate(-4 472 264)"/><ellipse cx="499" cy="276" rx="5" ry="14" transform="rotate(12 499 276)"/><ellipse cx="458" cy="300" rx="4.6" ry="13" transform="rotate(18 458 300)"/>
+</g>
+<!-- western red lily (provincial flower) -->
+<g transform="translate(78 300)">
+<path d="M0 100 C2 60 -2 30 4 0" stroke="#3f6b2a" stroke-width="4" fill="none"/>
+<path d="M2 52 q-22-8-28-26 q20 4 28 18z" fill="#4f8a34"/><path d="M3 70 q22-6 30-24 q-20 2-30 16z" fill="#4f8a34"/>
+<g transform="translate(4 0)">
+<path d="M0 0 C-30 -8 -42 -34 -36 -52 C-20 -40 -8 -22 0 0Z" fill="#e2401c"/>
+<path d="M0 0 C30 -8 42 -34 36 -52 C20 -40 8 -22 0 0Z" fill="#e2401c"/>
+<path d="M0 0 C-10 -28 -6 -52 0 -62 C6 -52 10 -28 0 0Z" fill="#f04f22"/>
+<path d="M-6 -12 C-18 -22 -24 -32 -26 -40" stroke="#f6c24a" stroke-width="3" fill="none" opacity=".8"/><path d="M6 -12 C18 -22 24 -32 26 -40" stroke="#f6c24a" stroke-width="3" fill="none" opacity=".8"/>
+<g fill="#5a1d0b"><circle cx="-14" cy="-18" r="1.8"/><circle cx="-20" cy="-26" r="1.6"/><circle cx="14" cy="-18" r="1.8"/><circle cx="20" cy="-26" r="1.6"/><circle cx="-3" cy="-24" r="1.5"/><circle cx="3" cy="-32" r="1.5"/></g>
+<path d="M-2 -6 l-6 -26 M2 -6 l6 -26 M0 -6 v-30" stroke="#7a2a10" stroke-width="1.4"/>
+</g>
+</g>
+<!-- sharp-tailed grouse -->
+<g transform="translate(150 118)">
+<ellipse cx="120" cy="206" rx="120" ry="12" fill="#5a3a12" opacity=".35" filter="url(#skSoft)"/>
+<!-- legs (feathered) -->
+<path d="M96 170 q-4 22 -2 34 M128 172 q2 20 6 32" stroke="#e9dcc4" stroke-width="12" stroke-linecap="round" fill="none"/>
+<path d="M86 204 h16 M90 204 l-8 4 M98 204 l4 5 M126 205 h18 M134 205 l-6 5 M140 205 l6 4" stroke="#6b5136" stroke-width="3" stroke-linecap="round"/>
+<!-- pointed tail -->
+<path d="M196 104 L262 70 L250 92 L272 96 L214 128 Z" fill="#7a5530"/>
+<path d="M206 112 L262 86 L224 128 Z" fill="#f2ead9"/>
+<path d="M214 104 L256 80" stroke="#4a3018" stroke-width="2"/>
+<!-- body -->
+<path d="M30 92 C40 52 96 44 150 58 C192 68 220 92 218 122 C216 160 176 182 120 182 C70 182 34 160 26 128 C24 116 26 104 30 92Z" fill="url(#skBody)"/>
+<path d="M30 92 C40 52 96 44 150 58 C192 68 220 92 218 122 C216 160 176 182 120 182 C70 182 34 160 26 128 C24 116 26 104 30 92Z" fill="url(#skChev)" opacity=".7"/>
+<path d="M44 130 C64 166 120 178 168 166 C140 182 80 184 46 156Z" fill="#f4ecdc"/>
+<path d="M40 118 C60 160 116 176 170 164 C150 176 82 180 48 152Z" fill="url(#skBelly)"/>
+<!-- wing -->
+<path d="M84 76 C120 62 182 72 204 100 C198 128 150 140 108 130 C84 124 72 104 84 76Z" fill="url(#skWing)"/>
+<path d="M84 76 C120 62 182 72 204 100 C198 128 150 140 108 130 C84 124 72 104 84 76Z" fill="url(#skSpots)" opacity=".9"/>
+<path d="M104 98 C134 92 170 98 196 108 M100 112 C132 108 166 114 190 122" stroke="#4a3018" stroke-width="2" fill="none" opacity=".6"/>
+<!-- neck & head -->
+<path d="M58 66 C46 46 42 26 50 12 C58 -2 78 -4 90 4 C100 12 102 26 98 40 C96 52 92 62 86 70Z" fill="#9a7244"/>
+<path d="M58 66 C46 46 42 26 50 12 C58 -2 78 -4 90 4 C100 12 102 26 98 40 C96 52 92 62 86 70Z" fill="url(#skChev)" opacity=".55"/>
+<path d="M54 44 C62 54 78 58 92 52 C88 64 70 70 58 64Z" fill="#efe5d2"/>
+<path d="M60 10 C66 0 82 -2 90 6 C82 4 70 6 60 10Z" fill="#5b3c1e"/>
+<!-- yellow comb, eye, bill -->
+<path d="M62 14 C66 8 76 7 82 12 C76 12 68 13 62 14Z" fill="#f2c230"/>
+<circle cx="70" cy="20" r="4.2" fill="#2a1a0c"/><circle cx="71.4" cy="18.8" r="1.3" fill="#fff"/>
+<path d="M50 22 L38 27 L50 30Z" fill="#3a2a1a"/>
+<path d="M60 30 C66 34 74 34 80 30" stroke="#f5efe2" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+</g>
+<!-- grass in front -->
+<g stroke="#6d4a17" stroke-width="2.4" stroke-linecap="round" opacity=".9">
+<path d="M150 400 q6-40 -2-74"/><path d="M168 400 q-4-34 8-66"/><path d="M360 400 q4-38 -6-70"/><path d="M380 400 q-2-30 8-58"/><path d="M262 400 q2-24 -4-44"/>
+</g>
+<text x="500" y="384" text-anchor="end" font-family="Roboto Condensed,Arial" font-weight="800" font-size="13" fill="#fff8e6" opacity=".95" letter-spacing=".08em">SHARP-TAILED GROUSE · SASKATCHEWAN</text>
+</svg>

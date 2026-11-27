@@ -1,0 +1,270 @@
+<div id="site">
+<div id="wxpage" aria-hidden="true"><div class="wx-tint"></div><div class="wx-sunball"></div><div class="wx-rays"></div><div class="wx-clouds"><i></i><i></i><i></i><i></i></div></div><canvas id="wxfx" aria-hidden="true"></canvas><div class="wx-flash" aria-hidden="true"></div>
+<div class="strip"><div class="wrap">
+  <span>Serving <b>Saskatoon &amp; area, Regina, Prince Albert &amp; Moose Jaw</b> · TSASK-licensed · Free estimates</span>
+  <span class="pill-r"><i></i>24/7 Emergency · <a href="tel:+19056672823">905-667-2823</a></span>
+</div></div>
+
+<header class="hdr" id="hdr">
+  <div class="wrap bar">
+    <a class="logo" href="#top" aria-label="Jora Mechanical Systems home">
+      <span class="l3d" aria-hidden="true"><span class="slab"><span class="bk"></span><span class="lt"></span><span class="rt"></span><span class="tp"></span><span class="bt"></span><span class="f"><img alt="" src="{{LOGO}}"></span></span></span>
+      <span><b>Jora Mechanical<br>Systems</b><small>Heating · Cooling · Gas</small></span>
+    </a>
+    <div class="search" role="search">
+      <form id="sForm" autocomplete="off">
+        <label for="sIn" class="vh">Search products and services</label>
+        <input id="sIn" type="search" placeholder="Search products — or type your postal code" role="combobox" aria-expanded="false" aria-controls="sRes">
+        <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4.2-4.2"/></svg></button>
+      </form>
+      <div class="res" id="sRes" role="listbox" hidden></div>
+    </div>
+    <div class="acts">
+      <a class="call" href="tel:+19056672823"><small>Call us 24/7</small><b>905-667-2823</b></a>
+      <a class="btn rb" href="#rebates"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M15 9.2c-.6-.8-1.7-1.2-3-1.2-1.7 0-3 .8-3 2s1.3 1.7 3 2 3 .8 3 2-1.3 2-3 2c-1.3 0-2.5-.5-3.1-1.3M12 6v2M12 16v2"/></svg><span>Rebates</span></a>
+      <button class="btn" type="button" data-open="quote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M16 3v4M8 3v4M3 10h18"/></svg><span>Free Quote</span></button>
+    </div>
+  </div>
+  <nav class="nav" aria-label="Departments"><div class="wrap"><ul>
+    <li><button data-shop="furnace">Furnaces</button></li>
+    <li><button data-shop="ac">Air Conditioners</button></li>
+    <li><button data-shop="hp">Heat Pumps</button></li>
+    <li><button data-shop="water">Tankless</button></li>
+    <li><button data-shop="gh">Garage Heaters</button></li>
+    <li><button data-svc="duct">Duct Work</button></li>
+    <li><button data-svc="hrv">HRV / ERV</button></li>
+        <li><a href="#solutions">Commercial</a></li>
+    <li><button data-work="all">Our Work</button></li>
+    <li><a class="rbl" href="#rebates">Rebates</a></li>
+    <li><button class="hot" data-svc="repair">Repairs 24/7</button></li>
+    <li><a href="#area">Service Area</a></li>
+  </ul></div></nav>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="jx-hero" id="jx-hero" aria-roledescription="carousel" aria-label="Featured products">
+  <div class="jx-ghost" aria-hidden="true">LENNOX</div>
+  <div class="jx-wrap">
+    <div class="jx-copy">
+      <div class="tstat" id="tstat" aria-label="Thermostat">
+        <div class="dial" id="dial"><div class="ring"></div><div class="face"><div><small id="tMode">Heat</small><b id="tSet">21°</b></div></div><button class="dn" type="button" aria-label="Lower temperature">−</button><button class="up" type="button" aria-label="Raise temperature">+</button></div>
+      </div>
+      <div class="jx-tabs" role="tablist" aria-label="Product categories">
+        <button class="jx-tab" role="tab" data-cat="furnace" aria-selected="true">Furnaces</button>
+        <button class="jx-tab" role="tab" data-cat="ac" aria-selected="false">AC</button>
+        <button class="jx-tab" role="tab" data-cat="hp" aria-selected="false">Heat Pumps</button>
+        <button class="jx-tab" role="tab" data-cat="water" aria-selected="false">Tankless</button>
+        <button class="jx-tab" role="tab" data-cat="gh" aria-selected="false">Garage Heaters</button>
+      </div>
+      <div class="jx-anim" id="jx-info" aria-live="polite">
+        <div class="jx-brand" id="jx-brand">Lennox</div>
+        <h1 class="jx-title" id="jx-title">Comfort, installed right</h1>
+        <p class="jx-desc" id="jx-desc"></p>
+        <ul class="jx-feats" id="jx-feats"></ul>
+      </div>
+      <div class="jx-ctas">
+        <button class="btn" type="button" id="jx-quote">Get a Free Quote</button>
+        <button class="btn o" type="button" id="jx-more">See full details</button>
+      </div>
+      <form class="pcheck" id="pcForm" autocomplete="off"><label for="pcIn" class="vh">Your postal code</label><input id="pcIn" maxlength="7" placeholder="Do we serve you? e.g. S7K 1J5"><button type="submit">Check</button></form>
+      <p class="pres" id="pcRes" aria-live="polite"></p>
+    </div>
+    <div class="jx-stage" id="jx-stage" tabindex="0" aria-label="Product slider, use arrow keys">
+      <div class="jx-floor"></div><div class="jx-ring"></div>
+      <div class="jx-track" id="jx-track"></div>
+      <div class="jx-controls">
+        <button class="jx-arrow" id="jx-prev" aria-label="Previous product"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <div class="jx-count" id="jx-count"><b>01</b></div>
+        <div class="jx-dots" id="jx-dots"></div>
+        <button class="jx-arrow" id="jx-next" aria-label="Next product"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#services">Scroll<i></i></a>
+</section>
+<section class="numband" aria-labelledby="statT">
+  <div class="wrap"><div class="sh"><div><span class="kick">Why homeowners choose Jora</span><h2 id="statT">Local experts, <em>ready when you need us</em></h2></div></div></div>
+  <div class="stat-view"><div class="stat-track" id="statTrack"></div></div>
+</section>
+
+
+<!-- SERVICES -->
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sh reveal"><div><span class="kick">Book in 2 minutes</span><h2>What do you <em>need?</em></h2><p>Pick a service to see the brands and models we install — then get your free quote.</p></div></div>
+    <div class="qs reveal" id="qs"></div>
+  </div>
+</section>
+
+<!-- SOLUTIONS -->
+<section class="sec sol" id="solutions">
+  <div class="wrap">
+    <div class="sh reveal"><div><span class="kick">Solutions</span><h2>Home. Commercial. <em>Industrial.</em></h2><p>One licensed team for every kind of building.</p></div></div>
+    <div class="sol-tabs reveal" role="tablist" id="solTabs"></div>
+    <div class="sol-stage reveal" id="solStage"></div>
+  </div>
+</section>
+
+<!-- REBATES -->
+<section class="sec rebates" id="rebates">
+  <div class="wrap reb">
+    <div class="reb-l reveal">
+      <span class="kick">Save money</span>
+      <h2>SaskEnergy rebates may be available — <em>we'll check what you qualify for</em></h2>
+      <p id="rebProg"></p>
+      <div class="reb-calc"><h4>Tick what you're planning</h4><div id="rebPick"></div><div class="reb-tot"><small id="rebLbl">Tick what you're planning to see your possible rebate</small><b id="rebTot" hidden>$0</b></div>
+        <div class="reb-ctas"><button class="btn" type="button" id="rebQuote">Get a quote with rebates</button><button class="btn o" type="button" data-chat-open="rebate">Ask in chat</button></div></div>
+    </div>
+    <div class="reb-r reveal">
+      <div class="reb-cards" id="rebCards"></div>
+      <ul class="reb-notes" id="rebNotes"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- LICENCES -->
+<section class="lic" aria-labelledby="licT">
+  <div class="wrap"><div class="sh"><div><h2 id="licT">TSASK-licensed. Red Seal. Built for the prairies.</h2><p>Licensed gas fitters and refrigeration mechanics. TSASK permits handled. Work done to code.</p></div></div></div>
+  <div class="lic-view"><div class="lic-track" id="licTrack"></div></div>
+</section>
+
+<!-- STATS SLIDER -->
+
+
+<!-- SHOP BY BRAND -->
+<section class="sec g" id="shop">
+  <div class="wrap">
+    <div class="sh reveal"><div><span class="kick">Top brands</span><h2>Equipment <em>we install</em></h2><p>Choose a category, filter by brand and tap any unit for specs and a free quote.</p></div></div>
+    <div class="logowall" id="logowall"></div>
+    <div id="prows"></div>
+  </div>
+</section>
+
+<!-- OUR WORK (teaser) -->
+<section class="sec work" id="work">
+  <div class="wrap">
+    <div class="sh reveal"><div><span class="kick">Our work</span><h2>Installed by <em>our technicians</em></h2><p>Real jobs, real homes and businesses. See the quality up close.</p></div><button class="btn" type="button" data-work="all">See all our work ›</button></div>
+    <div class="work-strip reveal" id="workStrip"></div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="mapband" id="area" aria-label="Where we work">
+  <div class="sh"><div><h2>Where we work in Saskatchewan</h2><p>Saskatoon and surrounding communities, plus Regina, Prince Albert and Moose Jaw.</p></div></div>
+  <div class="mapfull">
+{{MAP}}
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec" id="process">
+  <div class="wrap">
+    <div class="sh reveal"><div><span class="kick">How it works</span><h2>Our <em>complete</em> process</h2></div></div>
+    <div class="journey reveal" id="journey"><svg class="jline" id="jline" preserveAspectRatio="none" aria-hidden="true"><path id="jpath0"/><path id="jpath"/></svg><ol class="jsteps" id="steps"></ol></div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="sec g" id="team">
+  <div class="wrap team">
+    <div class="collage reveal" id="collage"></div>
+    <div class="reveal">
+      <span class="kick">Meet the team</span>
+      <h2>Real technicians. <span>Real accountability.</span></h2>
+      <p>A heating, cooling and gas team serving homes, acreages and businesses in Saskatoon and area, Regina, Prince Albert and Moose Jaw. The person who quotes your job knows the job.</p>
+      <ul class="tl">
+        <li>Licensed &amp; insured</li><li>Free in-home estimates</li>
+        <li>Written, upfront pricing</li><li>24/7 emergency repairs</li>
+        <li>TSASK permits, work to code</li><li>Clean, tidy installs</li>
+      </ul>
+      <div class="stats"><div><b>24/7</b><span>Emergency line</span></div><div><b>Saskatoon</b><span>&amp; area, plus Regina, P.A. &amp; Moose Jaw</span></div><div><b>15+</b><span>Top brands</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="sec" id="blog">
+  <div class="wrap">
+    <div class="sh reveal"><div><span class="kick">Tips &amp; advice</span><h2>From our <em>blog</em></h2></div></div>
+    <div class="blog reveal" id="blogGrid"></div>
+  </div>
+</section>
+
+<section class="cta-band"><div class="wrap">
+  <div><h2>Ready for a free quote?</h2><p>Takes 2 minutes. No pressure, no obligation.</p></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn w" data-open="quote" type="button">Start my quote</button><a class="btn wk" href="tel:+19056672823">Call 905-667-2823</a></div>
+</div></section>
+</main>
+
+<footer class="foot">
+  <div class="wrap fg">
+    <div>
+      <h4>Jora Mechanical Systems</h4>
+      <p style="margin:0">Heating, cooling, hot water, indoor air quality and plumbing.</p>
+      <a class="ph" href="tel:+19056672823">905-667-2823</a>
+      <p style="margin:0">Emergency service 24/7</p>
+    </div>
+    <div><h4>Services</h4><ul id="fSvc"></ul></div>
+    <div><h4>Brands</h4><ul id="fBr"></ul></div>
+    <div><h4>Cities we serve</h4><div class="cities" id="fCity"></div></div>
+  </div>
+  <div class="wrap copy"><span>© <span id="yr"></span> Jora Mechanical Systems. All rights reserved.</span><span id="fLic"></span></div>
+</footer>
+<div class="dock"><a class="btn r" href="tel:+19056672823">Call Now</a><button class="btn" data-open="quote" type="button">Free Quote</button></div>
+<button class="btn k adm-fab" id="admFab" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Admin</button>
+</div>
+
+<!-- overlays -->
+<div class="ovl" id="wiz" role="dialog" aria-modal="true" aria-labelledby="wizT"><div class="pg">
+  <div class="ph"><span class="pi" id="wizIc"></span><h2 id="wizT">Free quote<small id="wizS"></small></h2><button class="xb" data-close aria-label="Close">×</button></div>
+  <div class="prog"><i id="wizBar"></i></div>
+  <div class="stepl" id="wizSteps"></div>
+  <div class="pb" id="wizBody"></div>
+  <div class="pf"><button class="btn g" id="wizBack" type="button">Back</button><span class="err" id="wizErr" role="alert"></span><button class="btn" id="wizNext" type="button">Next</button></div>
+</div></div>
+
+<div class="ovl" id="pdo" role="dialog" aria-modal="true" aria-labelledby="pdT"><div class="pg">
+  <div class="ph"><span class="pi"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></span><h2 id="pdT">Product</h2><button class="xb" data-close aria-label="Close">×</button></div>
+  <div class="pb" id="pdBody"></div>
+</div></div>
+
+<div class="ovl" id="arto" role="dialog" aria-modal="true" aria-labelledby="artT"><div class="pg" style="max-width:720px">
+  <div class="ph"><span class="pi"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span><h2 id="artT">Article</h2><button class="xb" data-close aria-label="Close">×</button></div>
+  <div class="pb" id="artBody"></div>
+</div></div>
+
+<div class="ovl" id="admin" role="dialog" aria-modal="true" aria-labelledby="admT"><div class="pg">
+  <div class="ph"><span class="pi" style="background:var(--ink2)"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span><h2 id="admT">Admin panel<small>Only you and your editors can see this</small></h2><button class="xb" data-close aria-label="Close">×</button></div>
+  <div class="adm"><nav id="admNav"></nav><main id="admMain"></main></div>
+</div></div>
+
+<!-- OUR WORK full page -->
+<div class="ovl wpage" id="workpage" role="dialog" aria-modal="true" aria-labelledby="wpT"><div class="wp">
+  <div class="wp-top"><div class="wrap"><button class="xb" data-close aria-label="Close">×</button>
+    <span class="kick">Our work</span><h2 id="wpT">Installations by <em>Jora technicians</em></h2>
+    <p>Furnaces, garage heaters, boilers, AC, heat pumps, tankless and commercial jobs in Saskatoon & area, Regina, Prince Albert and Moose Jaw.</p>
+    <div class="wp-stats" id="wpStats"></div></div></div>
+  <div class="wrap">
+    <div class="wp-filters" id="wpFilters" role="tablist"></div>
+    <div class="wp-grid" id="wpGrid"></div>
+    <div class="wp-std"><h3>What every Jora install includes</h3><div class="std" id="wpStd"></div></div>
+    <div class="wp-cta"><div><h3>Want this quality in your home?</h3><p>Free in-home visit and written quote.</p></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" type="button" data-open="quote">Get a free quote</button><a class="btn k" href="tel:+19056672823">Call 905-667-2823</a></div></div>
+  </div>
+</div></div>
+
+<div class="ovl" id="lbox" role="dialog" aria-modal="true" aria-label="Project photos"><div class="pg lb">
+  <div class="ph"><span class="pi"><svg viewBox="0 0 24 24"><path d="M3 8h4l2-3h6l2 3h4v12H3z"/><circle cx="12" cy="13" r="4"/></svg></span><h2 id="lbT">Project</h2><button class="xb" data-close aria-label="Close">×</button></div>
+  <div class="pb" id="lbBody"></div>
+</div></div>
+
+<!-- CHAT -->
+<button class="chat-fab" id="chatFab" type="button" aria-controls="chat" aria-expanded="false"><span class="cf-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg></span><span class="cf-t"><b>Chat 24/7</b><small>We reply fast</small></span><i class="cf-dot"></i></button>
+<section class="chat" id="chat" aria-label="Chat with Jora" hidden>
+  <header><span class="cav">J</span><div><b id="chatName">Jora Assistant</b><small><i></i>Online 24/7</small></div><a class="chat-call" href="tel:+19056672823" aria-label="Call 905-667-2823"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a><button class="chat-x" id="chatX" type="button" aria-label="Close chat">×</button></header>
+  <div class="chat-log" id="chatLog" aria-live="polite"></div>
+  <div class="chat-chips" id="chatChips"></div>
+  <form class="chat-in" id="chatForm" autocomplete="off"><label for="chatIn" class="vh">Type a message</label><input id="chatIn" placeholder="Type your question or postal code…" maxlength="500"><button type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2-6z"/></svg></button></form>
+</section>
+
+<div id="printArea"></div>

@@ -1,0 +1,126 @@
+<style>
+/* ===== weather v2: Jora colours under the 3D showroom, tinted gently by the real weather ===== */
+.jx-hero,body.wx-sun .jx-hero{background:
+  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.13),transparent 64%),
+  radial-gradient(900px 620px at 100% 0%,rgba(255,200,130,.30),transparent 60%),
+  linear-gradient(180deg,#FFFDF9 0%,#FBF4EB 58%,#F5E9DB 100%)}
+.jx-hero::before{background-image:linear-gradient(rgba(194,65,12,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(194,65,12,.09) 1px,transparent 1px)!important}
+body.wx-hot .jx-hero{background:
+  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.16),transparent 64%),
+  radial-gradient(1000px 700px at 100% 0%,rgba(255,184,70,.45),transparent 62%),
+  linear-gradient(180deg,#FFF9EF 0%,#FDEBD3 100%)}
+body.wx-cloud .jx-hero,body.wx-fog .jx-hero{background:
+  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.10),transparent 64%),
+  linear-gradient(180deg,#FBFAF8 0%,#F1EDE8 60%,#E8E3DD 100%)}
+body.wx-rain .jx-hero{background:
+  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.10),transparent 64%),
+  linear-gradient(180deg,#F1F2F4 0%,#E4E7EB 60%,#D9DDE2 100%)}
+body.wx-storm .jx-hero{background:
+  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.12),transparent 64%),
+  linear-gradient(180deg,#E6E9ED 0%,#D3D8DE 60%,#C6CCD3 100%)}
+body.wx-snow .jx-hero{background:
+  radial-gradient(760px 520px at 70% 56%,rgba(249,99,2,.10),transparent 64%),
+  linear-gradient(180deg,#FFFFFF 0%,#F4F7FA 60%,#E9EEF4 100%)}
+body.wx-snow .jx-hero::after{display:none}
+body.wx-rain .jx-hero::before,body.wx-storm .jx-hero::before,body.wx-snow .jx-hero::before{background-image:linear-gradient(rgba(70,85,105,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(70,85,105,.08) 1px,transparent 1px)!important}
+body.wx-night .jx-hero{background:
+  radial-gradient(720px 500px at 70% 58%,rgba(249,99,2,.30),transparent 66%),
+  radial-gradient(1000px 520px at 30% 0%,rgba(255,214,170,.11),transparent 70%),
+  linear-gradient(180deg,#463A33 0%,#3B302A 55%,#312823 100%)}
+body.wx-night .jx-hero::before{background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px)!important;opacity:1}
+
+/* sunny: a soft, real-looking sun glow with gentle light beams instead of the striped cartoon sun */
+#wxpage .wx-rays{display:none!important}
+#wxpage .wx-sunball{right:-260px!important;top:-300px!important;width:760px!important;height:760px!important;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,250,232,.95) 0 5%,rgba(255,226,160,.6) 12%,rgba(255,200,120,.26) 28%,rgba(255,180,90,.08) 46%,rgba(255,170,80,0) 62%)}
+#wxpage .wx-sunball::after{inset:-25%;border-radius:50%;
+  background:conic-gradient(from 190deg,transparent 0deg,rgba(255,230,170,.20) 6deg,transparent 14deg,transparent 22deg,rgba(255,230,170,.14) 27deg,transparent 36deg,transparent 47deg,rgba(255,230,170,.18) 52deg,transparent 61deg,transparent 74deg,rgba(255,230,170,.12) 78deg,transparent 88deg,transparent 360deg);
+  filter:blur(10px);-webkit-mask-image:radial-gradient(circle,#000 12%,transparent 64%);mask-image:radial-gradient(circle,#000 12%,transparent 64%);animation:wxbeam 18s ease-in-out infinite alternate}
+@keyframes wxbeam{from{transform:rotate(-6deg);opacity:.75}to{transform:rotate(8deg);opacity:1}}
+body.wx-hot #wxpage .wx-sunball{filter:saturate(1.25) brightness(1.03)}
+body.wx-sun #wxpage .wx-tint{background:radial-gradient(1000px 760px at 100% 0%,rgba(255,214,140,.16),transparent 60%)}
+body.wx-hot #wxpage .wx-tint{background:radial-gradient(1100px 800px at 100% 0%,rgba(255,190,90,.24),transparent 62%),linear-gradient(rgba(255,170,60,.04),rgba(255,120,0,.03))}
+
+/* rain: a soft grey sky, nothing cartoonish */
+body.wx-rain #wxpage .wx-tint{background:linear-gradient(rgba(60,75,95,.07),rgba(60,75,95,.03))}
+body.wx-storm #wxpage .wx-tint{background:linear-gradient(rgba(30,40,60,.14),rgba(30,40,60,.06))}
+
+/* snow: falling flakes only — no painted snow caps on buttons and cards */
+body.wx-snow .hdr::after,body.wx-snow .qb::before,body.wx-snow .steps li::before,body.wx-snow .post::before,body.wx-snow .pc .pim::before{display:none!important}
+body.wx-snow .btn{box-shadow:none}
+body.wx-snow #wxpage .wx-tint{background:linear-gradient(rgba(225,236,250,.10),rgba(255,255,255,0))}
+body.wx-night .jx-feats li{background:none!important;border:0!important}
+body.wx-night #wxpage .wx-tint{background:linear-gradient(rgba(30,20,10,.06),rgba(30,20,10,.02))}
+body.wx-night .jx-desc{color:#E9DDD3}
+body.wx-night .jx-arrow{border-color:rgba(255,255,255,.85)}
+@media(prefers-reduced-motion:reduce){#wxpage .wx-sunball::after{animation:none}}
+</style>
+<style>
+/* clear nights: moon + stars painted into the showroom background, behind the products */
+body.wx-night.wx-sun .jx-hero::after,body.wx-night.wx-cold .jx-hero::after{content:"";display:block!important;position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(circle at calc(90% - 7px) calc(13% - 6px),rgba(205,194,170,.30) 0 4px,transparent 5px),radial-gradient(circle at calc(90% + 8px) calc(13% + 7px),rgba(205,194,170,.24) 0 5px,transparent 6px),radial-gradient(circle at calc(90% - 9px) calc(13% + 10px),rgba(205,194,170,.2) 0 3px,transparent 4px),radial-gradient(circle at 90% 13%,#FFFCF2 0 20px,#F6EEDB 25px,rgba(255,240,210,.45) 27px,rgba(255,232,190,.16) 52px,rgba(255,226,180,.06) 90px,transparent 130px),radial-gradient(circle at 32.7% 11.1%,rgba(255,250,240,0.49) 0 0.8px,transparent 1.7000000000000002px),radial-gradient(circle at 53.5% 23.9%,rgba(255,250,240,0.9) 0 0.8px,transparent 1.7000000000000002px),radial-gradient(circle at 22.0% 7.2%,rgba(255,250,240,0.48) 0 1.4px,transparent 2.3px),radial-gradient(circle at 9.9% 27.5%,rgba(255,250,240,0.92) 0 0.9px,transparent 1.8px),radial-gradient(circle at 62.8% 37.0%,rgba(255,250,240,0.74) 0 0.8px,transparent 1.7000000000000002px),radial-gradient(circle at 39.9% 60.6%,rgba(255,250,240,0.73) 0 0.8px,transparent 1.7000000000000002px),radial-gradient(circle at 14.1% 27.1%,rgba(255,250,240,0.74) 0 0.9px,transparent 1.8px),radial-gradient(circle at 55.9% 42.9%,rgba(255,250,240,0.74) 0 0.9px,transparent 1.8px),radial-gradient(circle at 63.6% 24.3%,rgba(255,250,240,0.73) 0 0.9px,transparent 1.8px),radial-gradient(circle at 61.7% 31.8%,rgba(255,250,240,0.84) 0 1.4px,transparent 2.3px),radial-gradient(circle at 46.6% 57.4%,rgba(255,250,240,0.6) 0 1.2px,transparent 2.1px),radial-gradient(circle at 78.8% 43.9%,rgba(255,250,240,0.49) 0 1px,transparent 1.9px),radial-gradient(circle at 30.4% 31.7%,rgba(255,250,240,0.81) 0 1.2px,transparent 2.1px),radial-gradient(circle at 29.2% 60.8%,rgba(255,250,240,0.71) 0 0.9px,transparent 1.8px),radial-gradient(circle at 17.2% 22.5%,rgba(255,250,240,0.66) 0 1.7px,transparent 2.6px),radial-gradient(circle at 55.7% 49.3%,rgba(255,250,240,0.62) 0 1.2px,transparent 2.1px),radial-gradient(circle at 35.3% 31.8%,rgba(255,250,240,0.48) 0 1.7px,transparent 2.6px),radial-gradient(circle at 10.2% 18.2%,rgba(255,250,240,0.48) 0 0.9px,transparent 1.8px),radial-gradient(circle at 69.7% 40.8%,rgba(255,250,240,0.59) 0 1.7px,transparent 2.6px),radial-gradient(circle at 38.8% 42.1%,rgba(255,250,240,0.92) 0 0.8px,transparent 1.7000000000000002px),radial-gradient(circle at 35.8% 38.7%,rgba(255,250,240,0.48) 0 1.7px,transparent 2.6px),radial-gradient(circle at 76.3% 9.8%,rgba(255,250,240,0.65) 0 1px,transparent 1.9px),radial-gradient(circle at 90.8% 31.8%,rgba(255,250,240,0.67) 0 1px,transparent 1.9px),radial-gradient(circle at 54.8% 55.0%,rgba(255,250,240,0.88) 0 1.4px,transparent 2.3px),radial-gradient(circle at 28.3% 26.9%,rgba(255,250,240,0.79) 0 1.2px,transparent 2.1px),radial-gradient(circle at 38.3% 15.8%,rgba(255,250,240,0.54) 0 0.9px,transparent 1.8px),radial-gradient(circle at 23.7% 16.0%,rgba(255,250,240,0.87) 0 1.7px,transparent 2.6px),radial-gradient(circle at 18.9% 18.9%,rgba(255,250,240,0.66) 0 1px,transparent 1.9px),radial-gradient(circle at 37.2% 36.0%,rgba(255,250,240,0.8) 0 1px,transparent 1.9px),radial-gradient(circle at 51.5% 39.1%,rgba(255,250,240,0.68) 0 0.8px,transparent 1.7000000000000002px),radial-gradient(circle at 86.4% 59.1%,rgba(255,250,240,0.65) 0 1.4px,transparent 2.3px),radial-gradient(circle at 39.6% 30.9%,rgba(255,250,240,0.48) 0 1.4px,transparent 2.3px),radial-gradient(circle at 7.6% 14.5%,rgba(255,250,240,0.5) 0 1px,transparent 1.9px),radial-gradient(circle at 59.9% 8.1%,rgba(255,250,240,0.72) 0 1px,transparent 1.9px),radial-gradient(circle at 94.0% 38.8%,rgba(255,250,240,0.89) 0 0.9px,transparent 1.8px),radial-gradient(circle at 61.2% 10.9%,rgba(255,250,240,0.93) 0 1.1px,transparent 2.0px),radial-gradient(circle at 60.0% 30.4%,rgba(255,250,240,0.87) 0 0.9px,transparent 1.8px),radial-gradient(circle at 98.3% 30.0%,rgba(255,250,240,0.61) 0 1.7px,transparent 2.6px),radial-gradient(circle at 15.1% 47.0%,rgba(255,250,240,0.69) 0 1.1px,transparent 2.0px),radial-gradient(circle at 68.8% 33.0%,rgba(255,250,240,0.93) 0 1px,transparent 1.9px),radial-gradient(circle at 52.8% 10.8%,rgba(255,250,240,0.83) 0 0.8px,transparent 1.7000000000000002px),radial-gradient(circle at 30.2% 40.6%,rgba(255,250,240,0.8) 0 0.9px,transparent 1.8px),radial-gradient(circle at 26.6% 24.0%,rgba(255,250,240,0.63) 0 1px,transparent 1.9px),radial-gradient(circle at 22.8% 34.5%,rgba(255,250,240,0.77) 0 1.2px,transparent 2.1px),radial-gradient(circle at 61.1% 49.3%,rgba(255,250,240,0.85) 0 1px,transparent 1.9px),radial-gradient(circle at 81.2% 46.4%,rgba(255,250,240,0.55) 0 1px,transparent 1.9px),radial-gradient(circle at 49.3% 45.9%,rgba(255,250,240,0.85) 0 0.8px,transparent 1.7000000000000002px),radial-gradient(circle at 47.3% 13.6%,rgba(255,250,240,0.67) 0 1.2px,transparent 2.1px),radial-gradient(circle at 92.8% 61.3%,rgba(255,250,240,0.49) 0 1.2px,transparent 2.1px),radial-gradient(circle at 11.0% 30.2%,rgba(255,250,240,0.55) 0 1.2px,transparent 2.1px),radial-gradient(circle at 62.2% 56.0%,rgba(255,250,240,0.69) 0 0.8px,transparent 1.7000000000000002px),radial-gradient(circle at 65.0% 50.0%,rgba(255,250,240,0.87) 0 0.9px,transparent 1.8px),radial-gradient(circle at 12.8% 25.3%,rgba(255,250,240,0.69) 0 1px,transparent 1.9px),radial-gradient(circle at 18.5% 49.3%,rgba(255,250,240,0.49) 0 1.2px,transparent 2.1px),radial-gradient(circle at 93.7% 45.3%,rgba(255,250,240,0.65) 0 1.7px,transparent 2.6px),radial-gradient(circle at 93.8% 45.5%,rgba(255,250,240,0.95) 0 1px,transparent 1.9px),radial-gradient(circle at 3.7% 37.4%,rgba(255,250,240,0.85) 0 1.7px,transparent 2.6px),radial-gradient(circle at 15.3% 51.6%,rgba(255,250,240,0.78) 0 1.7px,transparent 2.6px),radial-gradient(circle at 35.3% 34.9%,rgba(255,250,240,0.46) 0 1px,transparent 1.9px),radial-gradient(circle at 79.3% 45.6%,rgba(255,250,240,0.71) 0 0.9px,transparent 1.8px),radial-gradient(circle at 92.5% 28.0%,rgba(255,250,240,0.86) 0 1px,transparent 1.9px),radial-gradient(circle at 21.7% 17.1%,rgba(255,250,240,0.7) 0 1.1px,transparent 2.0px),radial-gradient(circle at 75.8% 21.6%,rgba(255,250,240,0.87) 0 1.4px,transparent 2.3px),radial-gradient(circle at 7.0% 46.4%,rgba(255,250,240,0.78) 0 1.7px,transparent 2.6px),radial-gradient(circle at 80.9% 33.0%,rgba(255,250,240,0.72) 0 1px,transparent 1.9px),radial-gradient(circle at 52.3% 3.1%,rgba(255,250,240,0.84) 0 1.7px,transparent 2.6px),radial-gradient(circle at 60.6% 48.6%,rgba(255,250,240,0.54) 0 1px,transparent 1.9px),radial-gradient(circle at 47.4% 45.5%,rgba(255,250,240,0.61) 0 0.8px,transparent 1.7000000000000002px),radial-gradient(circle at 51.8% 35.3%,rgba(255,250,240,0.89) 0 0.9px,transparent 1.8px);animation:jxstars 5s ease-in-out infinite alternate}
+@keyframes jxstars{from{opacity:.78}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.jx-hero::after{animation:none!important}}
+/* desktop slider: no ring and no dots under the products — just the arrows and the counter */
+@media(min-width:981px){.jx-hero .jx-ring,.jx-hero .jx-dots{display:none!important}}
+</style>
+<style>
+/* phones and tablets too: no ring, no dots, no counter under the products — just the arrows */
+.jx-hero .jx-ring,.jx-hero .jx-dots,.jx-hero .jx-count{display:none!important}
+.jx-hero .jx-controls{gap:18px}
+</style>
+<style>@media(max-width:980px){body.wx-night .jx-hero::after{display:none!important}}</style>
+<style>
+/* main slider: no arrows under the products (it plays on its own; swipe or drag to move) */
+.jx-hero .jx-controls{display:none!important}
+/* numbers band: slim one-row cards on phones too */
+@media(max-width:980px){
+  .numband{padding:24px 0 18px!important}
+  .numband .sh{margin-bottom:10px!important}.numband .sh h2{font-size:20px!important}
+  .numband .sh p{display:none}
+  .stat-track{padding:4px 0 10px!important;gap:10px!important}
+  .stc{width:auto!important;min-width:0;display:grid!important;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:10px!important;row-gap:0!important;align-items:center;padding:10px 14px 10px 12px!important;border-radius:12px!important}
+  .stc-ic{grid-row:1/3;margin:0!important;width:30px!important;height:30px!important;border-radius:9px!important}
+  .stc-ic svg{width:17px!important;height:17px!important}
+  .stc b{font-size:20px!important;line-height:1.05!important}
+  .stc-l{font-size:11px!important;margin:0!important;letter-spacing:.04em;white-space:nowrap}
+  .stc small{display:none!important}
+}
+</style>
+<style>
+/* equipment section: categories first, the brand logos move to a tidy strip at the end */
+#shop>.wrap{display:flex;flex-direction:column}
+#shop .sh{order:1}#shop #prows{order:2}
+#shop .logowall{order:3;margin-top:clamp(22px,3vw,36px)!important}
+#shop .logowall::before{content:"Brands we install & service";grid-column:1/-1;display:block;text-align:center;margin:0 0 10px;font:800 clamp(20px,2.2vw,26px)/1.15 var(--hd);letter-spacing:.04em;text-transform:uppercase;color:var(--ink2)}
+/* row headers never overlap: title on its own line on phones, View all underneath */
+@media(max-width:700px){
+  .prow-h{grid-template-columns:1fr auto!important;grid-template-areas:"t t" "vall vall" "chips chips"!important;gap:10px!important}
+  .prow-h .t h3{font-size:22px!important;line-height:1.1!important}
+  .prow-h .vall{justify-self:start;padding:7px 12px!important;font-size:12.5px!important}
+}
+</style>
+<style>
+/* licensed & insured logo band (GTA), just above the footer */
+.certband{background:#fff;border-top:1px solid var(--line);padding:clamp(22px,3vw,34px) 0}
+.certband h3{margin:0 0 16px;text-align:center;font:800 clamp(18px,1.8vw,22px)/1.2 var(--hd);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.certband .cb-row{display:flex;justify-content:center;align-items:stretch;gap:clamp(12px,3vw,40px);flex-wrap:wrap}
+.certband figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:8px;width:clamp(100px,26vw,230px)}
+.certband img{height:clamp(44px,7vw,80px);width:auto;max-width:100%;object-fit:contain}
+@media(max-width:560px){.certband .cb-row{flex-wrap:nowrap;gap:10px}.certband figcaption{font-size:11px}}
+.certband figcaption{font:600 12.5px/1.3 var(--bd);color:var(--mut);text-align:center}
+</style>
+<style>
+/* numbers band now sits right under the main slider: bolder, clearer */
+.numband{background:#fff!important;border-bottom:1px solid var(--line)}
+.numband .sh .kick{font-weight:800}
+.numband .sh h2{font-weight:900!important;letter-spacing:.005em}
+.stc b{font-weight:900!important}
+.stc-l{font-weight:800!important;color:var(--ink2)!important}
+</style>
+<style>
+/* "Book in 2 minutes": a clear badge, not tiny small-caps */
+#services .sh .kick{display:inline-flex;align-items:center;gap:8px;padding:8px 16px 8px 12px;margin-bottom:12px;border-radius:999px;background:var(--or);color:#fff!important;font:800 clamp(14px,1.3vw,16px)/1 var(--hd)!important;letter-spacing:.08em!important;box-shadow:0 8px 18px -8px rgba(249,99,2,.65)}
+#services .sh .kick::before{content:"";width:18px;height:18px;flex:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E") center/contain no-repeat}
+@media(max-width:560px){#services .sh .kick{font-size:13.5px!important;padding:7px 14px 7px 10px}}
+</style>

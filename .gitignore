@@ -1,0 +1,7 @@
+generator/data.json
+__pycache__/
+*.pyc
+firestore.rules
+.indexnow-key
+single-page-version/
+tools/cut_airmax.py

@@ -23,7 +23,7 @@ tankless/water heaters, garage heaters (SK), residential and commercial.
 ## Queue (take the first unchecked item for your run type; add new ideas at the end)
 - [x] Article (rewrite): GTA "signs-you-need-a-new-furnace" — expand to 700+ words, passes content_check
 - [x] Article (rewrite): GTA "ontario-heat-pump-rebates" — verify Ontario Home Renovation Savings on the official page, link /gta/national-heat-pump-rebate/
-- [ ] Article (rewrite): GTA "ac-sizing-guide"
+- [x] Article (rewrite): GTA "ac-sizing-guide"
 - [ ] Article (rewrite): GTA "water-heater-rental-buyout"
 - [ ] Article (rewrite): every thin Saskatchewan post (run `python3 tools/content_check.py sk --all` to list them), one per run
 - [x] Improve: Ontario rebates page — re-verify Home Renovation Savings amounts on saveonenergy.ca (2026-11-26 evening: saveonenergy.ca and homerenovationsavings.ca could not be opened from the run; amounts left unchanged — retry)
@@ -57,3 +57,4 @@ tankless/water heaters, garage heaters (SK), residential and commercial.
 - 2026-11-26 (evening) — 10 Ontario city pages with a local note each: /gta/service-areas/{bracebridge,huntsville,gravenhurst,parry-sound,orangeville,kawartha-lakes,napanee,cornwall,stratford,south-bruce-peninsula}/; postal check now accepts Muskoka/Parry Sound (P1H, P1L, P1P, P2A). Rebate re-check blocked (official HRS site unreachable), no rebate changes.
 - 2026-11-27 — Rewrote /gta/blog/ontario-heat-pump-rebates/ (932 words, PASS; HRS amounts checked on homerenovationsavings.ca, federal rebate on canada.ca). LanguageTool not reachable from the run (manual proofread instead).
 - 2026-11-27 (evening) — HRS heat pump amounts re-verified on homerenovationsavings.ca (gas-heated $500/ton up to $2,000, geothermal $3,000; other fuels $1,250/ton up to $7,500, geothermal $2,000/ton up to $12,000; pre-approval mandatory). Fuel condition added to /gta/rebates/ (2 new FAQs, description, rebate notes), /gta/heat-pumps/ (FAQ, title/description) and chat answers.
+- 2026-11-28 — Rewrote /gta/blog/ac-sizing-guide/ (1,055 words, PASS; CSA F280 named via csagroup.org, SEER2 13.4 minimum checked on natural-resources.canada.ca). 2024 OBC Part 9 sizing text could not be opened on ontario.ca, so no code requirement is claimed. LanguageTool not reachable (manual proofread).

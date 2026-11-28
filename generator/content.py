@@ -557,12 +557,79 @@ EXTRA_POSTS = [
           '1, 2026, with applications expected in early 2027.'),
          ('Do I need an energy assessment for a heat pump rebate?',
           'Not for the heat pump itself. The Ontario program lists heat pumps under upgrades that need no assessment, and the federal program says no pre- or post-installation audit is required.')]},
- {"tag": "Cooling", "col": "#1E1E1E", "ic": "ac", "date": "Sep 2026", "slug": "ac-sizing-guide",
-  "t": "Why AC size matters more than brand", "x": "Oversized and undersized air conditioners both cost you comfort.",
-  "body": ["An oversized air conditioner cools the house quickly, shuts off, and never runs long enough to remove humidity — so the home feels cold and clammy.",
-           "An undersized unit runs all afternoon on hot days and still can't keep the upstairs comfortable.",
-           "The right size comes from a cooling-load calculation that looks at your windows, insulation, orientation and ductwork — not the size of the old unit.",
-           "We do that calculation for every new system we quote."]},
+ {'tag': 'Cooling',
+ 'col': '#1E1E1E',
+ 'ic': 'ac',
+ 'date': 'Nov 2026',
+ 'iso': '2026-11-28',
+ 'slug': 'ac-sizing-guide',
+ 't': "AC Sizing in Ontario: Why a Bigger Unit Isn't Better",
+ 'x': 'How to size central air for an Ontario home: why oversized units leave rooms clammy, what a load calculation looks at, and what to ask on a quote.',
+ 'body': ['Two air conditioner quotes for the same house can name the same brand and still be very different jobs. One might be a 2-ton unit and the other a 3-ton. The size you pick will shape your '
+          'comfort for the next fifteen years or so, far more than the logo on the cabinet.',
+          'This guide explains how central air should be sized for a home in Toronto, Hamilton, Barrie or anywhere else in southern Ontario, and how to tell whether a quote was sized with care or '
+          'guessed.',
+          '## What a "ton" means',
+          'Air conditioners are sold in tons. One ton of cooling equals 12,000 Btu per hour, so a 2.5-ton unit removes about 30,000 Btu of heat each hour when it runs. Most houses use something '
+          'between 1.5 and 5 tons. The jump from one half-ton size to the next sounds small, but it can change how the system behaves all summer.',
+          '## Why an oversized AC feels worse',
+          'It seems logical to buy a little extra. In practice, an oversized unit causes problems that a homeowner notices right away.',
+          '- **Short cycles.** The unit drops the temperature fast, hits the thermostat setting and shuts off after a few minutes. Then it starts again. Frequent starts are hard on the compressor.',
+          '- **Damp air.** An AC removes moisture only after the indoor coil has been cold for a while. Short runs never get there, so the house reaches 22°C and still feels sticky. Ontario summers '
+          'are humid, especially near Lake Ontario and Lake Erie, so this shows up quickly.',
+          "- **Uneven rooms.** Short bursts of air don't mix the house well. The main floor gets cold while the bedrooms upstairs stay warm.",
+          '- **Higher cost up front.** A bigger condenser costs more, and it may need a larger line set or electrical circuit.',
+          '## Why an undersized AC is a problem too',
+          'Going too small has its own costs. On the hottest afternoons in July, an undersized unit runs nonstop and the indoor temperature slowly creeps up. It can usually keep up on mild days. It '
+          'loses ground during a heat wave, which is exactly when you want it. Long runs do dry the air well, so a slightly small unit is often more comfortable than a big one. A unit that is well '
+          'short of the load is not.',
+          '## The old unit is not a sizing method',
+          'Many replacements simply copy the size printed on the old condenser. That is risky. The old unit may have been oversized from day one. Since then, the house may have new windows, more '
+          'attic insulation or a finished basement. Each of those changes the cooling load.',
+          'Square footage alone is not much better. Two 1,800-square-foot homes can need very different systems. A 1960s bungalow in Scarborough with large west-facing windows gains far more heat '
+          'than a newer, well-sealed townhouse in Vaughan.',
+          '## What a proper load calculation looks at',
+          'In Canada, the standard for working out heating and cooling capacity for houses is [CSA F280](https://www.csagroup.org/store/product/2421751/), "Determining the Required Capacity of '
+          'Residential Space Heating and Cooling Appliances." A calculation done this way goes room by room and looks at:',
+          '- The size, direction and type of every window. Glass facing west or south brings in the most afternoon heat.',
+          '- Insulation in the walls and attic, and how airtight the house is.',
+          '- Local summer design temperature and humidity for your town.',
+          '- Shading from trees, porches or the house next door.',
+          '- How many people live there and how much heat comes from appliances.',
+          '- Ducts running through a hot attic or garage, which pick up heat before the air reaches the room.',
+          'The result is a cooling load in Btu per hour. The contractor then picks the unit whose rated output matches that load as closely as possible.',
+          '## Ducts can limit what any AC delivers',
+          "A correctly sized condenser still won't work well if the ducts can't move enough air. Cooling needs more airflow than heating, and many older Ontario homes have ducts that were sized for "
+          'a furnace alone. Signs of trouble include loud vents, weak flow in upstairs rooms and a furnace filter that clogs fast.',
+          'Sometimes the fix is simple, like adding a return in a second-floor hallway. Sometimes a trunk line needs to be replaced. We check the [ductwork](ductwork/) as part of every cooling '
+          'quote, because a new AC on undersized ducts is money only half spent.',
+          '## Efficiency is a separate question',
+          'Size and efficiency are two different numbers. Efficiency is shown as SEER2. Natural Resources Canada sets the [minimum efficiency for split-system central air '
+          'conditioners](https://natural-resources.canada.ca/energy-efficiency/energy-efficiency-regulations/split-system-central-air-conditioners), which is SEER2 13.4 for standard units made from '
+          'January 1, 2023 onward. Higher-SEER2 models cost more and use less power. Two-stage and variable-speed units can also run at low output for long stretches, which helps with humidity and '
+          'makes small sizing errors less noticeable.',
+          "## Think about a heat pump while you're at it",
+          'If your AC is near the end of its life, a [cold-climate heat pump](heat-pumps/) is sized the same way and can replace it. It cools in summer and handles much of the spring and fall '
+          'heating. In homes heated by natural gas, it is often paired with the existing furnace as a hybrid. Rebates for heat pumps change, so see our [Ontario rebates page](rebates/) and [National '
+          'Heat Pump Rebate page](national-heat-pump-rebate/) for the current rules.',
+          '## Questions to ask on any AC quote',
+          '1. Was the size based on a room-by-room load calculation, or on the old unit?',
+          '2. Can I see the calculated cooling load in Btu per hour?',
+          '3. Were my ducts and return air checked, and is any duct work included?',
+          '4. Is the indoor coil matched to the outdoor unit and the furnace blower?',
+          '5. Is the unit single-stage, two-stage or variable-speed, and what is its SEER2?',
+          "If a contractor can't answer the first two, ask why. A good quote should explain the size, not just name it.",
+          '## Getting it right in your home',
+          'We size from a room-by-room calculation and check the ducts before we recommend a unit. See our [air conditioner page](air-conditioners/) for the systems we install. We work across the '
+          '[GTA](service-areas/) and in places like [Hamilton](service-areas/hamilton/), [Barrie](service-areas/barrie/) and [Windsor](service-areas/windsor/). The off-season is a good time to plan, '
+          'since there is no rush. [Book a free quote](free-quote/) and we will show you the numbers behind the size we suggest.'],
+ 'faq': [('How many tons of air conditioning does my Ontario house need?',
+          'There is no reliable answer from square footage alone. Windows, insulation, shading and ducts all change the load. A room-by-room calculation based on CSA F280 gives the right size for '
+          'your house.'),
+         ('Is it OK to buy a slightly bigger AC just in case?',
+          'Usually not. An oversized unit runs in short bursts, so it removes less moisture and the house feels clammy. Rooms can also cool unevenly, and the frequent starts add wear.'),
+         ('Should my new AC be the same size as my old one?',
+          'Not automatically. The old unit may have been oversized, and changes like new windows, added insulation or a finished basement alter the load. Check it with a new calculation.')]},
  {"tag": "Hot water", "col": "#F96302", "ic": "water", "date": "Aug 2026", "slug": "water-heater-rental-buyout",
   "t": "Thinking about ending your water heater rental?", "x": "How buyouts work and what to compare before you switch.",
   "body": ["Many Ontario homes still rent their water heater. Over many years, rental payments can add up to more than the cost of owning a unit.",

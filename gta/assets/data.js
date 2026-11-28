@@ -234,7 +234,7 @@ var POSTS=[
 
 /* ===================== REBATES (Ontario) — edit amounts here ===================== */
 var REBATES = {
-  updated:"October 2026",
+  updated:"November 2026",
   program:"Home Renovation Savings Program (Save on Energy + Enbridge Gas)",
   link:"https://saveonenergy.ca/homerenovationsavings",
   items:[
@@ -246,7 +246,7 @@ var REBATES = {
     {id:"win",ic:"condo",t:"Windows & doors",amt:100,per:"per opening",svc:null},
     {id:"audit",ic:"doc",t:"Home energy assessment",amt:600,up:true,svc:null}
   ],
-  notes:["Amounts are program maximums and depend on equipment and eligibility.","Some upgrades need an energy assessment or a participating contractor — check before work starts.","Programs change. We confirm what's open when we quote."]
+  notes:["Heat pump maximums shown are for homes heated with electricity, oil, propane or wood. Homes heated with Enbridge natural gas: $500 per ton up to $2,000 (air-source) or $3,000 (geothermal).","Heat pumps need a participating contractor and pre-approval before installation.","Amounts are program maximums and depend on equipment and eligibility.","Some upgrades need an energy assessment or a participating contractor — check before work starts.","Programs change. We confirm what's open when we quote."]
 };
 
 /* ===================== SOLUTIONS ===================== */
@@ -285,7 +285,7 @@ var CHAT = {
   faq:[
     {k:["emergency","no heat","no hot water","leak","gas smell","smell gas","not working","broken","urgent"],a:"If you smell gas, leave the home and call Enbridge's emergency line or 911 first. For no heat, no cooling, no hot water or leaks, call our 24/7 line at 905-667-2823 — a technician will help right away.",svc:"repair"},
     {k:["price","cost","how much","quote","estimate","expensive","cheap"],a:"Every home is different, so we give a free written quote with equipment, labour and permits included — no surprises. It takes about 2 minutes to request.",svc:null},
-    {k:["rebate","grant","incentive","save on energy","enbridge","greener"],a:"Ontario's Home Renovation Savings Program offers up to $7,500 for a cold-climate heat pump, up to $12,000 for geothermal and up to $100 for a smart thermostat (amounts depend on eligibility). We check what you qualify for in your quote.",go:"rebates"},
+    {k:["rebate","grant","incentive","save on energy","enbridge","greener"],a:"Ontario's Home Renovation Savings Program offers up to $7,500 for a cold-climate heat pump and up to $12,000 for geothermal in homes heated with electricity, oil, propane or wood (Enbridge natural gas-heated homes: up to $2,000 air-source, $3,000 geothermal) and up to $100 for a smart thermostat (amounts depend on eligibility). We check what you qualify for in your quote.",go:"rebates"},
     {k:["area","serve","city","where","location","come to","gta","toronto","mississauga","brampton","vaughan","oakville","markham"],a:"We serve the whole GTA — Toronto, Peel, York, Halton and Durham. Type your postal code here and I'll check it for you.",go:"area"},
     {k:["furnace","heating","heater"],a:"We install and repair Lennox, Carrier, Trane, KeepRite, Goodman and Kepler furnaces — high-efficiency, sized for your home.",svc:"furnace",go:"row-furnace"},
     {k:["air condition","ac","cooling","central air"],a:"We install Lennox, Carrier, Trane, KeepRite and Goodman air conditioners, and repair most brands.",svc:"ac",go:"row-ac"},

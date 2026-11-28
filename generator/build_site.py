@@ -485,12 +485,14 @@ page("service-areas/", "Service Areas — GTA & All of Ontario | Jora Mechanical
 def rebates():
     s = between(BODY, '<!-- REBATES -->', '</section>').replace('<section class="sec rebates" id="rebates">', '<section class="sec rebates first" id="rebates">').replace('<h2>Rebates may be available', '<h1>Rebates may be available').replace('qualify for</em></h2>', 'qualify for</em></h1>')
     faq = [("Who offers these rebates?", "Ontario's Home Renovation Savings Program, delivered by Save on Energy and Enbridge Gas."),
+           ("Why is my heat pump rebate lower if I heat with natural gas?", "The program sets amounts by your home's main heating fuel. A cold-climate air-source heat pump earns $1,250 per ton, up to $7,500, in homes heated with electricity, oil, propane or wood. Homes heated with Enbridge natural gas get $500 per ton, up to $2,000. Geothermal is up to $12,000 or $3,000 for gas-heated homes."),
+           ("Do I need approval before the heat pump is installed?", "Yes. Home Renovation Savings requires a participating contractor and an approved pre-installation application. Heat pumps installed before approval are not eligible."),
            ("Do I need an energy assessment?", "Some upgrades, like insulation and windows, may need one. Heat pumps and smart thermostats often don't — rules change, so check before you start."),
            ("Can I combine rebates?", "Often, yes — for example a heat pump plus a smart thermostat. We'll list what applies in your quote."),
            ("Do you help with the paperwork?", "Yes. We tell you which rebates you may qualify for and help you with the documents you need.")]
     return s + '<section class="sec"><div class="wrap two"><div class="prose"><h2 class="h2">How rebates work</h2><ol class="olist"><li>Free visit and quote — we flag the rebates that may apply.</li><li>Check eligibility and any pre-approval steps before work starts.</li><li>We install your upgrade with the documents the program asks for.</li><li>You submit your application and receive your rebate after approval.</li></ol><p>Program details: <a href="%s" target="_blank" rel="noopener">Save on Energy — Home Renovation Savings</a>.</p><div class="rcall" style="margin-top:18px">%s<div><b>New: federal heat pump rebate up to $10,000</b><p>Canada\'s National Heat Pump Rebate covers cold-climate heat pumps installed from November 1, 2026. Applications open early 2027.</p></div><a class="btn" href="%s">How it works</a></div></div>%s</div></section>' % (REBATES["link"], ic("rebate"), u("national-heat-pump-rebate/"), qcard("hp")) + faq_html(faq) + cta_band("hp")
 page("rebates/", "Ontario & Federal HVAC Rebates 2026 — Heat Pumps up to $10,000 | Jora",
-     "New federal heat pump rebate up to $10,000, plus Ontario Home Renovation Savings: up to $7,500 for cold-climate heat pumps, $12,000 geothermal. Free quote.",
+     "Federal heat pump rebate up to $10,000, plus Ontario Home Renovation Savings: up to $7,500 (non-gas homes) or $2,000 (gas-heated). Free quote.",
      rebates, crumbs=[("Home", ""), ("Rebates", None)])
 
 def nhpr_page():
